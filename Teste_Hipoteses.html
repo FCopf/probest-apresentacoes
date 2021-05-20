@@ -50,11 +50,13 @@ class: fundo, textsizecaption
  
  1.2. Nível de significância
  
- 1.4. Método do valor crítico: área de rejeição
+ 1.3. Método do valor crítico: área de rejeição
  
- 1.5. Método do valor de p
+ 1.4. Método do valor de p
   
 2. Testes bilaterais e unilaterais
+
+3. Modificando o nível de significância: Erros de decisão
 
 
 ---
@@ -345,6 +347,22 @@ Da mesma forma, quando utilizamos o valor de p, consideramos **somente** um dos 
 
 
 ]
+
+---
+
+class: fundo, textsize
+
+### 3. Modificando o nível de significância: Erros de decisão
+
+A interpretação da probabilidade final esta associada à situação em que `\(H_0\)` seja verdadeira. Neste caso, **o que esperar caso `\(H_0\)` seja falsa**?
+
+|                   | `\(H_0\)` Verdadeira           | `\(H_0\)` Falsa
+| :---              | :------:                   | :------:
+| `\(H_0\)` é rejeitada | `\(\alpha\)` (**Erro Tipo I**) | `\(1 - \beta\)` (Decisão correta)
+| `\(H_0\)` é aceita    | `\(\alpha\)` (Decisão correta) | `\(\beta\)` (**Erro Tipo II**)
+
+
+&lt;img src="Teste_Hipoteses_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" /&gt;
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

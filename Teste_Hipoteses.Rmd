@@ -51,11 +51,13 @@ class: fundo, textsizecaption
  
  1.2. Nível de significância
  
- 1.4. Método do valor crítico: área de rejeição
+ 1.3. Método do valor crítico: área de rejeição
  
- 1.5. Método do valor de p
+ 1.4. Método do valor de p
   
 2. Testes bilaterais e unilaterais
+
+3. Modificando o nível de significância: Erros de decisão
 
 
 ---
@@ -521,3 +523,73 @@ ggplot(data = df_z,
 
 
 ]
+
+---
+
+class: fundo, textsize
+
+### 3. Modificando o nível de significância: Erros de decisão
+
+A interpretação da probabilidade final esta associada à situação em que $H_0$ seja verdadeira. Neste caso, **o que esperar caso $H_0$ seja falsa**?
+
+|                   | $H_0$ Verdadeira           | $H_0$ Falsa
+| :---              | :------:                   | :------:
+| $H_0$ é rejeitada | $\alpha$ (**Erro Tipo I**) | $1 - \beta$ (Decisão correta)
+| $H_0$ é aceita    | $\alpha$ (Decisão correta) | $\beta$ (**Erro Tipo II**)
+
+
+``` {r fig.width=8, fig.height=4.5, fig.align = "center"}
+qr_a = qnorm(p = c(0.05, 0.95))
+dqr_a = dnorm(x = qr_a)
+
+qrc1_a = c(seq(-5, qr_a[1], l = 100), seq(qr_a[1],-5, l = 100))
+dqrc1_a = c(rep(0,100), dnorm(x = seq(qr_a[1],-5, l = 100)))
+
+qrc2_a = c(seq(5, qr_a[2], l = 100), seq(qr_a[2],5, l = 100))
+dqrc2_a = c(rep(0,100), dnorm(x = seq(qr_a[2],5, l = 100)))
+
+pqr_a = pnorm(q = qr_a)
+perc_a= diff(pqr_a) * 100
+
+#_______________________
+ma = 1
+qr_b = qnorm(p = c(0.95, 0.99999), mean = 0)
+dqr_b = dnorm(x = qr_b, mean = ma)
+
+qrc1_b = c(seq(-5, qr_b[1], l = 100), seq(qr_b[1],-5, l = 100))
+dqrc1_b = c(rep(0,100), dnorm(x = seq(qr_b[1],-5, l = 100), mean = ma))
+
+qrc2_b = c(seq(5, qr_b[2], l = 100), seq(qr_b[2],5, l = 100))
+dqrc2_b = c(rep(0,100), dnorm(x = seq(qr_b[2],5, l = 100), mean = ma))
+
+pqr_b = pnorm(q = qr_b, mean = ma)
+perc_b= diff(pqr_b) * 100
+
+layout(matrix(1:2, nr = 2))
+par(mai = c(0,1,0,0))
+curve(expr = dnorm(x, 0,1), from = -5, to = 5, 
+      ylab = bquote(mu[a] == mu),
+      xlab = "Valores de z", ylim = c(0, 0.5), xlim = c(-5,5), axes = F)
+axis(1, at = seq(-5,5,by = 1), cex.axis = 0.8)
+#axis(2, at = seq(-1, 0.5, by = 0.1), cex.axis = 0.8)
+polygon(x = qrc1_a, y = dqrc1_a, col = rgb(red = 0.9, 0,0, alpha = 0.3))  
+polygon(x = qrc2_a, y = dqrc2_a, col = rgb(red = 0.9, 0,0, alpha = 0.3))  
+segments(x0 = qr_a[1], x1 = qr_a[7], y0 = 0.65, y1 = 0.65, lwd = 2)
+text(y = c(0.1), x = c(-2.7), labels = bquote(alpha/2),font = 3)
+text(y = c(0.1), x = c(2.7), labels = bquote(alpha/2),font = 3)
+abline(v = qr_a[2], lty = 2)
+text(y = 0.45, x = -4.8, label = "A")
+
+curve(expr = dnorm(x, ma,1), from = -5, to = 5, 
+      ylab = bquote(mu[a] > mu),
+      xlab = "Valores de z", ylim = c(0, 0.5), xlim = c(-5,5), axes = F)
+axis(1, at = seq(-5,5,by = 1), cex.axis = 0.8)
+#axis(2, at = seq(-1, 0.5, by = 0.1), cex.axis = 0.8)
+polygon(x = qrc1_b, y = dqrc1_b, col = rgb(red = 0.9, 0,0, alpha = 0.3))  
+polygon(x = qrc2_b, y = dqrc2_b, col = rgb(red = 0.9, 0,0, alpha = 0.3))  
+segments(x0 = qr_b[1], x1 = qr_b[7], y0 = 0.65, y1 = 0.65, lwd = 2)
+text(y = c(0.1), x = c(0.5), labels = bquote(beta), font = 3)
+#text(y = c(0.1), x = c(2.7), labels = bquote(P(Z >= +z)))
+abline(v = qr_b[1], lty = 2)
+text(y = 0.35, x = -4.8, label = "B")
+```
