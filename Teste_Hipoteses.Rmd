@@ -1,0 +1,523 @@
+---
+title: "Teste de hipóteses, Teste Z"
+subtitle: "Fabio Cop"
+author: "Instituto de Ciências do Mar - UNIFESP"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer_uso.css
+    nature:
+#      lib_dir: libs
+#      highlightStyle: solarized-dark
+      highlightLines: true
+#      countIncrementalSlides: false
+      ratio: 16:9
+---
+```{r setupP1, include=FALSE, message = FALSE, echo = FALSE, warning = FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning=FALSE, fig.align = "center",fig.height=6, fig.width=10)
+suppressMessages(library(tidyverse))
+suppressMessages(library(latex2exp))
+suppressMessages(library(scales))
+
+```
+
+
+```{css}
+.fundo {
+  padding: 0 1em 0 1em;
+  margin: 0;
+  background-image: url(fig/borda.png);
+  background-size: 100%;
+  background-position: 1% 1%;
+  }
+
+.espaco1 {line-height: 1.5em;}
+.espaco2 {line-height: 1.1em;}
+.textsizecaption{font-size: 1rem}
+.textsize{font-size: 0.8rem}
+
+```
+
+
+---
+
+class: fundo, textsizecaption
+
+## Conteúdo da Aula
+
+1. Introdução ao teste de hipóteses, teste z
+
+ 1.1. Hipótese nula e alternativa
+ 
+ 1.2. Nível de significância
+ 
+ 1.4. Método do valor crítico: área de rejeição
+ 
+ 1.5. Método do valor de p
+  
+2. Testes bilaterais e unilaterais
+
+
+---
+
+class: fundo, textsize
+
+### 1. Introdução ao teste de hipóteses
+
+Digamos que o número de batimentos cardíacos por minuto de um adulto em repouso tenha distribuição normal com média $\mu = 65$ e desvio padrão $\sigma = 9$. Você imagina que o sedentarismo altera o batimento médio de um adulto.
+
+.pull-left[
+
+$H_0: \mu = 65$ batimentos por minuto
+
+$H_a: \mu \ne 65$ batimentos por minuto (Teste bilateral)
+
+$\alpha = 0,05$ nível de significância
+
+]
+
+--
+
+.pull-right[
+
+A hipótese nula estabelece que:
+
+```{r, fig.height=7}
+mu <- 65
+sg <- 9
+n <- 15
+ep <- sg/sqrt(n)
+alfa <- 0.05
+xb_label <- bquote(bar(X))
+df <- data.frame(x = c(mu - 4*ep, mu + 4*ep))
+params <- list(mean = mu, sd = ep)
+zcritico <- qnorm(p = 1 - alfa/2)
+cor_rej <- '#d14143'
+  
+pH0 <- ggplot(data = df,
+              mapping = aes(x = x)) +
+  stat_function(fun = dnorm, 
+                args = params) +
+  labs(x = xb_label, y = "") +
+  theme_classic(base_size = 22)
+
+pH0
+```
+
+]
+
+---
+
+class: fundo, textsize
+
+### 1. Método do valor crítico: definindo a área de rejeição
+
+Digamos que o número de batimentos cardíacos por minuto de um adulto em repouso tenha distribuição normal com média $\mu = 65$ e desvio padrão $\sigma = 9$. Você imagina que o sedentarismo altera o batimento médio de um adulto.
+
+.pull-left[
+
+$H_0: \mu = 65$ batimentos por minuto
+
+$H_a: \mu \ne 65$ batimentos por minuto (Teste bilateral)
+
+$\alpha = 0,05$ nível de significância
+
+____
+
+Determinar $\overline{X}$ para que:
+
+$P(|E| \ge |\overline{X} - \mu|) = 0,05$
+
+]
+
+.pull-right[
+
+A hipótese nula estabelece que:
+
+```{r, fig.height=7}
+xlabels <- expression('L'['inf'], mu, 'L'['sup'])
+Elabel <- expression(-(bar(X) - mu), +(bar(X) - mu))
+Eline <- data.frame(x0 = c(mu,mu), 
+                    x1 = c(mu - zcritico*ep, mu + zcritico*ep),
+                    y0 = 0.01,
+                    y1 = 0.01) 
+
+pH02 <- pH0 +
+  geom_area(stat = "function", fun = dnorm,
+            args = params,
+            fill = cor_rej,
+            xlim = c(mu - 5 * ep, mu - zcritico * ep)) +
+  geom_area(stat = "function", fun = dnorm,
+            args = params,
+            fill = cor_rej,
+            xlim = c(mu + zcritico * ep, mu + 5 * ep)) +
+  scale_x_continuous(breaks = c(mu - zcritico * ep, mu , 
+                                mu + zcritico * ep),
+                     labels =  xlabels,
+                     limits =  c(mu - 4*ep, mu + 4*ep)) +
+  geom_segment(data = Eline, mapping = aes(x = x0, y = y0,
+                                           xend = x1, yend = y1),
+               color = 'red') +
+  annotate('text', x = c(mu - 3*ep, mu, mu + 3*ep), 
+           y = c(0.03, 0.1, 0.03), 
+           label = c(alfa/2,1-alfa, alfa/2), size = 12) +
+  annotate('text', x = c(mu - 1*ep, mu + 1*ep), 
+           y = c(0.02, 0.02), 
+           label = Elabel, size = 8)
+
+pH02  
+```
+
+]
+
+---
+class: fundo, textsize
+
+### 1. Método do valor crítico: definindo a área de rejeição
+
+Digamos que o número de batimentos cardíacos por minuto de um adulto em repouso tenha distribuição normal com média $\mu = 65$ e desvio padrão $\sigma = 9$. Você imagina que o sedentarismo altera o batimento médio de um adulto.
+
+.pull-left[
+
+$P(|E| \ge |\overline{X} - \mu|) = 0,05$
+
+```{r}
+pH02 
+```
+
+
+]
+
+.pull-right[
+
+$P(|Z| \ge |\frac{\overline{X} - \mu}{\sigma_{\mu}}|) = 0,05$
+
+```{r}
+alfa <- 0.05
+df_z <- data.frame(x = c(-4, 4))
+zcritico <- round(qnorm(p = 1 - alfa/2),2)
+cor_rej <- '#d14143'
+  
+pZ <- ggplot(data = df_z,
+              mapping = aes(x = x)) +
+  stat_function(fun = dnorm) +
+  labs(x = "Z", y = "") +
+  geom_area(stat = "function", fun = dnorm,
+            fill = cor_rej,
+            xlim = c(-5, -zcritico)) +
+  geom_area(stat = "function", fun = dnorm,
+            fill = cor_rej,
+            xlim = c(zcritico,5)) +
+  scale_x_continuous(breaks = c(-zcritico, 0 ,zcritico),
+                     labels =  c(-zcritico, 0 ,zcritico),
+                     limits =  c(-4, 4)) +
+  annotate('text', x = c(-3, 0, 3),
+           y = c(0.09, 0.23, 0.09),
+           label = c(alfa/2,1-alfa, alfa/2), size = 12) +
+  theme_classic(base_size = 22)
+
+pZ
+```
+
+]
+
+
+---
+
+class: fundo, textsize
+
+### 1. Método do valor crítico: definindo a área de rejeição
+
+Digamos que o número de batimentos cardíacos por minuto de um adulto em repouso tenha distribuição normal com média $\mu = 65$ e desvio padrão $\sigma = 9$. Você imagina que o sedentarismo altera o batimento médio de um adulto.
+
+.pull-left[
+
+$Z_{crítico} = 1.96$
+
+Aceitamos $H_0$ se 
+
+$$|Z_{calculado}| < |Z_{crítico}|$$
+
+e rejeitamos $H_0$ se 
+
+$$|Z_{calculado}| \ge |Z_{crítico}|$$
+sendo:
+
+$Z_{calculado} = \frac{\overline{X} - \mu}{\sigma_{\mu}}$
+
+]
+
+.pull-right[
+
+Obtém-se a seguinda amostra *aleatória*: 
+
+```{r}
+set.seed(32)
+n = 15
+mu = 65
+dp = 9
+ep = dp/sqrt(n)
+BM  = round(rnorm(n = n, mean = mu, sd = dp),0)
+z = (mean(BM) - mu)/ep
+```
+
+Amostra: `r BM`
+
+que nos dá uma média amostral de:
+
+$\overline{X} = \frac{\sum{X_i}}{n} = \frac{`r paste(BM, collapse = "+")`}{`r n `} = `r round(mean(BM),2)`$ batimentos por minuto;
+
+e um erro padrão de:
+
+$\sigma_{\mu} = \frac{\sigma}{\sqrt{n}} = \frac{`r dp`}{`r round(sqrt(n),2)`} = `r round(ep,2)`$
+
+Com estes resultados, encontramos o valor correspondente de:
+
+$z_{calculado} = \frac{\overline{X} - \mu}{\sigma_{\mu}} = \frac{`r round(mean(BM),2)` - `r mu`}{`r round(ep,2)`} = `r round(z,2)`$
+
+]
+
+---
+class: fundo, textsize
+
+### 1. Método do valor crítico: definindo a área de rejeição
+
+Digamos que o número de batimentos cardíacos por minuto de um adulto em repouso tenha distribuição normal com média $\mu = 65$ e desvio padrão $\sigma = 9$. Você imagina que o sedentarismo altera o batimento médio de um adulto.
+
+.pull-left[
+
+$P(|E| \ge |\overline{X} - \mu|) = 0,05$
+
+Como:
+
+$z_{calculado} = \frac{\overline{X} - \mu}{\sigma_{\mu}} = \frac{`r round(mean(BM),2)` - `r mu`}{`r round(ep,2)`} = `r round(z,2)`$
+
+Aceitamos $H_0$ e dizemos que:
+
+> **não há evidências na amostra de que o batimento cardíaco de adultos sedentários seja diferente de 65.**
+
+]
+
+.pull-right[
+
+$P(|Z| \ge |\frac{\overline{X} - \mu}{\sigma_{\mu}}|) = 0,05$
+
+```{r}
+df_Zc <- data.frame(x0 = z, x1 = z, y0 = 0.1, y1 = 0.01)
+zcl <- round(z,2)
+pZ +
+  geom_segment(data = df_Zc, mapping = aes(x = x0, y = y0,
+                                           xend = x1, yend = y1),
+               color = 'red', arrow =  arrow(length = unit(0.3, "inches"))) +
+    annotate('text', x = 0, 
+           y = 0.12, 
+           label = bquote("Z"[calculado]  ~ '='~  .(zcl)), 
+           size = 8)
+  
+```
+
+]
+
+---
+
+class: fundo, textsize
+
+### 1. Método do valor de p
+
+Digamos que o número de batimentos cardíacos por minuto de um adulto em repouso tenha distribuição normal com média $\mu = 65$ e desvio padrão $\sigma = 9$. Você imagina que o sedentarismo altera o batimento médio de um adulto.
+
+.pull-left[
+
+O objetivo é encontrar o $Z_{calculado}$ e a probabilidade de termos um valor tão ou mais extremo.
+
+Aceitamos $H_0$ se 
+
+$$P(Z \ge |Z_{calculado}|) \ge 0.05$$
+
+e rejeitamos $H_0$ se 
+
+$$P(Z \ge |Z_{calculado}|) < 0.05$$
+sendo:
+
+$Z_{calculado} = \frac{\overline{X} - \mu}{\sigma_{\mu}}$
+
+]
+
+.pull-right[
+
+Obtém-se a seguinda amostra *aleatória*: 
+
+```{r}
+set.seed(32)
+n = 15
+mu = 65
+dp = 9
+ep = dp/sqrt(n)
+BM  = round(rnorm(n = n, mean = mu, sd = dp),0)
+z = (mean(BM) - mu)/ep
+pz <- round(pnorm(z, 0, 1, lower.tail = F),3)
+```
+
+Amostra: `r BM`
+
+que nos dá uma média amostral de:
+
+$\overline{X} = \frac{\sum{X_i}}{n} = \frac{`r paste(BM, collapse = "+")`}{`r n `} = `r round(mean(BM),2)`$ batimentos por minuto;
+
+e um erro padrão de:
+
+$\sigma_{\mu} = \frac{\sigma}{\sqrt{n}} = \frac{`r dp`}{`r round(sqrt(n),2)`} = `r round(ep,2)`$
+
+Com estes resultados, encontramos o valor correspondente de:
+
+$z_{calculado} = \frac{\overline{X} - \mu}{\sigma_{\mu}} = \frac{`r round(mean(BM),2)` - `r mu`}{`r round(ep,2)`} = `r round(z,2)`$
+
+]
+
+---
+
+class: fundo, textsize
+
+### 1. Método do valor de p
+
+Digamos que o número de batimentos cardíacos por minuto de um adulto em repouso tenha distribuição normal com média $\mu = 65$ e desvio padrão $\sigma = 9$. Você imagina que o sedentarismo altera o batimento médio de um adulto.
+
+.pull-left[
+
+Como:
+
+$z_{calculado} = \frac{\overline{X} - \mu}{\sigma_{\mu}} = \frac{`r round(mean(BM),2)` - `r mu`}{`r round(ep,2)`} = `r round(z,2)`$
+
+e
+
+$P(Z \ge |Z_{calculado}|) = `r pz` + `r pz` = `r pz * 2` \ge 0,05$
+
+___
+
+Portanto:
+
+Valor de p = $`r pz * 2`$ que é $\ge 0,05$. 
+
+Consequentemente, aceitamos $H_0$ e dizemos que:
+
+> **não há evidências na amostra de que o batimento cardíaco de adultos sedentários seja diferente de 65.**
+
+]
+
+.pull-right[
+
+```{r}
+df_Zc <- data.frame(x0 = z, x1 = z, y0 = 0.1, y1 = 0.01)
+zcl <- round(z,2)
+
+ggplot(data = df_z,
+              mapping = aes(x = x)) +
+  stat_function(fun = dnorm) +
+  labs(x = "Z", y = "") +
+  geom_area(stat = "function", fun = dnorm,
+            fill = cor_rej,
+            xlim = c(-5, -z)) +
+  geom_area(stat = "function", fun = dnorm,
+            fill = cor_rej,
+            xlim = c(z,5)) +
+  scale_x_continuous(breaks = c(-z, 0 ,z),
+                     labels =  c(-zcl, 0 ,zcl),
+                     limits =  c(-4, 4)) +
+  annotate('text', x = c(-2.5,2.5), 
+           y = 0.12, 
+           label = c(pz, pz), 
+           size = 8, color = cor_rej) +
+  theme_classic(base_size = 22)
+  
+  
+```
+
+]
+
+---
+
+class: fundo, textsize
+
+### 2. Exemplo de um teste unilateral
+
+Digamos que o número de batimentos cardíacos por minuto de um adulto em repouso tenha distribuição normal com média $\mu = 65$ e desvio padrão $\sigma = 9$. A literatura sugere que o sedentarismo **aumenta** o batimento médio de um adulto.
+
+As hipótese estatísticas ficam:
+
+$H_0: \mu = 65$ batimentos por minuto
+
+$H_a: \mu \ge 65$ batimentos por minuto (Teste UNILATERAL)
+
+$\alpha = 0,05$ nível de significância
+
+---
+
+class: fundo, textsize
+
+### 2. Exemplo de um teste unilateral
+
+Digamos que o número de batimentos cardíacos por minuto de um adulto em repouso tenha distribuição normal com média $\mu = 65$ e desvio padrão $\sigma = 9$. A literatura sugere que o sedentarismo **aumenta** o batimento médio de um adulto.
+
+
+.pull-left[
+
+Nos testes unilaterais, toda a área de rejeição deve estar à direita ou à esquerda, a depender da hipótese alternativa. 
+
+No caso de um $\alpha = 0,05$ o nível crítico de $Z = 1,64$.
+
+```{r}
+alfa <- 0.05
+df_z <- data.frame(x = c(-4, 4))
+zcritico <- round(qnorm(p = 1 - alfa),2)
+cor_rej <- '#d14143'
+  
+pZ <- ggplot(data = df_z,
+              mapping = aes(x = x)) +
+  stat_function(fun = dnorm) +
+  labs(x = "Z", y = "") +
+  geom_area(stat = "function", fun = dnorm,
+            fill = cor_rej,
+            xlim = c(zcritico,5)) +
+  scale_x_continuous(breaks = c(0 ,zcritico),
+                     labels =  c(0 ,zcritico),
+                     limits =  c(-4, 4)) +
+  annotate('text', x = c(0, 3),
+           y = c(0.23, 0.09),
+           label = c(1-alfa, alfa), size = 12) +
+  theme_classic(base_size = 22)
+
+pZ
+```
+
+]
+
+
+.pull-right[
+
+Da mesma forma, quando utilizamos o valor de p, consideramos **somente** um dos lados da curva. Neste exemplo, o valor de p seria $p = `r pz`$, que é metade do que obtivemos no teste bilateral, porém **ainda** $\ge 0,05$.
+
+```{r}
+df_Zc <- data.frame(x0 = z, x1 = z, y0 = 0.1, y1 = 0.01)
+zcl <- round(z,2)
+
+ggplot(data = df_z,
+              mapping = aes(x = x)) +
+  stat_function(fun = dnorm) +
+  labs(x = "Z", y = "") +
+  geom_area(stat = "function", fun = dnorm,
+            fill = cor_rej,
+            xlim = c(z,5)) +
+  scale_x_continuous(breaks = c(0 ,z),
+                     labels =  c(0 ,zcl),
+                     limits =  c(-4, 4)) +
+  annotate('text', x = c(2.5), 
+           y = 0.12, 
+           label = c(pz), 
+           size = 8, color = cor_rej) +
+  theme_classic(base_size = 22)
+  
+  
+```
+
+
+]

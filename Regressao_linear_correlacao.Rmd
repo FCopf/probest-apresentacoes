@@ -1,0 +1,2008 @@
+---
+title: "Regressão linear simples e correlação"
+subtitle: "Fabio Cop"
+author: "Instituto de Ciências do Mar - UNIFESP"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer_uso.css
+    nature:
+#      lib_dir: libs
+#      highlightStyle: solarized-dark
+      highlightLines: true
+#      countIncrementalSlides: false
+      ratio: 16:9
+---
+```{r setupP1, include=FALSE, message = FALSE, echo = FALSE, warning = FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning=FALSE, fig.align = "center",fig.height=6, fig.width=10)
+suppressMessages(library(magick))
+suppressMessages(library(tidyverse))
+suppressMessages(library(gridExtra))
+suppressMessages(library(gganimate))
+suppressMessages(library(latex2exp))
+suppressMessages(library(vegan))
+suppressMessages(library(DT))
+source("rfiles/mmq.r")
+# library(xaringanthemer)
+#   style_mono_light(
+#   #  base_color = "#1c5253",
+#   #  header_font_google = google_font("Josefin Sans"),
+#      text_font_google = google_font("Montserrat", "300", "300i"),
+#      code_font_google = google_font("Fira Sans")
+#  )
+```
+
+
+```{css}
+.fundo {
+  padding: 0 1em 0 1em;
+  margin: 0;
+  background-image: url(fig/borda.png);
+  background-size: 100%;
+  background-position: 1% 1%;
+  }
+
+.espaco1 {line-height: 1.5em;}
+.espaco2 {line-height: 1.1em;}
+.textsize{font-size: 0.7rem}
+.textsizehist{font-size: 0.95rem}
+
+```
+
+
+---
+class: fundo, espaco1, textsizehist
+
+## Um  pouco de história
+
+--
+
++ <span><img src="fig/gauss_name.jpg" alt="Smiley face" style="float:right;height:120px;">
+A primeira solução para o problema da regressão (relacionar uma variável resposta $Y$ a uma variável preditora $X$) foi o <b>Método dos Mínimos Quadrados (MMQ)</b>, publicado por por Gauss (1777 – 1855) em 1809, embora haja relatos históricos de que Gauss pensou e resolveu o problema quando tinha apenas 11 anos. Gauss aplicou o método obter predições sobre as órbitas dos corpos ao redor do Sol a partir de observações astronômicas. </span>
+
+--
+
++ <span><img src="fig/galton_name.jpg" alt="Smiley face" style="float:right;height:110px;">
+O termo <b>regressão</b> foi empregado por Francis Galton em 1866, um dos pais da Biometria e primo de <i>Charles Darwin</i>, no séc. XIX, para descrever o fenômeno biológico onde a altura dos descendentes de pais altos tende a regressar em direção à média. Desta forma, pais muito altos tenderiam a ter descendentes mais baixos que eles próprios e vice versa. A altura dos descendentes tenderia portanto a **regressar** à média da população. </span>
+
+--
+
++ <span><img src="fig/pearson_name.jpg" alt="Smiley face" style="float:right;height:115px;">
+Para Galton a regressão tinha apenas um significado biológico, mas suas idéias foram estendidas por Udny Yule e Karl Pearson para um contexto estatístico mais geral. Na formulação de Yule e Pearson, assume-se que a distribuição conjunta da variável resposta e da variável preditora $f(Y,X)$ é Gaussiana (Normal), o que confunde os conceitos de regressão e correlação.</span>
+
+--
+
++ <span><img src="fig/fisher_name.jpg" alt="Smiley face" style="float:right;height:110px;">
+Esta suposição foi modificada por R. A. Fisher em 1922 e 1925. Fisher assumiu que a distribuição condicional da variável resposta $f(Y|X)$ é Gaussiana, mas a conjunta não precisa ser. Esta solução é mais próxima daquela formulada por Gauss. Fisher desenvolveu também o método da <b>Máxima Verossimilhança (MV)</b>. Para uma variável em que $f(Y|X)$ é Gaussiana, a solução pelo <b>MMQ</b> e pela <b>MV</b> convergem.</span>
+
+---
+
+class: fundo, textsize, textsizehist
+
+## Conteúdo da Aula
+
+1. Introdução
+
+ 1.1. Descrevendo relações funcionais
+ 
+ 1.2. Predições sobre fenômenos ambientais 
+  
+ 1.3. Estrutura geral do modelo de regressão
+  
+2. Compreendendo o modelo
+
+ 2.1. O modelo matemático
+  
+ 2.2. Os dados e o gráfico de dispersão
+  
+ 2.3. O modelo estatístico
+  
+ 2.4. Estimativa dos parâmetros: Método dos mínimos quadrados
+ 
+ 2.5. Variâncias e Covariâncias
+   
+3. Teste de hipóteses: coeficiente de inclinação
+  
+4. Pressupostos da regressão linear
+ 
+5. Coeficiente de correlação linear de Pearson
+
+
+---
+
+class: fundo, textsize
+
+### 1. Descrevendo relações funcionais
+
+O Serviço Florestal americano estabeleceu a Floresta Experimental de [**Hubbard Brook (HBEF)**](https://hubbardbrook.org/)  em 1955 como um centro de pesquisa hidrológica. Um serviço ecossistêmico óbvio das bacias hidrográficas nesta região é o fornecimento hídrico. Podemos supor que o volume de água anual que uma bacia pode fornecer tem relação com o volume de chuva.
+
+
+```{r}
+st <- read_csv("datasets/HubbardBrook.csv")
+
+st_ref <- st %>%
+  filter(Treatment == 'Reference')
+
+hb_p <- st_ref %>%
+  ggplot(mapping = aes(y = Flow, x = Precipitation)) +
+  geom_point(size = 5) +
+  ylab('Vazão (mm/área/ano)') + xlab('Precipitação (mm/área/ano)') +
+  theme(axis.title=element_text(size=20),
+        axis.text = element_text(size=10))
+
+grid.arrange(hb_p, ncol = 1)
+```
+
+---
+
+class: fundo, textsize
+
+### 1. Descrevendo relações funcionais
+
+O Serviço Florestal americano estabeleceu a Floresta Experimental de [**Hubbard Brook (HBEF)**](https://hubbardbrook.org/)  em 1955 como um centro de pesquisa hidrológica. Um serviço ecossistêmico óbvio das bacias hidrográficas nesta região é o fornecimento hídrico. Podemos supor que o volume de água anual que uma bacia pode fornecer tem relação com o volume de chuva.
+
+
+```{r}
+mhb <- lm(Flow ~ Precipitation, data = st_ref)
+equ <- bquote(Vazão == .(round(coef(mhb)[1],2)) + .(round(coef(mhb)[2],2)) ~ 'x' ~ Precipitação)
+hb_p2 <- hb_p +
+  geom_smooth(method = 'lm', se = FALSE, size = 2, color = 'blue')
+
+hb_p3 <- hb_p2 +
+  annotate('text', x = 1000, y = 1300, label = equ, hjust = 0, size = 6, color = 'blue')
+
+grid.arrange(hb_p3, ncol = 1)
+```
+
+---
+
+class: fundo, textsize
+
+### 1. Predições sobre fenômenos ambientais
+
+O Serviço Florestal americano estabeleceu a Floresta Experimental de [**Hubbard Brook (HBEF)**](https://hubbardbrook.org/)  em 1955 como um centro de pesquisa hidrológica. Um serviço ecossistêmico óbvio das bacias hidrográficas nesta região é o fornecimento hídrico. Podemos supor que o volume de água anual que uma bacia pode fornecer tem relação com o volume de chuva.
+
+
+```{r}
+Pp <- 1600
+Vp <- predict(mhb, newdata = data.frame(Precipitation = Pp))
+equ2 <- bquote(.(round(Vp,1)) == .(round(coef(mhb)[1],2)) + .(round(coef(mhb)[2],2)) ~ 'x' ~ .(Pp))
+hb_p4 <- hb_p2 +
+  annotate('text', x = 1000, y = 1300, label = equ2, hjust = 0, size = 6, color = 'blue') +
+  annotate(
+    geom = "segment", x = Pp, y = 450, xend = Pp, yend = Vp, color = 'red', 
+    arrow = arrow(length = unit(8, "mm"), angle = 20)) + 
+  annotate(
+    geom = "segment", x = Pp, y = Vp, xend = 1000, yend = Vp, color = 'red', 
+    arrow = arrow(length = unit(8, "mm"), angle = 20)) +
+  annotate("text", x = 1000, y = 1200, hjust = 0, label = 
+  paste('Qual será a vazão esperada (média) ao chover', Pp, 'mm?', sep = ' '), size = 6)
+
+grid.arrange(hb_p4, ncol = 1)
+```
+
+---
+
+class: fundo, textsize
+
+### 1. Predições sobre fenômenos ambientais
+
+#### Taxa de fotossíntese em folhas do mangue-vermelho (*Rhizophora mangle*)
+
+$$Y = \frac{k \times X}{D + X}$$
+
+```{r}
+image_read('fig/fotossintese.jpg') %>% 
+  image_scale("28%")
+```
+
+---
+
+class: fundo, textsize
+
+### 1. Estrutura geral do modelo de regressão
+
+Seja uma variável aleatória $Y$ com distribuição normal proveniente de um *experimento aleatório*.
+
+```{r}
+b0 <- 10
+b1 <- 4
+s <- 30
+set.seed(1)
+dt <- data.frame(X = rep(seq(0, 100, by = 10), each = 15))
+dt <- dt %>% mutate(Y = rnorm(n = nrow(dt), mean = b0 + b1 * X, sd = s),
+                    Xm = rep(mean(X), times = nrow(dt)))
+
+mr1 <- ggplot(dt, mapping = aes(y = Y, x = X)) +
+         geom_point(aes(x = Xm), size = 3, shape = 21, fill = 'blue') +
+  labs(y = "Y", x = "") + xlim(range(dt$X)) +
+  theme(axis.text = element_blank(),
+       axis.ticks = element_blank(),
+       axis.title = element_text(size = 20, angle = 0, vjust = 0.5))
+
+grid.arrange(mr1, ncol = 1)
+```
+
+
+---
+
+class: fundo, textsize
+
+### 1. Estrutura geral do modelo de regressão
+
+Seja uma variável aleatória $Y$ com distribuição normal proveniente de um *experimento aleatório*.
+
+```{r}
+mr2 <- mr1 +
+  annotate(geom = "text", x = mean(dt$X) - 10, y = mean(dt$Y), label = expression(mu), size = 10, col = 'red', hjust = 0) +
+  annotate(geom = "segment", x = mean(dt$X)-3, xend = mean(dt$X)+3, y = mean(dt$Y), yend = mean(dt$Y), size = 2, col = 'red') +
+  annotate(geom = "segment", x = mean(dt$X)+6, xend = mean(dt$X)+6, y = mean(dt$Y)-200, yend = mean(dt$Y)+200, size = 1, linetype = 'dashed', col = 'red', 
+           arrow = arrow(length=unit(0.30,"cm"), ends="both", type = "closed")) +
+  annotate(geom = "text", x = mean(dt$X) + 10, y = mean(dt$Y) + 80, label = expression(sigma), size = 10, col = 'red', hjust = 0) +
+  annotate("text", x=min(dt$X), y=max(dt$Y) - 50, label=TeX("$Y \\sim \\textit{N}(\\mu,\\,\\sigma^{2})$"), parse=TRUE, hjust = 0, size = 10, col = 'red')
+
+
+grid.arrange(mr2, ncol = 1)
+```
+
+---
+
+class: fundo, textsize
+
+### 1. Estrutura geral do modelo de regressão
+
+Para cada observação $y_i$ é conhecida também uma informação sobre $x_i$.
+
+```{r, fig.width=6.7, fig.height=6.6}
+mr4 <- ggplot(dt, mapping = aes(y = Y, x = Xm)) +
+         geom_point(size = 3, shape = 21, fill = 'blue') +
+  labs(y = "Y", x = "X") + xlim(range(dt$X)) +
+  theme(axis.text = element_blank(),
+       axis.ticks = element_blank(),
+       axis.title = element_text(size = 20, angle = 0, vjust = 0.5))
+grid.arrange(mr4, ncol = 1)
+
+```
+
+---
+
+class: fundo, textsize
+
+### 1. Estrutura geral do modelo de regressão
+
+Para cada observação $y_i$ é conhecida também uma informação sobre $x_i$.
+
+```{r}
+
+# dt2 <- rbind(dt, dt) %>% 
+#   mutate(Xseq = rep(0:1, each = nrow(dt)))
+# dt2$X[1:nrow(dt)] <- mean(dt$X)
+# 
+# mr3 <- ggplot(dt2, mapping = aes(y = Y, x = X)) +
+#          geom_point(size = 3, shape = 21, fill = 'blue') +
+#   labs(y = "Y", x = "X") + xlim(range(dt$X)) +
+#   theme(axis.text = element_blank(),
+#        axis.ticks = element_blank(),
+#        axis.title = element_text(size = 20, angle = 0, vjust = 0.5))
+
+# mre_ani <- mr3 + transition_time(Xseq) + 
+#   shadow_mark(alpha = 0.3, size = 0.5)
+# magick::image_write(animate(mre_ani), path="regression_model.gif")
+
+image_read('fig/regression_model.gif')
+
+```
+
+---
+
+
+class: fundo, textsize
+
+### 1. Estrutura geral do modelo de regressão
+
+Para cada observação $y_i$ é conhecida também uma informação sobre $x_i$.
+
+```{r, fig.width=6.7, fig.height=6.6}
+mr5 <- ggplot(dt, mapping = aes(y = Y, x = X)) +
+         geom_point(size = 3, shape = 21, fill = 'blue') +
+  labs(y = "Y", x = "X") + xlim(range(dt$X)) +
+  theme(axis.text = element_blank(),
+       axis.ticks = element_blank(),
+       axis.title = element_text(size = 20, angle = 0, vjust = 0.5))
+
+grid.arrange(mr5, ncol = 1)
+
+```
+
+---
+
+class: fundo, textsize
+
+### 1. Estrutura geral do modelo de regressão
+
+Para cada observação $y_i$ é conhecida também uma informação sobre $x_i$.
+
+```{r, fig.width=6.7, fig.height=6.6}
+indice <- 1:length(tapply(dt$Y, dt$X, mean))
+lbls <- do.call("expression", lapply(indice, function(i) substitute(mu[X], list(X = i))))
+norm_va <- annotate("text", x=min(dt$X), y=max(dt$Y) - 50, label=TeX("$Y \\sim \\textit{N}(\\mu_{i},\\,\\sigma^{2})$"), parse=TRUE, hjust = 0, size = 10, col = 'red')
+medias_lab <- annotate(geom = "text", x = tapply(dt$X, dt$X, mean), y = tapply(b0 + b1 * dt$X, dt$X, mean), label = lbls, size = 6, col = 'red', hjust = 0, vjust = -1)
+
+mr6 <- ggplot(dt, mapping = aes(y = Y, x = X)) +
+         geom_point(size = 3, shape = 21, fill = 'blue', alpha = 0.2) +
+  labs(y = "Y", x = "X") + xlim(range(dt$X)) +
+  theme(axis.text = element_blank(),
+       axis.ticks = element_blank(),
+       axis.title = element_text(size = 20, angle = 0, vjust = 0.5)) +
+  geom_point(data.frame(yp = tapply(b0 + b1 * dt$X, dt$X, mean), xp = tapply(dt$X, dt$X, mean)),
+             mapping = aes(y = yp, x = xp), shape = 19, size = 4,col = 'red')
+  
+
+grid.arrange(mr6 + norm_va + medias_lab, ncol = 1)
+
+```
+
+---
+
+class: fundo, textsize
+
+### 1. Estrutura geral do modelo de regressão
+
+Para cada observação $y_i$ é conhecida também uma informação sobre $x_i$.
+
+```{r, fig.width=6.7, fig.height=6.6}
+reg_line <- annotate("text", x=min(dt$X), y=max(dt$Y) - 120, label=TeX("$\\mu_i = \\beta_0 + \\beta_1X$"), parse=TRUE, hjust = 0, size = 10, col = 'red')
+
+mr7 <- mr6 +
+  geom_smooth(method = "lm", col = 'red', se = F)
+
+grid.arrange(mr7 + norm_va + reg_line, ncol = 1)
+
+```
+
+---
+
+class: fundo, textsize
+
+### 1. Estrutura geral do modelo de regressão
+
+.pull-left[
+
+1 - As observações em $Y$ e $X$ compõem um par $(y_i, x_i)$ de modo que:
+
+$$Y = \begin{bmatrix} y_1 \\ y_2 \\ \cdots \\ y_n \end{bmatrix},
+X = \begin{bmatrix} x_1 \\ x_2 \\ \cdots \\ x_n \end{bmatrix}$$
+
+2 - $X$ é determinada **experimentalmente** e **sem erros**.
+
+3 - $Y$ é uma variável aleatória normalmente distribuída, com $\mu_i$ variância $\sigma^2$.
+
+$$Y \sim \mathcal{N}(\mu_i, \sigma^2)$$
+
+4 - $\mu_i$ é representado por um **modelo linear** que expressa o valor esperado de $y_i$ para um dado valor de $x_i$. Compõe a **parcela determinística** do modelo.
+
+$$E(Y|x_i) = \mu_i = \beta_0 + \beta_1x_i$$
+
+5 - $\beta_0$ e $\beta_1$ são as contantes a serem estimadas, representando o **intercepto** e o **coeficience de inclinação da reta**, repectivamente.
+
+6 - $\sigma^2$ é a **variância** de $Y$ e ser estimada. $\sigma^2$ é **constante** para todos os valores em $X$.
+]
+
+.pull-right[
+```{r echo=FALSE, fig.width=7}
+grid.arrange(mr7 + norm_va + reg_line, ncol = 1)
+```
+]
+
+---
+
+class: fundo, textsize
+
+### 2. O modelo matemático
+
+.pull-left[
+
+1. $Y$: variável resposta (dependente);
+
+2. $X$: variável preditora (**in**dependente);
+
+$$E(Y|x_i) = \beta_0 + \beta_1x_i$$
+3. **Parâmetros do mdelo**
+
+$\beta_0$: Intercepto;
+
+$\beta_1$: coeficiente de inclinação da reta (**coeficiente de regressão**);
+
+]
+
+.pull-right[
+```{r, fig.width=8, fig.height=7}
+b0 = 100; b1 = 4
+px = 10
+plot(1:10, ylim = c(0, 400), xlim = c(0, 100), type = "n", ylab = "", xlab = "", axes = F)
+text(label = "Y", x = 5, y = 400, cex = 2)
+mtext("X", side = 1, cex = 2, adj = 1)
+abline(a = b0, b = b1, col = 2, lwd = 3)
+axis(1, at = c(-100, 200), labels = NULL, pos = 0)
+axis(2, at = c(-100, 500), labels = NA, pos = px)
+text(x = px, y = b0+20 + b1 * px, pos = 2, labels = expression(beta[0]), cex = 3, col = '#e66e7a')
+segments(x0 = 30, x1 = 50, y0 = b0 + b1 * 30, y1 = b0 + b1 * 30, col = '#e66e7a', lty = 2, lwd = 2)
+segments(x0 = 50, x1 = 50, y0 = b0 + b1 * 30, y1 = b0 + b1 * 50, col = '#e66e7a', lty = 2, lwd = 2)
+text(x = 40, y = 190, labels = expression(Delta~X == 1), cex = 2, col = '#e66e7a')
+text(x = 62, y = 260, labels = expression(Delta~Y == beta[1]), cex = 2, col = '#e66e7a')
+
+```
+]
+
+---
+
+class: fundo
+
+### 2. O modelo matemático
+
+Se o intercepto $\beta_0$ e a inclinação $\beta_1$ são conhecidos, podemos **PREDIZER** qualquer valor $y_i$ para um dado valor em $x_i$.
+
+$$E(Y|x_i) = \beta_0 + \beta_1x_i$$
+
+
+```{r, fig.width=21, fig.height=7}
+layout(mat = matrix(1:3, ncol = 3))
+par(mai = c(1,1,0,0))
+b0 = 100; b1 = 4
+plot(1:10, ylim = c(0, 400), xlim = c(0, 100), type = "n", ylab = "Y", xlab = "X", axes = F, cex.lab = 3, adj = 1)
+text(x = 50, y = 370, labels = expression(beta[1] > 0), cex = 4)
+abline(a = b0, b = b1, col = 2, lwd = 3)
+axis(1, at = c(-100, 200), labels = NULL, pos = 0)
+axis(2, at = c(-100, 500), labels = NA, pos = 0)
+
+b0 = 200; b1 = 0
+plot(1:10, ylim = c(0, 400), xlim = c(0, 100), type = "n", ylab = "Y", xlab = "X", axes = F, cex.lab = 3, adj = 1)
+text(x = 50, y = 370, labels = expression(beta[1] == 0), cex = 4)
+abline(a = b0, b = b1, col = 2, lwd = 3)
+axis(1, at = c(-100, 200), labels = NULL, pos = 0)
+axis(2, at = c(-100, 500), labels = NA, pos = 0)
+
+b0 = 400; b1 = -4
+plot(1:10, ylim = c(0, 400), xlim = c(0, 100), type = "n", ylab = "Y", xlab = "X", axes = F, cex.lab = 3, adj = 1)
+text(x = 50, y = 370, labels = expression(beta[0] < 0), cex = 4)
+abline(a = b0, b = b1, col = 2, lwd = 3)
+axis(1, at = c(-100, 200), labels = NULL, pos = 0)
+axis(2, at = c(-100, 500), labels = NA, pos = 0)
+
+```
+
+---
+
+class: fundo
+
+### 2. A tabela e o gráfico de dispersão
+
+$$y_i|x_i = \beta_0 + \beta_1x_i + \varepsilon_i$$
+
+.pull-left[
+
+
+```{r}
+riachos <- read_delim("datasets/riachos_costeiros.csv", delim = ';')
+
+D <- riachos %>% 
+  select("Acentronichthys leptos":"Trichomycterus zonatus") %>% 
+  diversity(index = "shannon")
+
+peixes <- riachos %>%
+  mutate(Vazao = Depth/100 * Width * Water_velocity) %>% 
+  mutate(Diversidade = round(D,2), Vazao = round(Vazao, 2)) %>% 
+  filter(is.na(Vazao) == F & D > 0.5 & Vazao < 3) %>% 
+  select(Diversidade, Vazao) %>% 
+  arrange(Vazao) %>% 
+  mutate(Ypred = predict(lm(Diversidade ~ Vazao)),
+         Yres = resid(lm(Diversidade ~ Vazao)))
+
+DT::datatable(peixes %>% select(-c(Ypred,Yres)), 
+              options = list(pageLength = 5,
+              lengthMenu = c(3,5)))
+
+
+```
+
+
+]
+
+.pull-right[
+```{r echo=FALSE, fig.width=7, fig.height=5}
+dplt1 <- ggplot(peixes, mapping = aes(y = Diversidade, x = Vazao)) +
+  geom_point(size = 3) +
+  labs(y = "Diversidade de espécies", x = bquote("Vazao (" ~ m^3/s ~ ")")) +
+  theme(axis.title = element_text(size = 20))
+
+grid.arrange(dplt1, ncol = 1)
+```
+]
+
+---
+
+class: fundo
+
+### 2. O modelo estatístico: reta de regressão e resíduos $(\varepsilon_i)$
+
+$$y_i|x_i = \beta_0 + \beta_1x_i + \varepsilon_i$$
+
+.pull-left[
+
+```{r}
+DT::datatable(peixes %>% 
+                mutate(Diversidade_predita = round(Ypred,2), 
+                       Residuo = round(Yres,2)) %>% 
+                select(-c(Ypred,Yres)), 
+              options = list(pageLength = 5,
+              lengthMenu = c(3,5)),
+              colnames = c("$$y_i$$", "$$x_i$$", '$$\\hat{y}_i$$', "$$\\varepsilon_i$$"))
+
+```
+
+
+]
+
+.pull-right[
+```{r echo=FALSE, fig.width=7, fig.height=5}
+p <- 21
+dplt2 <- dplt1 +
+  geom_smooth(method = "lm", color = "red", se = F) +
+  annotate("point", x = peixes$Vazao[p], y = c(peixes$Diversidade[p], peixes$Ypred[p]), 
+           shape = c(1,19), size = 5, color = '#6c9ef0') +
+  annotate("segment", x = peixes$Vazao[p], xend = peixes$Vazao[p], 
+           y = peixes$Diversidade[p], yend = peixes$Ypred[p], 
+           size = 1, linetype = "dashed", color = '#6c9ef0') +
+  annotate("text", x = peixes$Vazao[p] + .08, 
+           y =  peixes$Ypred[p] + peixes$Yres[p]/2, 
+           label = bquote(epsilon[i]), color = '#6c9ef0', size = 8) + 
+  annotate("text", x = peixes$Vazao[p] + .12, 
+           y =  peixes$Diversidade[p], 
+           label = bquote(y[.(p)]), color = '#6c9ef0', size = 6) +
+  annotate("text", x = peixes$Vazao[p] + .12, 
+           y =  peixes$Ypred[p] - 0.06, 
+           label = bquote(hat(y)[.(p)]), color = '#6c9ef0', size = 6)  
+
+grid.arrange(dplt2, ncol = 1)
+```
+]
+
+---
+
+class: fundo
+
+### 2. O modelo estatístico: reta de regressão e resíduos $(\varepsilon_i)$
+
+$$y_i|x_i = \beta_0 + \beta_1x_i + \varepsilon_i$$
+
+.pull-left[
+
+```{r}
+DT::datatable(peixes %>% 
+                mutate(Diversidade_predita = round(Ypred,2), 
+                       Residuo = round(Yres,2)) %>% 
+                select(-c(Ypred,Yres)), 
+              options = list(pageLength = 5,
+              lengthMenu = c(3,5)),
+              colnames = c("$$y_i$$", "$$x_i$$", '$$\\hat{y}_i$$', "$$\\varepsilon_i$$"))
+
+```
+
+
+]
+
+.pull-right[
+```{r echo=FALSE, fig.width=7, fig.height=5}
+p <- 14
+dplt2 <- dplt1 +
+  geom_smooth(method = "lm", color = "red", se = F) +
+  annotate("point", x = peixes$Vazao[p], y = c(peixes$Diversidade[p], peixes$Ypred[p]), 
+           shape = c(1,19), size = 5, color = '#6c9ef0') +
+  annotate("segment", x = peixes$Vazao[p], xend = peixes$Vazao[p], 
+           y = peixes$Diversidade[p], yend = peixes$Ypred[p], 
+           size = 1, linetype = "dashed", color = '#6c9ef0') +
+  annotate("text", x = peixes$Vazao[p] + .08, 
+           y =  peixes$Ypred[p] + peixes$Yres[p]/2, 
+           label = bquote(epsilon[i]), color = '#6c9ef0', size = 8) + 
+  annotate("text", x = peixes$Vazao[p] + .12, 
+           y =  peixes$Diversidade[p], 
+           label = bquote(y[.(p)]), color = '#6c9ef0', size = 6) +
+  annotate("text", x = peixes$Vazao[p] + .12, 
+           y =  peixes$Ypred[p] - 0.06, 
+           label = bquote(hat(y)[.(p)]), color = '#6c9ef0', size = 6)  
+
+grid.arrange(dplt2, ncol = 1)
+```
+]
+
+---
+
+class: fundo
+
+### 2. O modelo estatístico: reta de regressão e resíduos $(\varepsilon_i)$
+
+$$y_i|x_i = \beta_0 + \beta_1x_i + \varepsilon_i$$
+
+.pull-left[
+
+- $y_i$: variável resposta - $i$: $1 \cdots n$;
+
+- $x_i$: variável preditora - $i$: $1 \cdots n$;
+
+- $n$: tamanho da amostra;
+
+- $\beta_0$: intercepto;
+
+- $\beta_1$: coeficiente inclinação da reta;
+
+- $\varepsilon_i$: resíduo - responsável pela variação de $y_i$ em torno do valor **predito** $(\hat{y}_i)$ pela reta de regressão.
+
+]
+
+.pull-right[
+```{r echo=FALSE, fig.width=7, fig.height=5}
+p <- 21
+dplt2 <- dplt1 +
+  geom_smooth(method = "lm", color = "red", se = F) +
+  annotate("point", x = peixes$Vazao, y = c(peixes$Diversidade), 
+           shape = c(1), size = 5, color = '#6c9ef0') +
+  annotate("segment", x = peixes$Vazao, xend = peixes$Vazao, 
+           y = peixes$Diversidade, yend = peixes$Ypred, 
+           size = 1, linetype = "dashed", color = '#6c9ef0') +
+    annotate("text", x = peixes$Vazao[p] + .08, 
+           y =  peixes$Ypred[p] + peixes$Yres[p]/2, 
+           label = bquote(epsilon[i]), color = '#6c9ef0', size = 8) + 
+  annotate("text", x = peixes$Vazao[p] + .12, 
+           y =  peixes$Diversidade[p], 
+           label = bquote(y[.(p)]), color = '#6c9ef0', size = 6) +
+  annotate("text", x = peixes$Vazao[p] + .12, 
+           y =  peixes$Ypred[p] - 0.06, 
+           label = bquote(hat(y)[.(p)]), color = '#6c9ef0', size = 6) 
+
+grid.arrange(dplt2, ncol = 1)
+```
+]
+
+---
+
+class: fundo
+
+### 2. O modelo estatístico: reta de regressão e resíduos $(\varepsilon_i)$
+
+$$y_i|x_i = \beta_0 + \beta_1x_i + \varepsilon_i$$
+
+.pull-left[
+
+- $y_i$: variável resposta - $i$: $1 \cdots n$;
+
+- $x_i$: variável preditora - $i$: $1 \cdots n$;
+
+- $n$: tamanho da amostra;
+
+- $\beta_0$: intercepto;
+
+- $\beta_1$: coeficiente inclinação da reta;
+
+- $\varepsilon_i$: resíduo - responsável pela variação de $y_i$ em torno do valor **predito** $(\hat{y}_i)$ pela reta de regressão.
+
+##### O resíduo associado a cada observação diminui ou aumenta à medida que o pontos está mais próximo ou distante da reta de regressão.
+
+
+]
+
+.pull-right[
+```{r echo=FALSE, fig.width=7, fig.height=5}
+peixesd <- peixes %>% mutate(Diversidade = Diversidade - Yres/1.5)
+dplt3 <- ggplot(peixesd, mapping = aes(y = Diversidade, x = Vazao)) +
+  geom_point(size = 3) +
+  labs(y = "Diversidade de espécies", x = bquote("Vazao (" ~ m^3/s ~ ")")) +
+  theme(axis.title = element_text(size = 20)) +
+  ylim(c(range(peixes$Diversidade))) +
+  geom_smooth(aes(y = peixes$Diversidade, x = peixes$Vazao), method = "lm", color = "red", se = F) +
+  annotate("point", x = peixesd$Vazao, y = c(peixesd$Diversidade), 
+           shape = c(1), size = 5, color = '#6c9ef0') +
+  annotate("segment", x = peixesd$Vazao, xend = peixesd$Vazao, 
+           y = peixesd$Diversidade, yend = peixes$Ypred, 
+           size = 1, linetype = "dashed", color = '#6c9ef0')
+
+grid.arrange(dplt3, ncol = 1)
+```
+]
+
+---
+
+class: fundo
+
+### 2. Estimativa dos parâmetros
+
+$$y_i = \beta_0 + \beta_1x_i + \varepsilon_i$$
+
+.pull-left[
+
+#### Parte determinística: $\beta_0$ e $\beta_1$
+
+$$\beta_0 + \beta_1x_i$$
+
+```{r}
+regl <- ggplot(data.frame(x = c(1.1, 9), y = c(1.1, 9)), 
+       aes(x = x, y = y)) +
+  geom_line(color = 'red') +
+  labs(x = "X", y = "Y") +
+  theme_classic()
+
+regl
+#ggsave("fig/regl_det.png")
+
+
+```
+
+]
+
+.pull-right[
+
+#### Parte estocástica: $\sigma^2$
+
+$$\varepsilon_i \sim \mathcal{N}(0, \sigma^2)$$
+
+```{r}
+# png("fig/norm_dens.png")
+# xs <- c(seq(-4,4, l = 100), seq(-4,4, l = 100))
+# par(bg=NA)
+# curve(dnorm(x, 0, 1), from = -4, to = 4, axes = F, ylab = "", xlab = "")
+# polygon(x = xs, y = dnorm(xs), col = rgb(0,0,1, alpha = 0.4))
+# dev.off()
+relg_res <- image_read("fig/norm_dens.png")
+nd <- image_rotate(image_resize(relg_res,  geometry_size_pixels(100)), degrees = -90)
+pin <- c(0.8, 3.6, 1.8, 2.5)
+ax <- seq(0,8, by = 1.2)
+ay <- ax + c(-1, 2.2)
+o <- seq(1,8, l = 6)
+dy <- c(-1.5,2.5)
+dx <- c(-0.2,1)
+
+EYX <- regl +
+  annotation_raster(nd, ymin = o[1] + dy[1],ymax = o[1] + dy[2],xmin = o[1] + dx[1],xmax = o[1] + dx[2]) +
+  annotation_raster(nd, ymin = o[2] + dy[1],ymax = o[2] + dy[2],xmin = o[2] + dx[1],xmax = o[2] + dx[2]) +
+  annotation_raster(nd, ymin = o[3] + dy[1],ymax = o[3] + dy[2],xmin = o[3] + dx[1],xmax = o[3] + dx[2]) +
+  annotation_raster(nd, ymin = o[4] + dy[1],ymax = o[4] + dy[2],xmin = o[4] + dx[1],xmax = o[4] + dx[2]) +
+  annotation_raster(nd, ymin = o[5] + dy[1],ymax = o[5] + dy[2],xmin = o[5] + dx[1],xmax = o[5] + dx[2]) +
+  annotation_raster(nd, ymin = o[6] + dy[1],ymax = o[6] + dy[2],xmin = o[6] + dx[1],xmax = o[6] + dx[2])
+ 
+EYX
+
+```
+
+]
+
+---
+
+class: fundo
+
+### 2. Estimativa dos parâmetros
+
+$$y_i = \beta_0 + \beta_1x_i + \varepsilon_i$$
+
+#### Como estimar os parâmetros de um modelo de regressão?
+
+1. Método dos Mínimos Quadrados (MMQ)
+
+2. Estimador de Máxima Verossimilhança (EMV)
+
+---
+
+class: fundo
+
+### 2. Estimativa dos parâmetros: *O Método dos Mínimos Quadrados (MMQ)*
+
+```{r, fig.height=7}
+mmq(show_pt_selected = FALSE)
+```
+
+---
+
+class: fundo
+
+### 2. Estimativa dos parâmetros: *O Método dos Mínimos Quadrados (MMQ)*
+
+
+```{r, fig.height=7}
+mmq(pt_selected = 7, show_pt_selected = TRUE,
+    show_reg_line = TRUE, show_seg_res = TRUE, show_text_res = TRUE, show_text_Eq = TRUE)
+```
+
+---
+
+class: fundo
+
+### 2. Estimativa dos parâmetros: *O Método dos Mínimos Quadrados (MMQ)*
+
+```{r, fig.height=7}
+mmq(pt_selected = 9, show_pt_selected = TRUE,
+    show_reg_line = TRUE, show_seg_res = TRUE, show_text_res = TRUE, show_text_Eq = TRUE)
+```
+
+---
+
+class: fundo
+
+### 2. Estimativa dos parâmetros: *O Método dos Mínimos Quadrados (MMQ)*
+
+```{r, fig.height=7}
+mmq(pt_selected = 14, show_pt_selected = TRUE,
+    show_reg_line = TRUE, show_seg_res = TRUE, show_text_res = TRUE, show_text_Eq = TRUE)
+```
+
+---
+
+class: fundo
+
+### 2. Estimativa dos parâmetros: *O Método dos Mínimos Quadrados (MMQ)*
+
+#### Soma dos quadrados dos resíduos $(SQ_{Res})$ 
+
+
+.pull-left[
+
+```{r, fig.width=7}
+tsize <- 5
+
+mmq(pt_selected = 1:15, show_pt_selected = FALSE,
+    show_reg_line = TRUE, show_seg_res = TRUE,
+    show_text_Eq = TRUE, show_text_SQres = TRUE,
+    text_eq_size = tsize)
+
+```
+
+]
+
+.pull-rigth[
+
+$$SQ_{Res} = \sum_{i=1}^{n}\varepsilon_i^2 = \sum_{i=1}^{n}(y_i - \hat{y_i})^2$$
+
+O método dos mínimos quadrados consiste em encontrar a reta que **MINIMIZA** o somatório dos quadrados dos resíduos.
+
+]
+
+---
+
+class: fundo
+
+### 2. Estimativa dos parâmetros: *O Método dos Mínimos Quadrados (MMQ)*
+
+#### Soma dos quadrados dos resíduos $(SQ_{Res})$ 
+
+
+.pull-left[
+
+
+```{r, fig.width=7}
+tsize <- 5
+
+mmq(reg_line_coef = c(820, -5.0), pt_selected = 1:15, show_pt_selected = FALSE,
+    show_reg_line = TRUE, show_seg_res = TRUE,
+    show_text_Eq = TRUE, show_text_SQres = TRUE,
+    text_eq_size = tsize)
+
+```
+
+]
+
+.pull-rigth[
+
+$$SQ_{Res} = \sum_{i=1}^{n}\varepsilon_i^2 = \sum_{i=1}^{n}(y_i - \hat{y_i})^2$$
+
+O método dos mínimos quadrados consiste em encontrar a reta que **MINIMIZA** o somatório dos quadrados dos resíduos.
+
+]
+
+---
+
+class: fundo
+
+### 2. Estimativa dos parâmetros: *O Método dos Mínimos Quadrados (MMQ)*
+
+#### Soma dos quadrados dos resíduos $(SQ_{Res})$ 
+
+.pull-left[
+
+```{r, fig.width=7}
+tsize <- 5
+
+mmq(try_best_reg = TRUE, pt_selected = 1:15, show_pt_selected = FALSE,
+    show_reg_line = TRUE, show_seg_res = TRUE,
+    show_text_Eq = TRUE, show_text_SQres = TRUE,
+    text_eq_size = tsize)
+```
+
+]
+
+.pull-rigth[
+
+$$SQ_{Res} = \sum_{i=1}^{n}\varepsilon_i^2 = \sum_{i=1}^{n}(y_i - \hat{y_i})^2$$
+
+O método dos mínimos quadrados consiste em encontrar a reta que **MINIMIZA** o somatório dos quadrados dos resíduos.
+
+]
+
+---
+
+class: fundo
+
+### 2. Estimativa dos parâmetros: *O Método dos Mínimos Quadrados (MMQ)*
+
+#### O método dos mínimos quadrados consiste em encontrar a reta que **MINIMIZA** o somatório dos quadrados dos resíduos.
+
+$$SQ_{Res} = \sum_{i=1}^{n}\varepsilon_i^2 = \sum_{i=1}^{n}(y_i - \hat{y_i})^2$$
+
+```{r, fig.width = 15, fig.height=4}
+tsize <- 3
+ps = 2
+
+mmq1 <- mmq(pt_selected = 1:15, show_pt_selected = FALSE,
+    show_reg_line = TRUE, show_seg_res = TRUE,
+    show_text_Eq = TRUE, show_text_SQres = TRUE,
+    text_eq_size = tsize, pt_size = ps)
+
+mmq2 <- mmq(reg_line_coef = c(830, -7), pt_selected = 1:15, show_pt_selected = FALSE,
+    show_reg_line = TRUE, show_seg_res = TRUE,
+    show_text_Eq = TRUE, show_text_SQres = TRUE,
+    text_eq_size = tsize, pt_size = ps)
+
+mmq3 <- mmq(try_best_reg = TRUE, pt_selected = 1:15, show_pt_selected = FALSE,
+    show_reg_line = TRUE, show_seg_res = TRUE,
+    show_text_Eq = TRUE, show_text_SQres = TRUE,
+    text_eq_size = tsize, pt_size = ps)
+
+grid.arrange(mmq1, mmq2, mmq3, ncol = 3)
+```
+
+---
+
+class: fundo
+
+### 2. Estimativa dos parâmetros: *O Método dos Mínimos Quadrados (MMQ)*
+
+#### ---> *Estime* $\hat{\beta}_0$ e $\hat{\beta}_1$ que minimize a quantia:
+
+$$\sum_{i=1}^{n}(y_i - \hat{y_i})^2 = \sum_{i=1}^{n}(y_i - (\hat{\beta}_0 + \hat{\beta}_1 x_i))^2$$
+
+```{r, fig.width = 8, fig.height=5}
+tsize <- 6
+mmq(try_best_reg = TRUE, pt_selected = 1:15, show_pt_selected = FALSE,
+    show_reg_line = TRUE, show_seg_res = TRUE,
+    show_text_Eq = TRUE, show_text_SQres = TRUE,
+    text_eq_size = tsize)
+
+```
+
+---
+
+class: fundo
+
+### 2. Variâncias e Covariâncias
+
+```{r}
+hf <- 6
+desvio <- 20
+semente <- 8
+```
+
+
+.pull-left[
+
+```{r, fig.height = hf, fig.width = hf}
+mmq(pt_selected = 1:15, dp = desvio, sem = semente, show_pt_selected = FALSE, pt_size = 3)
+```
+
+]
+
+.pull-right[
+
+]
+
+---
+
+class: fundo
+
+### 2. Variâncias e Covariâncias
+
+.pull-left[
+
+```{r, fig.height = hf, fig.width = hf}
+mmq(pt_selected = 6, dp = desvio, sem = semente, 
+    show_pt_selected = FALSE, show_ymean_line = TRUE, text_size = 8, pt_size = 3)
+```
+
+]
+
+.pull-right[
+
+]
+
+---
+
+class: fundo
+
+### 2. Variâncias e Covariâncias
+
+.pull-left[
+
+```{r, fig.height = hf, fig.width = hf}
+mmq(dp = desvio, sem = semente, 
+    pt_selected = 6, show_pt_selected = TRUE, pt_size = 3,
+    show_seg_dy = TRUE, show_text_dy = TRUE,
+    show_ymean_line = TRUE, text_size = 8, alpha_nonselected = 0.2)
+```
+
+]
+
+.pull-right[
+
+]
+
+---
+
+class: fundo
+
+### 2. Variâncias e Covariâncias
+
+.pull-left[
+
+```{r, fig.height = hf, fig.width = hf}
+mmq(dp = desvio, sem = semente, 
+    pt_selected = 14, show_pt_selected = TRUE, pt_size = 3, 
+    show_seg_dy = TRUE, show_text_dy = TRUE,
+    show_ymean_line = TRUE, text_size = 8, alpha_nonselected = 0.2)
+```
+
+]
+
+.pull-right[
+
+]
+
+---
+
+class: fundo
+
+### 2. Variâncias e Covariâncias
+
+.pull-left[
+
+```{r, fig.height = hf, fig.width = hf}
+mmq(dp = desvio, sem = semente, 
+    pt_selected = 1:15, show_pt_selected = TRUE, pt_size = 3, 
+    show_seg_dy = TRUE,
+    show_ymean_line = TRUE, alpha_nonselected = 0.2)
+```
+
+]
+
+.pull-right[
+
+#### Soma dos Quadrados de $Y$
+
+$$SQ_Y = \sum_{i = 1}^{n} (y_i - \overline{y})^2 = \sum_{i = 1}^{n} (y_i - \overline{y}) (y_i - \overline{y})$$
+
+#### Variância amostral de $Y$
+
+$$s^{2}_{Y} = \frac{\sum_{i = 1}^{n} (y_i - \overline{y})^2}{n-1}$$
+
+]
+
+---
+
+class: fundo
+
+### 2. Variâncias e Covariâncias
+
+.pull-left[
+
+```{r, fig.height = hf, fig.width = hf}
+mmq(dp = desvio, sem = semente, 
+    pt_selected = 1:15, show_pt_selected = TRUE, pt_size = 3, 
+    show_seg_dx = TRUE,
+    show_xmean_line = TRUE, alpha_nonselected = 0.2)
+```
+
+]
+
+.pull-right[
+
+#### Soma dos Quadrados de $X$
+
+$$SQ_X = \sum_{i = 1}^{n} (x_i - \overline{x})^2 = \sum_{i = 1}^{n} (x_i - \overline{x}) (x_i - \overline{x})$$
+
+#### Variância amostral de $X$
+
+$$s^{2}_{X} = \frac{\sum_{i = 1}^{n} (x_i - \overline{x})^2}{n-1}$$
+
+]
+
+---
+
+class: fundo
+
+### 2. Variâncias e Covariâncias
+
+.pull-left[
+
+```{r, fig.height = hf, fig.width = hf}
+mmq(dp = desvio, sem = semente, 
+    pt_selected = c(1, 14), show_pt_selected = TRUE, pt_size = 3, 
+    show_seg_dx = TRUE, show_xmean_line = TRUE,
+    show_seg_dy = TRUE, show_ymean_line = TRUE,
+    show_text_dy = TRUE, show_text_dx = TRUE,
+    alpha_nonselected = 0.5)
+```
+
+]
+
+.pull-right[
+
+#### Soma dos produtos cruzados de $Y$ e $X$
+
+$$SQ_{YX} = \sum_{i = 1}^{n} (y_i - \overline{y}) (x_i - \overline{x})$$
+
+#### Covariância amostral entre $Y$ e $X$
+
+$$s_{YX} = \frac{\sum_{i = 1}^{n} (y_i - \overline{y}) (x_i - \overline{x})}{n-1}$$
+
+]
+
+---
+
+class: fundo
+
+### 2. Variâncias e Covariâncias
+
+#### A covariância pode ser **NEGATIVA**
+
+.pull-left[
+
+```{r, fig.height = hf, fig.width = hf}
+mmq(dp = desvio, sem = semente, 
+    pt_selected = c(1, 14), show_pt_selected = TRUE, pt_size = 3, 
+    show_seg_dx = TRUE, show_xmean_line = TRUE,
+    show_seg_dy = TRUE, show_ymean_line = TRUE,
+    show_text_dy = TRUE, show_text_dx = TRUE,
+    alpha_nonselected = 0.5)
+```
+
+]
+
+.pull-right[
+
+Quando:
+
+$(y_i - \overline{y}) > 0$; $(x_i - \overline{x}) < 0$
+
+ou
+
+$(y_i - \overline{y}) < 0$; $(x_i - \overline{x}) > 0$
+
+de modo que:
+
+$s_{YX} = \frac{\sum_{i = 1}^{n} (y_i - \overline{y}) (x_i - \overline{x})}{n-1} < 0$
+
+]
+
+---
+
+class: fundo
+
+### 2. Variâncias e Covariâncias
+
+#### A covariância pode ser **POSITIVA**
+
+.pull-left[
+
+```{r, fig.height = hf, fig.width = hf}
+mmq(b0 = 725, b1 = 4, dp = desvio, sem = semente, 
+    pt_selected = c(2, 15), show_pt_selected = TRUE, pt_size = 3, 
+    show_seg_dx = TRUE, show_xmean_line = TRUE,
+    show_seg_dy = TRUE, show_ymean_line = TRUE,
+    show_text_dy = TRUE, show_text_dx = TRUE,
+    alpha_nonselected = 0.5)
+```
+
+]
+
+.pull-right[
+
+Quando:
+
+$(y_i - \overline{y}) > 0$; $(x_i - \overline{x}) > 0$
+
+ou
+
+$(y_i - \overline{y}) < 0$; $(x_i - \overline{x}) < 0$
+
+de modo que:
+
+$s_{YX} = \frac{\sum_{i = 1}^{n} (y_i - \overline{y}) (x_i - \overline{x})}{n-1} > 0$
+
+]
+
+---
+
+class: fundo
+
+### 2. Variâncias e Covariâncias
+
+#### A covariância pode ser **NULA**
+
+.pull-left[
+
+```{r, fig.height = hf, fig.width = hf}
+mmq(b0 = 775, b1 = 0, n = 30, dp = desvio, sem = 6, 
+    pt_selected = c(2, 7, 23, 25), show_pt_selected = TRUE, pt_size = 3, 
+    show_seg_dx = TRUE, show_xmean_line = TRUE,
+    show_seg_dy = TRUE, show_ymean_line = TRUE,
+    alpha_nonselected = 0.5)
+```
+
+]
+
+.pull-right[
+
+Quando:
+
+$(y_i - \overline{y}) \approx 0$; $(x_i - \overline{x}) \approx 0$
+
+ou
+
+$(y_i - \overline{y}) \approx 0$; $(x_i - \overline{x}) \approx 0$
+
+de modo que:
+
+$s_{YX} = \frac{\sum_{i = 1}^{n} (y_i - \overline{y}) (x_i - \overline{x})}{n-1} \approx 0$
+
+]
+
+---
+
+class: fundo
+
+### 2. Variâncias e Covariâncias
+
+```{r, fig.height = 7, fig.width = 12}
+sq_neg <- mmq(dp = desvio, sem = semente, 
+    pt_selected = 1:15, pt_size = 3) +
+  ggtitle(expression(SQ[YX]<0)) +
+  theme(plot.title = element_text(hjust = 0.5, size = 20))
+
+sq_nula <- mmq(b0 = 775, b1 = 0, n = 30, dp = desvio, sem = 6, 
+    pt_selected = 1:30, pt_size = 3) +
+  ggtitle(expression(SQ[YX] %~~% 0)) +
+  theme(plot.title = element_text(hjust = 0.5, size = 20))
+
+sq_pos <- mmq(b0 = 725, b1 = 4, dp = desvio, sem = semente, 
+    pt_selected = 1:15, pt_size = 3) +
+  ggtitle(expression(SQ[YX] > 0)) +
+  theme(plot.title = element_text(hjust = 0.5, size = 20))
+
+b1_neg <- mmq(try_best_reg = TRUE, dp = desvio, sem = semente,
+    show_pt = FALSE, show_reg_line = TRUE) +
+  ggtitle(expression(beta[1] < 0)) +
+  theme(plot.title = element_text(hjust = 0.5, size = 20))
+
+b1_nula <- mmq(try_best_reg = TRUE, b0 = 775, b1 = 0, n = 3000, dp = desvio, sem = 6,
+    show_pt = FALSE, show_reg_line = TRUE) +
+  ggtitle(expression(beta[1] %~~% 0)) +
+  theme(plot.title = element_text(hjust = 0.5, size = 20))
+
+b1_pos <- mmq(try_best_reg = TRUE, b0 = 725, b1 = 4, dp = desvio, sem = semente,
+    show_pt = FALSE, show_reg_line = TRUE) +
+  ggtitle(expression(beta[1] > 0)) +
+  theme(plot.title = element_text(hjust = 0.5, size = 20))
+
+gridExtra::grid.arrange(sq_neg, sq_nula, sq_pos, b1_neg, b1_nula, b1_pos, ncol = 3, nrow = 2)
+
+```
+
+---
+
+class: fundo
+
+### 2. Variâncias e Covariâncias: *estimando $\beta_1$*
+
+#### $$\hat{\beta}_1 = \frac{SQ_{YX}}{SQ_X} = \frac{s_{XY}}{s^2_X}$$
+
+```{r, fig.height = 5.8, fig.width = 8}
+sq_neg <- mmq(dp = desvio, sem = semente, 
+    pt_selected = 1:15, pt_size = 3) +
+  ggtitle(expression(SQ[YX]<0)) +
+  theme(plot.title = element_text(hjust = 0.5, size = 20))
+
+sq_nula <- mmq(b0 = 775, b1 = 0, n = 30, dp = desvio, sem = 6, 
+    pt_selected = 1:30, pt_size = 3) +
+  ggtitle(expression(SQ[YX] %~~% 0)) +
+  theme(plot.title = element_text(hjust = 0.5, size = 20))
+
+sq_pos <- mmq(b0 = 725, b1 = 4, dp = desvio, sem = semente, 
+    pt_selected = 1:15, pt_size = 3) +
+  ggtitle(expression(SQ[YX] > 0)) +
+  theme(plot.title = element_text(hjust = 0.5, size = 20))
+
+b1_neg <- mmq(try_best_reg = TRUE, dp = desvio, sem = semente,
+    show_pt = FALSE, show_reg_line = TRUE) +
+  ggtitle(expression(beta[1] < 0)) +
+  theme(plot.title = element_text(hjust = 0.5, size = 20))
+
+b1_nula <- mmq(try_best_reg = TRUE, b0 = 775, b1 = 0, n = 3000, dp = desvio, sem = 6,
+    show_pt = FALSE, show_reg_line = TRUE) +
+  ggtitle(expression(beta[1] %~~% 0)) +
+  theme(plot.title = element_text(hjust = 0.5, size = 20))
+
+b1_pos <- mmq(try_best_reg = TRUE, b0 = 725, b1 = 4, dp = desvio, sem = semente,
+    show_pt = FALSE, show_reg_line = TRUE) +
+  ggtitle(expression(beta[1] > 0)) +
+  theme(plot.title = element_text(hjust = 0.5, size = 20))
+
+gridExtra::grid.arrange(sq_neg, sq_nula, sq_pos, b1_neg, b1_nula, b1_pos, ncol = 3, nrow = 2)
+
+```
+
+
+---
+
+class: fundo
+
+### 2. Variâncias e Covariâncias: *estimando $\beta_0$*
+
+#### $$\overline{y} = \hat{\beta}_0 + \hat{\beta}_1 \overline{x}$$
+
+#### $$\hat{\beta}_0 = \overline{y} - \hat{\beta}_1 \overline{x}$$
+
+
+```{r fig.height = 5, fig.width = 7}
+df <- data.frame(x = runif(n = 3000, 0, 20))
+df <- df %>% 
+  mutate(y = rnorm(n = nrow(df), mean = 750 + 4 * x, sd = 30))
+
+ggplot(df, aes(x = x, y = y)) +
+  geom_point(size = 3, shape = 19, alpha = 0.1) +
+  annotate("point", x = mean(df$x), y = mean(df$y), col = 'red', size = 6) +
+  annotate("segment", x = mean(df$x), xend = mean(df$x), 
+           y = min(df$y), yend = mean(df$y), col = 'red', size = 1, linetype = 'dotted') +
+  annotate("segment", x = min(df$x), xend = mean(df$x), 
+           y = mean(df$y), yend = mean(df$y), col = 'red', size = 1, linetype = 'dotted') +
+  labs(x = "X", y = "Y") +
+  theme_classic()
+  
+```
+
+---
+
+class: fundo
+
+### 2. Variâncias e Covariâncias: *estimando $\sigma^2$*
+
+#### $$y_i = \hat{\beta}_0 + \hat{\beta}_1 x_i + \varepsilon_i$$
+
+.pull-left[
+```{r, fig.width = 8, fig.height=5}
+tsize <- 6
+mmq(try_best_reg = TRUE, pt_selected = 0, show_pt_selected = FALSE,
+    show_reg_line = TRUE, show_seg_res = TRUE,
+    show_text_Eq = TRUE, show_text_SQres = TRUE,
+    text_eq_size = tsize)
+
+```
+]
+
+.pull-right[
+
+#### O Quadrado Médio do Resíduo $(QM_{Res})$
+
+$$\varepsilon \sim \mathcal{N}(0, \sigma^2)$$
+
+$$\hat{\sigma}^2 = QM_{Res} = \frac{SQ_{Res}}{n-2}$$
+
+
+]
+
+
+---
+
+class: fundo
+
+### 3. Teste de hipóteses para $\beta_1$
+
+.pull-left[
+
+#### Hipótese nula
+
+#### $$H_0: \beta_1 = 0$$
+
+```{r, fig.width = 4, fig.height=4}
+mmq(b0 = 750, b1 = 0, try_best_reg = TRUE, n = 3000, pt_selected = 0,
+    show_reg_line = TRUE, show_pt = FALSE)
+
+```
+
+$$y_i = \beta_0 + \varepsilon_i$$
+]
+
+.pull-right[
+
+#### Hipótese alternativa
+
+#### $$H_1: \beta_1 \ne 0$$
+
+```{r, fig.width = 8, fig.height=4}
+H1_pos <- mmq(b0 = 720, b1 = 4, try_best_reg = TRUE, n = 3000, pt_selected = 0,
+    show_reg_line = TRUE, show_pt = FALSE)
+
+H1_neg <- mmq(b0 = 820, b1 = -4, try_best_reg = TRUE, n = 3000, pt_selected = 0,
+    show_reg_line = TRUE, show_pt = FALSE)
+
+grid.arrange(H1_pos, H1_neg, ncol = 2)
+```
+
+$$y_i = \beta_0 + \beta_1 x_i + \varepsilon_i$$
+]
+
+---
+
+class: fundo
+
+### 3. Teste de hipóteses para $\beta_1$
+
+$H_0$ pode ser testada por meio do teste $t$ para o estimador $\hat{\beta}_1$
+
+.pull-left[
+
+```{r, fig.width = 8, fig.height=4}
+H0 <- mmq(b0 = 750, b1 = 0, try_best_reg = TRUE, n = 3000, pt_selected = 0,
+    show_reg_line = TRUE, show_pt = FALSE)
+
+gl <- 30
+tlim <- qt(p = 0.975, df = gl)
+tC <- ggplot(NULL, aes(c(-4, 4))) + 
+  geom_area(stat = "function", fun = function(x) dt(x, df = gl), color = 1, fill = "#ed5858", 
+            xlim = c(-4,-tlim)) +
+  geom_area(stat = "function", fun = function(x) dt(x, df = gl), color = 1, alpha = 0.2, 
+            xlim = c(-tlim,tlim)) +
+  geom_area(stat = "function", fun = function(x) dt(x, df = gl), color = 1, fill = "#ed5858", 
+            xlim = c(tlim,4)) +
+  labs(y =  "função de densidade de t", x = "t") +
+  annotate('text', x = 0, y = 0.1, label = 0.95, size = 10) +
+  theme_classic()
+
+grid.arrange(H0, tC, ncol = 2)
+```
+
+]
+
+.pull-right[
+
+$t_{calculado} = \frac{\hat{\beta}_1- \beta_1}{s_{\hat{\beta}_1}}$
+
+Erro padrão de $\hat{\beta}_1$
+
+$s_{\hat{\beta}_1} = \sqrt{\frac{\hat{\sigma}^2}{SQ_{X}}}$
+
+]
+
+
+---
+
+class: fundo
+
+### 3. Teste de hipóteses para $\beta_1$
+
+$t_{calculado}$ depende da **magnitude de $\hat{\beta_1}$**
+
+$$t_{calculado} = \frac{\hat{\beta}_1- \beta_1}{s_{\hat{\beta}_1}}$$
+
+```{r, fig.width = 10, fig.height=5}
+H0_1 <- mmq(b0 = 750, b1 = 0, try_best_reg = TRUE, n = 3000, pt_selected = 0,
+    show_reg_line = TRUE, show_pt = FALSE) +
+  annotate('text', x = 10, y = 790, label = bquote(hat(beta)[1] %~~% 0), size = 15, hjust = 0.5, col = 'red') +
+  ylim(c(700,800))
+
+gl <- 30
+tlim <- qt(p = 0.975, df = gl)
+tC <- ggplot(NULL, aes(c(-4, 4))) + 
+  geom_area(stat = "function", fun = function(x) dt(x, df = gl), color = 1, fill = "#ed5858", 
+            xlim = c(-4,-tlim)) +
+  geom_area(stat = "function", fun = function(x) dt(x, df = gl), color = 1, alpha = 0.2, 
+            xlim = c(-tlim,tlim)) +
+  geom_area(stat = "function", fun = function(x) dt(x, df = gl), color = 1, fill = "#ed5858", 
+            xlim = c(tlim,4)) +
+  labs(y =  "função de densidade de t", x = "t") +
+  annotate('text', x = 0, y = 0.1, label = 0.95, size = 10) +
+  annotate('segment', x = 1.6, xend = 1.6, y = 0.2, yend = 0.05, 
+           arrow = arrow(length = unit(8, "mm"), angle = 20)) +
+  annotate('text', x = 1.6, y = 0.2, label = bquote(t[calculado]), size = 6, hjust = -0.2) +
+  theme_classic()
+
+grid.arrange(H0_1, tC, ncol = 2)
+```
+
+---
+
+class: fundo
+
+### 3. Teste de hipóteses para $\beta_1$
+
+$t_{calculado}$ depende da **magnitude de $\hat{\beta_1}$**
+
+$$t_{calculado} = \frac{\hat{\beta}_1- \beta_1}{s_{\hat{\beta}_1}}$$
+
+```{r, fig.width = 10, fig.height=5}
+H0_2 <- mmq(b0 = 720, b1 = 4, try_best_reg = TRUE, n = 3000, pt_selected = 0,
+    show_reg_line = TRUE, show_pt = FALSE) +
+  annotate('text', x = 10, y = 790, label = bquote(hat(beta)[1] > 0), size = 15, hjust = 0.5, col = 'red') +
+  ylim(c(700,800))
+
+gl <- 30
+tlim <- qt(p = 0.975, df = gl)
+tC <- ggplot(NULL, aes(c(-4, 4))) + 
+  geom_area(stat = "function", fun = function(x) dt(x, df = gl), color = 1, fill = "#ed5858", 
+            xlim = c(-4,-tlim)) +
+  geom_area(stat = "function", fun = function(x) dt(x, df = gl), color = 1, alpha = 0.2, 
+            xlim = c(-tlim,tlim)) +
+  geom_area(stat = "function", fun = function(x) dt(x, df = gl), color = 1, fill = "#ed5858", 
+            xlim = c(tlim,4)) +
+  labs(y =  "função de densidade de t", x = "t") +
+  annotate('text', x = 0, y = 0.1, label = 0.95, size = 10) +
+  annotate('segment', x = 3, xend = 3, y = 0.2, yend = 0.05, 
+           arrow = arrow(length = unit(8, "mm"), angle = 20), col = "#ed5858", size = 2) +
+  annotate('text', x = 3, y = 0.2, label = bquote(t[calculado]), size = 6, hjust = 1.1, col  = "#ed5858") +
+  theme_classic()
+
+grid.arrange(H0_2, tC, ncol = 2)
+```
+
+---
+
+class: fundo
+
+### 3. Teste de hipóteses para $\beta_1$
+
+$t_{calculado}$ depende da **magnitude de $\hat{\beta_1}$**
+
+$$t_{calculado} = \frac{\hat{\beta}_1- \beta_1}{s_{\hat{\beta}_1}}$$
+
+```{r, fig.width = 10, fig.height=5}
+H0_3 <- mmq(b0 = 780, b1 = -4, try_best_reg = TRUE, n = 3000, pt_selected = 0,
+    show_reg_line = TRUE, show_pt = FALSE) +
+  annotate('text', x = 10, y = 790, label = bquote(hat(beta)[1] < 0), size = 15, hjust = 0.5, col = 'red') +
+  ylim(c(700,800))
+
+gl <- 30
+tlim <- qt(p = 0.975, df = gl)
+tC <- ggplot(NULL, aes(c(-4, 4))) + 
+  geom_area(stat = "function", fun = function(x) dt(x, df = gl), color = 1, fill = "#ed5858", 
+            xlim = c(-4,-tlim)) +
+  geom_area(stat = "function", fun = function(x) dt(x, df = gl), color = 1, alpha = 0.2, 
+            xlim = c(-tlim,tlim)) +
+  geom_area(stat = "function", fun = function(x) dt(x, df = gl), color = 1, fill = "#ed5858", 
+            xlim = c(tlim,4)) +
+  labs(y =  "função de densidade de t", x = "t") +
+  annotate('text', x = 0, y = 0.1, label = 0.95, size = 10) +
+  annotate('segment', x = -3, xend = -3, y = 0.2, yend = 0.05, 
+           arrow = arrow(length = unit(8, "mm"), angle = 20), col = "#ed5858", size = 2) +
+  annotate('text', x = -3, y = 0.2, label = bquote(t[calculado]), size = 6, hjust = -0.2, col  = "#ed5858") +
+  theme_classic()
+
+grid.arrange(H0_3, tC, ncol = 2)
+```
+
+---
+
+class: fundo
+
+### 3. Teste de hipóteses para $\beta_1$
+
+$t_{calculado}$ depende da **variância residual** - $s_{\hat{\beta_1}} = \sqrt{\frac{\hat{\sigma}^2}{SQ_{X}}}$
+
+$$t_{calculado} = \frac{\hat{\beta}_1- \beta_1}{s_{\hat{\beta}_1}}$$
+
+```{r, fig.width = 10, fig.height=4.8}
+H0_4 <- mmq(b0 = 715, b1 = 4, dp = 30, try_best_reg = TRUE, n = 30, pt_selected = 0,
+    show_reg_line = T, show_pt = TRUE) +
+  annotate('text', x = 10, y = 710, label = bquote(s[hat(beta)[1]] ~ ">"), size = 15, hjust = 0.5, col = 'red') +
+  ylim(c(700,800))
+
+gl <- 30
+tlim <- qt(p = 0.975, df = gl)
+tC <- ggplot(NULL, aes(c(-4, 4))) + 
+  geom_area(stat = "function", fun = function(x) dt(x, df = gl), color = 1, fill = "#ed5858", 
+            xlim = c(-4,-tlim)) +
+  geom_area(stat = "function", fun = function(x) dt(x, df = gl), color = 1, alpha = 0.2, 
+            xlim = c(-tlim,tlim)) +
+  geom_area(stat = "function", fun = function(x) dt(x, df = gl), color = 1, fill = "#ed5858", 
+            xlim = c(tlim,4)) +
+  labs(y =  "função de densidade de t", x = "t") +
+  annotate('text', x = 0, y = 0.1, label = 0.95, size = 10) +
+  annotate('segment', x = 1.6, xend = 1.6, y = 0.2, yend = 0.05, 
+           arrow = arrow(length = unit(8, "mm"), angle = 20)) +
+  annotate('text', x = 1.6, y = 0.2, label = bquote(t[calculado]), size = 6, hjust = -0.2) +
+  theme_classic()
+
+grid.arrange(H0_4, tC, ncol = 2)
+```
+
+---
+
+class: fundo
+
+### 3. Teste de hipóteses para $\beta_1$
+
+$t_{calculado}$ depende da **variância residual** - $s_{\hat{\beta_1}} = \sqrt{\frac{\hat{\sigma}^2}{SQ_{X}}}$
+
+$$t_{calculado} = \frac{\hat{\beta}_1- \beta_1}{s_{\hat{\beta}_1}}$$
+
+```{r, fig.width = 10, fig.height=4.8}
+H0_5 <- mmq(b0 = 715, b1 = 4, dp = 5, try_best_reg = TRUE, n = 30, pt_selected = 0,
+    show_reg_line = T, show_pt = TRUE) +
+  annotate('text', x = 10, y = 710, label = bquote(s[hat(beta)[1]] ~ "<"), size = 15, hjust = 0.5, col = 'red') +
+  ylim(c(700,800))
+
+gl <- 30
+tlim <- qt(p = 0.975, df = gl)
+tC <- ggplot(NULL, aes(c(-4, 4))) + 
+  geom_area(stat = "function", fun = function(x) dt(x, df = gl), color = 1, fill = "#ed5858", 
+            xlim = c(-4,-tlim)) +
+  geom_area(stat = "function", fun = function(x) dt(x, df = gl), color = 1, alpha = 0.2, 
+            xlim = c(-tlim,tlim)) +
+  geom_area(stat = "function", fun = function(x) dt(x, df = gl), color = 1, fill = "#ed5858", 
+            xlim = c(tlim,4)) +
+  labs(y =  "função de densidade de t", x = "t") +
+  annotate('text', x = 0, y = 0.1, label = 0.95, size = 10) +
+  annotate('segment', x = 3, xend = 3, y = 0.2, yend = 0.05, 
+           arrow = arrow(length = unit(8, "mm"), angle = 20), col = "#ed5858", size = 2) +
+  annotate('text', x = 3, y = 0.2, label = bquote(t[calculado]), size = 6, hjust = 1.1, col  = "#ed5858") +
+  theme_classic()
+
+grid.arrange(H0_5, tC, ncol = 2)
+```
+
+---
+
+class: fundo
+
+### 3. Teste de hipóteses para $\beta_1$
+
+$t_{calculado}$ depende do **tamanho da amostra** - $n$
+
+$$t_{calculado} = \frac{\hat{\beta}_1- \beta_1}{s_{\hat{\beta}_1}}$$
+
+```{r, fig.width = 10, fig.height=4.8}
+H0_6 <- mmq(b0 = 715, b1 = 4, dp = 30, try_best_reg = TRUE, n = 6, pt_selected = 0,
+    show_reg_line = T, show_pt = TRUE) +
+  ylim(c(700,800))
+
+gl <- 30
+tlim <- qt(p = 0.975, df = gl)
+tC <- ggplot(NULL, aes(c(-4, 4))) + 
+  geom_area(stat = "function", fun = function(x) dt(x, df = gl), color = 1, fill = "#ed5858", 
+            xlim = c(-4,-tlim)) +
+  geom_area(stat = "function", fun = function(x) dt(x, df = gl), color = 1, alpha = 0.2, 
+            xlim = c(-tlim,tlim)) +
+  geom_area(stat = "function", fun = function(x) dt(x, df = gl), color = 1, fill = "#ed5858", 
+            xlim = c(tlim,4)) +
+  labs(y =  "função de densidade de t", x = "t") +
+  annotate('text', x = 0, y = 0.1, label = 0.95, size = 10) +
+  annotate('segment', x = 1.6, xend = 1.6, y = 0.2, yend = 0.05, 
+           arrow = arrow(length = unit(8, "mm"), angle = 20)) +
+  annotate('text', x = 1.6, y = 0.2, label = bquote(t[calculado]), size = 6, hjust = -0.2) +
+  theme_classic()
+
+grid.arrange(H0_6, tC, ncol = 2)
+```
+
+---
+
+class: fundo
+
+### 3. Teste de hipóteses para $\beta_1$
+
+$t_{calculado}$ depende do **tamanho da amostra** - $n$
+
+$$t_{calculado} = \frac{\hat{\beta}_1- \beta_1}{s_{\hat{\beta}_1}}$$
+
+```{r, fig.width = 10, fig.height=4.8}
+H0_7 <- mmq(b0 = 715, b1 = 4, dp = 30, try_best_reg = TRUE, n = 50, pt_selected = 0,
+    show_reg_line = T, show_pt = TRUE) +
+  ylim(c(700,800))
+
+gl <- 30
+tlim <- qt(p = 0.975, df = gl)
+tC <- ggplot(NULL, aes(c(-4, 4))) + 
+  geom_area(stat = "function", fun = function(x) dt(x, df = gl), color = 1, fill = "#ed5858", 
+            xlim = c(-4,-tlim)) +
+  geom_area(stat = "function", fun = function(x) dt(x, df = gl), color = 1, alpha = 0.2, 
+            xlim = c(-tlim,tlim)) +
+  geom_area(stat = "function", fun = function(x) dt(x, df = gl), color = 1, fill = "#ed5858", 
+            xlim = c(tlim,4)) +
+  labs(y =  "função de densidade de t", x = "t") +
+  annotate('text', x = 0, y = 0.1, label = 0.95, size = 10) +
+  annotate('segment', x = 3, xend = 3, y = 0.2, yend = 0.05, 
+           arrow = arrow(length = unit(8, "mm"), angle = 20), col = "#ed5858", size = 2) +
+  annotate('text', x = 3, y = 0.2, label = bquote(t[calculado]), size = 6, hjust = 1.1, col  = "#ed5858") +
+  theme_classic()
+
+grid.arrange(H0_7, tC, ncol = 2)
+```
+
+---
+
+class: fundo
+
+### 3. Teste de hipóteses: diversidade de espécies e vazão
+
+.pull-left[
+
+```{r}
+rdiv <- lm(Diversidade ~ Vazao, data = peixes)
+coef_rdiv <- coef(rdiv)
+pvalue <- summary(rdiv)$coefficients[2,4]
+ep_b1 <- summary(rdiv)$coefficients[2,2]
+t_b1 <- summary(rdiv)$coefficients[2,3]
+
+```
+
+Na figura ao lado, os coeficientes de regressão foram estimados pelo MMQ em $\hat{\beta}_0 = `r round(coef_rdiv[1],2)`$ e $\hat{\beta}_1 = `r round(coef_rdiv[2],2)`$.
+
+O valor de $t$ foi:
+
+$t_{calculado} = \frac{\hat{\beta}_1- \beta_1}{s_{\hat{\beta}_1}} = \frac{`r round(coef_rdiv[2],2)` - 0}{`r round(ep_b1,3)`} = `r round(t_b1,3)`$
+
+Embora exista uma alta variabilidade ao redor da reta de regressão o valor de $p$ associado a este resultado foi $p = `r round(pvalue ,4)`$, o que se interpretado ao nível de significância $\alpha = 0,05$ nos leva a **rejeitar** $H_0$.
+
+Nossa conclusão é de que **existe** uma relação crescente entre a Diversidade de espécies e a vazão dos riachos.
+
+]
+
+.pull-right[
+
+```{r echo=FALSE, fig.width=7, fig.height=6}
+dplt2 <- dplt1 +
+  geom_smooth(method = "lm", color = "red", se = T) +
+  annotate("text", x = 1.5, y = 1, label = bquote(y[i] == .(round(coef_rdiv[1],2)) + .(round(coef_rdiv[2],2)) * x[i]), size = 8, hjust = 0) +
+  annotate("text", x = 1.5, y = 0.85, label = bquote(p == .(round(pvalue, 4))), size = 8, hjust = 0)
+  
+grid.arrange(dplt2, ncol = 1)
+```
+]
+
+---
+
+class: fundo
+
+### 3. Teste de hipóteses: diversidade de espécies e vazão
+
+.pull-left[
+
+```{r, echo = T, include = T}
+rdiv <- lm(Diversidade ~ Vazao, data = peixes)
+summary(rdiv)
+
+```
+
+]
+
+.pull-right[
+
+```{r echo=FALSE, fig.width=7, fig.height=6}
+dplt2 <- dplt1 +
+  geom_smooth(method = "lm", color = "red", se = T) +
+  annotate("text", x = 1.5, y = 1, label = bquote(y[i] == .(round(coef_rdiv[1],2)) + .(round(coef_rdiv[2],2)) * x[i]), size = 8, hjust = 0) +
+  annotate("text", x = 1.5, y = 0.85, label = bquote(p == .(round(pvalue, 4))), size = 8, hjust = 0)
+  
+grid.arrange(dplt2, ncol = 1)
+```
+]
+
+---
+
+class: fundo
+
+### 3. Teste de hipóteses: diversidade de espécies e vazão
+
+.pull-left[
+
+```{r, echo = T, include = T}
+rdiv <- lm(Diversidade ~ Vazao, data = peixes)
+summary(rdiv)
+
+```
+
+]
+
+.pull-right[
+
+```{r echo=FALSE, fig.width=7, fig.height=6}
+gl <- nrow(peixes)-2
+tlim <- t_b1
+plt_div <- ggplot(NULL, aes(c(-4, 4))) + 
+  geom_area(stat = "function", fun = function(x) dt(x, df = gl), color = 1, fill = "#ed5858", 
+            xlim = c(-4,-tlim)) +
+  geom_area(stat = "function", fun = function(x) dt(x, df = gl), color = 1, alpha = 0.2, 
+            xlim = c(-tlim,tlim)) +
+  geom_area(stat = "function", fun = function(x) dt(x, df = gl), color = 1, fill = "#ed5858", 
+            xlim = c(tlim,4)) +
+  labs(y =  "função de densidade de t", x = "t") +
+  annotate('text', x = c(-3.2,3.2), y = c(0.03,0.03), 
+           label = round(c(pt(-tlim, df = gl), pt(tlim, df = gl, lower.tail = FALSE)),3), 
+           size = 6, color = "#ed5858") +
+  annotate('segment', x = -tlim, xend = -tlim, y = 0.2, yend = 0.05, 
+            arrow = arrow(length = unit(8, "mm"), angle = 20), col = "#ed5858", size = 2) +
+  annotate('segment', x = tlim, xend = tlim, y = 0.2, yend = 0.05, 
+            arrow = arrow(length = unit(8, "mm"), angle = 20), col = "#ed5858", size = 2) +
+  annotate('text', x = -tlim, y = 0.2, 
+            label = bquote(-t[calculado]), 
+            size = 6, hjust = 1.1, col  = "#ed5858") +
+  annotate('text', x = tlim, y = 0.2, 
+            label = bquote(t[calculado]), 
+            size = 6, hjust = -0.1, col  = "#ed5858") +
+  theme_classic()
+
+plt_div
+```
+]
+
+
+
+---
+
+class: fundo
+
+### 4. Pressupostos da regressão linear
+
+Ao realizar uma regressão linear simples, devemos assumir como verdadeiros alguns pressupostos.
+
+.pull-left[
+
+1. <span style="color:#ed5858">O modelo linear descreve adequadamente a relação funcional entre $Y$ e $X$;</span>
+
+2. Cada par de observação $(y_i,x_i)$ é independente dos demais;
+
+3. A variável $X$ é medida sem erros;
+
+4. Os resíduos têm distribuição normal;
+
+5. A variância residual $\sigma^2$ é constante ao longo de $X$.
+]
+
+.pull-right[
+
+```{r echo=FALSE, fig.width=7, fig.height=6}
+set.seed(5)
+nl <- data.frame(X = runif(n = 30, 0,20))
+nl <- nl %>% mutate(Y = rnorm(n = nrow(nl), mean = 2 * X^3, sd = 1000))
+
+ggplot(nl, aes(x = X, y = Y)) +
+  geom_point(size = 5, shape = 19) +
+  geom_smooth(method = "lm", color = "red") +
+  theme_classic()
+```
+
+]
+
+---
+
+class: fundo
+
+### 4. Pressupostos da regressão linear
+
+Ao realizar uma regressão linear simples, devemos assumir como verdadeiros alguns pressupostos.
+
+.pull-left[
+
+1. O modelo linear descreve adequadamente a relação funcional entre $Y$ e $X$;
+
+2. <span style="color:#ed5858">Cada par de observação $(y_i,x_i)$ é independente dos demais;</span>
+
+3. A variável $X$ é medida sem erros;
+
+4. Os resíduos têm distribuição normal;
+
+5. A variância residual $\sigma^2$ é constante ao longo de $X$.
+]
+
+.pull-right[
+
+```{r echo=FALSE, fig.width=7, fig.height=6}
+tC
+```
+]
+
+---
+
+class: fundo
+
+### 4. Pressupostos da regressão linear
+
+Ao realizar uma regressão linear simples, devemos assumir como verdadeiros alguns pressupostos.
+
+.pull-left[
+
+1. O modelo linear descreve adequadamente a relação funcional entre $Y$ e $X$;
+
+2. Cada par de observação $(y_i,x_i)$ é independente dos demais;
+
+3. <span style="color:#ed5858">A variável $X$ é medida sem erros;</span>
+
+4. Os resíduos têm distribuição normal;
+
+5. A variância residual $\sigma^2$ é constante ao longo de $X$.
+]
+
+.pull-right[
+
+$$Y \sim \mathcal{N}(\mu_i, \sigma^2)$$
+
+$$E(Y|x_i) = \mu_i = \beta_0 + \beta_1x_i$$
+
+```{r echo=FALSE, fig.width=6, fig.height=4.8}
+mmq1
+```
+]
+
+---
+
+class: fundo
+
+### 4. Pressupostos da regressão linear
+
+Ao realizar uma regressão linear simples, devemos assumir como verdadeiros alguns pressupostos.
+
+.pull-left[
+
+1. O modelo linear descreve adequadamente a relação funcional entre $Y$ e $X$;
+
+2. Cada par de observação $(y_i,x_i)$ é independente dos demais;
+
+3. A variável $X$ é medida sem erros;
+
+4. <span style="color:#ed5858">Os resíduos têm distribuição normal;</span>
+
+5. A variância residual $\sigma^2$ é constante ao longo de $X$.
+]
+
+.pull-right[
+
+$$\varepsilon \sim \mathcal{N}(0, \sigma^2)$$
+
+
+```{r echo=FALSE, fig.width=6, fig.height=5}
+EYX
+```
+]
+
+---
+
+class: fundo
+
+### 4. Pressupostos da regressão linear
+
+Ao realizar uma regressão linear simples, devemos assumir como verdadeiros alguns pressupostos.
+
+.pull-left[
+
+1. O modelo linear descreve adequadamente a relação funcional entre $Y$ e $X$;
+
+2. Cada par de observação $(y_i,x_i)$ é independente dos demais;
+
+3. A variável $X$ é medida sem erros;
+
+4. Os resíduos têm distribuição normal;
+
+5. <span style="color:#ed5858">A variância residual $\sigma^2$ é constante ao longo de $X$.</span>
+]
+
+.pull-right[
+
+$$\varepsilon \sim \mathcal{N}(0, \sigma^2)$$
+
+
+```{r echo=FALSE, fig.width=6, fig.height=5}
+EYX
+```
+]

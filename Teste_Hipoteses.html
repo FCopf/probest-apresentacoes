@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Teste de hipóteses, Teste Z</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Instituto de Ciências do Mar - UNIFESP" />
+    <script src="Teste_Hipoteses_files/header-attrs-2.8/header-attrs.js"></script>
+    <link rel="stylesheet" href="xaringan-themer_uso.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Teste de hipóteses, Teste Z
+## Fabio Cop
+### Instituto de Ciências do Mar - UNIFESP
+### 20 maio, 2021
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+.fundo {
+  padding: 0 1em 0 1em;
+  margin: 0;
+  background-image: url(fig/borda.png);
+  background-size: 100%;
+  background-position: 1% 1%;
+  }
+
+.espaco1 {line-height: 1.5em;}
+.espaco2 {line-height: 1.1em;}
+.textsizecaption{font-size: 1rem}
+.textsize{font-size: 0.8rem}
+
+&lt;/style&gt;
+
+
+---
+
+class: fundo, textsizecaption
+
+## Conteúdo da Aula
+
+1. Introdução ao teste de hipóteses, teste z
+
+ 1.1. Hipótese nula e alternativa
+ 
+ 1.2. Nível de significância
+ 
+ 1.4. Método do valor crítico: área de rejeição
+ 
+ 1.5. Método do valor de p
+  
+2. Testes bilaterais e unilaterais
+
+
+---
+
+class: fundo, textsize
+
+### 1. Introdução ao teste de hipóteses
+
+Digamos que o número de batimentos cardíacos por minuto de um adulto em repouso tenha distribuição normal com média `\(\mu = 65\)` e desvio padrão `\(\sigma = 9\)`. Você imagina que o sedentarismo altera o batimento médio de um adulto.
+
+.pull-left[
+
+`\(H_0: \mu = 65\)` batimentos por minuto
+
+`\(H_a: \mu \ne 65\)` batimentos por minuto (Teste bilateral)
+
+`\(\alpha = 0,05\)` nível de significância
+
+]
+
+--
+
+.pull-right[
+
+A hipótese nula estabelece que:
+
+&lt;img src="Teste_Hipoteses_files/figure-html/unnamed-chunk-2-1.png" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+class: fundo, textsize
+
+### 1. Método do valor crítico: definindo a área de rejeição
+
+Digamos que o número de batimentos cardíacos por minuto de um adulto em repouso tenha distribuição normal com média `\(\mu = 65\)` e desvio padrão `\(\sigma = 9\)`. Você imagina que o sedentarismo altera o batimento médio de um adulto.
+
+.pull-left[
+
+`\(H_0: \mu = 65\)` batimentos por minuto
+
+`\(H_a: \mu \ne 65\)` batimentos por minuto (Teste bilateral)
+
+`\(\alpha = 0,05\)` nível de significância
+
+____
+
+Determinar `\(\overline{X}\)` para que:
+
+`\(P(|E| \ge |\overline{X} - \mu|) = 0,05\)`
+
+]
+
+.pull-right[
+
+A hipótese nula estabelece que:
+
+&lt;img src="Teste_Hipoteses_files/figure-html/unnamed-chunk-3-1.png" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+class: fundo, textsize
+
+### 1. Método do valor crítico: definindo a área de rejeição
+
+Digamos que o número de batimentos cardíacos por minuto de um adulto em repouso tenha distribuição normal com média `\(\mu = 65\)` e desvio padrão `\(\sigma = 9\)`. Você imagina que o sedentarismo altera o batimento médio de um adulto.
+
+.pull-left[
+
+`\(P(|E| \ge |\overline{X} - \mu|) = 0,05\)`
+
+&lt;img src="Teste_Hipoteses_files/figure-html/unnamed-chunk-4-1.png" style="display: block; margin: auto;" /&gt;
+
+
+]
+
+.pull-right[
+
+`\(P(|Z| \ge |\frac{\overline{X} - \mu}{\sigma_{\mu}}|) = 0,05\)`
+
+&lt;img src="Teste_Hipoteses_files/figure-html/unnamed-chunk-5-1.png" style="display: block; margin: auto;" /&gt;
+
+]
+
+
+---
+
+class: fundo, textsize
+
+### 1. Método do valor crítico: definindo a área de rejeição
+
+Digamos que o número de batimentos cardíacos por minuto de um adulto em repouso tenha distribuição normal com média `\(\mu = 65\)` e desvio padrão `\(\sigma = 9\)`. Você imagina que o sedentarismo altera o batimento médio de um adulto.
+
+.pull-left[
+
+`\(Z_{crítico} = 1.96\)`
+
+Aceitamos `\(H_0\)` se 
+
+`$$|Z_{calculado}| &lt; |Z_{crítico}|$$`
+
+e rejeitamos `\(H_0\)` se 
+
+`$$|Z_{calculado}| \ge |Z_{crítico}|$$`
+sendo:
+
+`\(Z_{calculado} = \frac{\overline{X} - \mu}{\sigma_{\mu}}\)`
+
+]
+
+.pull-right[
+
+Obtém-se a seguinda amostra *aleatória*: 
+
+
+
+Amostra: 65, 73, 56, 71, 69, 69, 68, 59, 73, 68, 69, 64, 67, 64, 66
+
+que nos dá uma média amostral de:
+
+`\(\overline{X} = \frac{\sum{X_i}}{n} = \frac{65+73+56+71+69+69+68+59+73+68+69+64+67+64+66}{15} = 66.73\)` batimentos por minuto;
+
+e um erro padrão de:
+
+`\(\sigma_{\mu} = \frac{\sigma}{\sqrt{n}} = \frac{9}{3.87} = 2.32\)`
+
+Com estes resultados, encontramos o valor correspondente de:
+
+`\(z_{calculado} = \frac{\overline{X} - \mu}{\sigma_{\mu}} = \frac{66.73 - 65}{2.32} = 0.75\)`
+
+]
+
+---
+class: fundo, textsize
+
+### 1. Método do valor crítico: definindo a área de rejeição
+
+Digamos que o número de batimentos cardíacos por minuto de um adulto em repouso tenha distribuição normal com média `\(\mu = 65\)` e desvio padrão `\(\sigma = 9\)`. Você imagina que o sedentarismo altera o batimento médio de um adulto.
+
+.pull-left[
+
+`\(P(|E| \ge |\overline{X} - \mu|) = 0,05\)`
+
+Como:
+
+`\(z_{calculado} = \frac{\overline{X} - \mu}{\sigma_{\mu}} = \frac{66.73 - 65}{2.32} = 0.75\)`
+
+Aceitamos `\(H_0\)` e dizemos que:
+
+&gt; **não há evidências na amostra de que o batimento cardíaco de adultos sedentários seja diferente de 65.**
+
+]
+
+.pull-right[
+
+`\(P(|Z| \ge |\frac{\overline{X} - \mu}{\sigma_{\mu}}|) = 0,05\)`
+
+&lt;img src="Teste_Hipoteses_files/figure-html/unnamed-chunk-7-1.png" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+class: fundo, textsize
+
+### 1. Método do valor de p
+
+Digamos que o número de batimentos cardíacos por minuto de um adulto em repouso tenha distribuição normal com média `\(\mu = 65\)` e desvio padrão `\(\sigma = 9\)`. Você imagina que o sedentarismo altera o batimento médio de um adulto.
+
+.pull-left[
+
+O objetivo é encontrar o `\(Z_{calculado}\)` e a probabilidade de termos um valor tão ou mais extremo.
+
+Aceitamos `\(H_0\)` se 
+
+`$$P(Z \ge |Z_{calculado}|) \ge 0.05$$`
+
+e rejeitamos `\(H_0\)` se 
+
+`$$P(Z \ge |Z_{calculado}|) &lt; 0.05$$`
+sendo:
+
+`\(Z_{calculado} = \frac{\overline{X} - \mu}{\sigma_{\mu}}\)`
+
+]
+
+.pull-right[
+
+Obtém-se a seguinda amostra *aleatória*: 
+
+
+
+Amostra: 65, 73, 56, 71, 69, 69, 68, 59, 73, 68, 69, 64, 67, 64, 66
+
+que nos dá uma média amostral de:
+
+`\(\overline{X} = \frac{\sum{X_i}}{n} = \frac{65+73+56+71+69+69+68+59+73+68+69+64+67+64+66}{15} = 66.73\)` batimentos por minuto;
+
+e um erro padrão de:
+
+`\(\sigma_{\mu} = \frac{\sigma}{\sqrt{n}} = \frac{9}{3.87} = 2.32\)`
+
+Com estes resultados, encontramos o valor correspondente de:
+
+`\(z_{calculado} = \frac{\overline{X} - \mu}{\sigma_{\mu}} = \frac{66.73 - 65}{2.32} = 0.75\)`
+
+]
+
+---
+
+class: fundo, textsize
+
+### 1. Método do valor de p
+
+Digamos que o número de batimentos cardíacos por minuto de um adulto em repouso tenha distribuição normal com média `\(\mu = 65\)` e desvio padrão `\(\sigma = 9\)`. Você imagina que o sedentarismo altera o batimento médio de um adulto.
+
+.pull-left[
+
+Como:
+
+`\(z_{calculado} = \frac{\overline{X} - \mu}{\sigma_{\mu}} = \frac{66.73 - 65}{2.32} = 0.75\)`
+
+e
+
+`\(P(Z \ge |Z_{calculado}|) = 0.228 + 0.228 = 0.456 \ge 0,05\)`
+
+___
+
+Portanto:
+
+Valor de p = `\(0.456\)` que é `\(\ge 0,05\)`. 
+
+Consequentemente, aceitamos `\(H_0\)` e dizemos que:
+
+&gt; **não há evidências na amostra de que o batimento cardíaco de adultos sedentários seja diferente de 65.**
+
+]
+
+.pull-right[
+
+&lt;img src="Teste_Hipoteses_files/figure-html/unnamed-chunk-9-1.png" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+class: fundo, textsize
+
+### 2. Exemplo de um teste unilateral
+
+Digamos que o número de batimentos cardíacos por minuto de um adulto em repouso tenha distribuição normal com média `\(\mu = 65\)` e desvio padrão `\(\sigma = 9\)`. A literatura sugere que o sedentarismo **aumenta** o batimento médio de um adulto.
+
+As hipótese estatísticas ficam:
+
+`\(H_0: \mu = 65\)` batimentos por minuto
+
+`\(H_a: \mu \ge 65\)` batimentos por minuto (Teste UNILATERAL)
+
+`\(\alpha = 0,05\)` nível de significância
+
+---
+
+class: fundo, textsize
+
+### 2. Exemplo de um teste unilateral
+
+Digamos que o número de batimentos cardíacos por minuto de um adulto em repouso tenha distribuição normal com média `\(\mu = 65\)` e desvio padrão `\(\sigma = 9\)`. A literatura sugere que o sedentarismo **aumenta** o batimento médio de um adulto.
+
+
+.pull-left[
+
+Nos testes unilaterais, toda a área de rejeição deve estar à direita ou à esquerda, a depender da hipótese alternativa. 
+
+No caso de um `\(\alpha = 0,05\)` o nível crítico de `\(Z = 1,64\)`.
+
+&lt;img src="Teste_Hipoteses_files/figure-html/unnamed-chunk-10-1.png" style="display: block; margin: auto;" /&gt;
+
+]
+
+
+.pull-right[
+
+Da mesma forma, quando utilizamos o valor de p, consideramos **somente** um dos lados da curva. Neste exemplo, o valor de p seria `\(p = 0.228\)`, que é metade do que obtivemos no teste bilateral, porém **ainda** `\(\ge 0,05\)`.
+
+&lt;img src="Teste_Hipoteses_files/figure-html/unnamed-chunk-11-1.png" style="display: block; margin: auto;" /&gt;
+
+
+]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightLines": true,
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
