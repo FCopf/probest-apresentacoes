@@ -14,7 +14,7 @@ class: center, middle, inverse, title-slide
 # Teste de hipóteses, Teste Z
 ## Fabio Cop
 ### Instituto de Ciências do Mar - UNIFESP
-### 20 maio, 2021
+### 23 maio, 2021
 
 ---
 
@@ -200,11 +200,17 @@ Digamos que o número de batimentos cardíacos por minuto de um adulto em repous
 
 .pull-left[
 
-`\(P(|E| \ge |\overline{X} - \mu|) = 0,05\)`
+
+
+`\(z_{calculado} = \frac{\overline{X} - \mu}{\sigma_{\mu}} = \frac{66.73 - 65}{2.32} = 0.75\)`
 
 Como:
 
-`\(z_{calculado} = \frac{\overline{X} - \mu}{\sigma_{\mu}} = \frac{66.73 - 65}{2.32} = 0.75\)`
+`\(|Z_{calculado}| &lt; |Z_{crítico}|\)`
+
+`\(|0.75| &lt; |1,96|\)`
+
+
 
 Aceitamos `\(H_0\)` e dizemos que:
 
@@ -234,11 +240,11 @@ O objetivo é encontrar o `\(Z_{calculado}\)` e a probabilidade de termos um val
 
 Aceitamos `\(H_0\)` se 
 
-`$$P(Z \ge |Z_{calculado}|) \ge 0.05$$`
+`$$P(Z \ge |Z_{calculado}|) &gt; 0.05$$`
 
 e rejeitamos `\(H_0\)` se 
 
-`$$P(Z \ge |Z_{calculado}|) &lt; 0.05$$`
+`$$P(Z \ge |Z_{calculado}|) \le 0.05$$`
 sendo:
 
 `\(Z_{calculado} = \frac{\overline{X} - \mu}{\sigma_{\mu}}\)`
@@ -283,13 +289,13 @@ Como:
 
 e
 
-`\(P(Z \ge |Z_{calculado}|) = 0.228 + 0.228 = 0.456 \ge 0,05\)`
+`\(P(Z \ge |Z_{calculado}|) = 0.228 + 0.228 = 0.456\)`
 
 ___
 
 Portanto:
 
-Valor de p = `\(0.456\)` que é `\(\ge 0,05\)`. 
+Valor de p = `\(0.456\)` que é `\(&gt; 0,05\)`. 
 
 Consequentemente, aceitamos `\(H_0\)` e dizemos que:
 
@@ -315,7 +321,7 @@ As hipótese estatísticas ficam:
 
 `\(H_0: \mu = 65\)` batimentos por minuto
 
-`\(H_a: \mu \ge 65\)` batimentos por minuto (Teste UNILATERAL)
+`\(H_a: \mu &gt; 65\)` batimentos por minuto (Teste UNILATERAL)
 
 `\(\alpha = 0,05\)` nível de significância
 
@@ -359,7 +365,7 @@ A interpretação da probabilidade final esta associada à situação em que `\(
 |                   | `\(H_0\)` Verdadeira           | `\(H_0\)` Falsa
 | :---              | :------:                   | :------:
 | `\(H_0\)` é rejeitada | `\(\alpha\)` (**Erro Tipo I**) | `\(1 - \beta\)` (Decisão correta)
-| `\(H_0\)` é aceita    | `\(\alpha\)` (Decisão correta) | `\(\beta\)` (**Erro Tipo II**)
+| `\(H_0\)` é aceita    | `\(1 - \alpha\)` (Decisão correta) | `\(\beta\)` (**Erro Tipo II**)
 
 
 &lt;img src="Teste_Hipoteses_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" /&gt;
