@@ -1,10 +1,11 @@
-plt_norm_fun <- function(mp = 0, sigma = 1, n = 1, alpha_sl = 0.05, 
+plt_norm_fun <- function(mp = 0, sigma = 1, n = 1, 
+                         alpha_sl = 0.05, zc = c(-1.96, 1.96), 
                          distribution = 'Z',
                          fill_area = 'outer',
                          alternative = 'none',
                          label_limits = 'none',
                          from_alpha = TRUE,
-                         zc, ylim = c(0, 0.5))
+                         ylim = c(0, 0.5))
 {
   # Function to plot Student t distribution with filled areas 
   #       @distribution: 'Z', 'X', 'Xbar'
@@ -14,8 +15,8 @@ plt_norm_fun <- function(mp = 0, sigma = 1, n = 1, alpha_sl = 0.05,
   
   color_outer <- '#d14143'
   color_inner <- '#296e4a'
-  df <- data.frame(x = c(-4,4))
   sigma <- ifelse(distribution == 'Xbar', yes = sigma/sqrt(n), no = sigma)
+  df <- data.frame(x = c(mp - 4*sigma, mp + 4*sigma))
   params <- list(mean = mp, sd = sigma)
   title <- NULL
   if(distribution == "Xbar"){
@@ -32,7 +33,7 @@ plt_norm_fun <- function(mp = 0, sigma = 1, n = 1, alpha_sl = 0.05,
       area_lower <- alpha_sl
       Linf <- qnorm(p = area_lower, mean = mp, sd = sigma)
     } else {
-      Linf <- -abs(zc)
+      Linf <- zc[1] #-abs(zc)
       area_lower <- pnorm(q = Linf, mean = mp, sd = sigma, lower.tail = TRUE)
       
     }
@@ -43,7 +44,7 @@ plt_norm_fun <- function(mp = 0, sigma = 1, n = 1, alpha_sl = 0.05,
       area_upper <- alpha_sl
       Lsup <- qnorm(p = 1-area_upper, mean = mp, sd = sigma)
     } else {
-      Lsup <- abs(zc)
+      Lsup <- zc[2] #abs(zc)
       area_upper <- pnorm(q = Lsup, mean = mp, sd = sigma, lower.tail = FALSE)
     }
     area_upper <- round(area_upper,4)
@@ -54,8 +55,8 @@ plt_norm_fun <- function(mp = 0, sigma = 1, n = 1, alpha_sl = 0.05,
       Linf <- qnorm(p = area_lower, mean = mp, sd = sigma)
       Lsup <- qnorm(p = 1 - area_upper, mean = mp, sd = sigma)
     } else {
-      Linf <- -abs(zc)
-      Lsup <- abs(zc)
+      Linf <- zc[1] #-abs(zc)
+      Lsup <- zc[2] #abs(zc)
       area_lower <- pnorm(q = Linf, mean = mp, sd = sigma, lower.tail = TRUE)
       area_upper <- pnorm(q = Lsup, mean = mp, sd = sigma, lower.tail = FALSE)
     }
@@ -70,10 +71,10 @@ plt_norm_fun <- function(mp = 0, sigma = 1, n = 1, alpha_sl = 0.05,
     breaks = seq(min(df$x), max(df$x), by = 0.5)
     labels = round(breaks, 2)
   } else if (label_limits == 'numeric'){
-    breaks = c(Linf, 0, Lsup)
-    labels = round(c(Linf, 0, Lsup),2)
+    breaks = c(Linf, mp, Lsup)
+    labels = round(c(Linf, mp, Lsup),2)
   } else if (label_limits == 'character'){
-    breaks = c(Linf, 0, Lsup)
+    breaks = c(Linf, mp, Lsup)
     labels = expression('L'['inf'], '0', 'L'['sup'])
   }
   
@@ -119,7 +120,7 @@ plt_norm_fun <- function(mp = 0, sigma = 1, n = 1, alpha_sl = 0.05,
              label = c(area_lower, area_c, area_upper), size = 8) +
     labs(x = x_label, y = '',
          title = title,
-         subtitle = bquote(mu == .(mp) ~ '; ' ~ sigma == .(sigma))) +
+         subtitle = bquote(mu == .(round(mp,2)) ~ '; ' ~ sigma == .(round(sigma,2)))) +
     ylim(ylim) +
     scale_x_continuous(breaks = breaks, 
                        limits = range(df$x), 
@@ -135,12 +136,14 @@ plt_norm_fun <- function(mp = 0, sigma = 1, n = 1, alpha_sl = 0.05,
   
 }
 
-# plt_norm_fun(mp = 20, sigma = 10, n = 5000,
-#              distribution = "Xbar",
-#              fill_area = 'outer',
-#              alpha_sl = 0.05,
-#              alternative = 'lower',
-#              label_limits = 'none')
+# plt_norm_fun(mp = 0, sigma = 1, n = 1,
+#              alpha_sl = 0.1, zc = c(-1.96, 1.96),
+#              distribution = 'Xbar',
+#              fill_area = 'inner',
+#              alternative = 'upper',
+#              label_limits = 'none',
+#              from_alpha = T,
+#              ylim = c(0, 0.7))
 
 #-------------------------------------------------------------
 plt_dt_fun <- function(gl = 29, fill_area, 

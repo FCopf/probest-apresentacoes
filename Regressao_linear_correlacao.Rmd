@@ -22,7 +22,7 @@ suppressMessages(library(gganimate))
 suppressMessages(library(latex2exp))
 suppressMessages(library(vegan))
 suppressMessages(library(DT))
-source("rfiles/mmq.r")
+source("r_functions/mmq.r")
 # library(xaringanthemer)
 #   style_mono_light(
 #   #  base_color = "#1c5253",
@@ -37,7 +37,7 @@ source("rfiles/mmq.r")
 .fundo {
   padding: 0 1em 0 1em;
   margin: 0;
-  background-image: url(fig/borda.png);
+  background-image: url(img/borda.png);
   background-size: 100%;
   background-position: 1% 1%;
   }
@@ -57,22 +57,22 @@ class: fundo, espaco1, textsizehist
 
 --
 
-+ <span><img src="fig/gauss_name.jpg" alt="Smiley face" style="float:right;height:120px;">
++ <span><img src="img/gauss_name.jpg" alt="Smiley face" style="float:right;height:120px;">
 A primeira solução para o problema da regressão (relacionar uma variável resposta $Y$ a uma variável preditora $X$) foi o <b>Método dos Mínimos Quadrados (MMQ)</b>, publicado por por Gauss (1777 – 1855) em 1809, embora haja relatos históricos de que Gauss pensou e resolveu o problema quando tinha apenas 11 anos. Gauss aplicou o método obter predições sobre as órbitas dos corpos ao redor do Sol a partir de observações astronômicas. </span>
 
 --
 
-+ <span><img src="fig/galton_name.jpg" alt="Smiley face" style="float:right;height:110px;">
++ <span><img src="img/galton_name.jpg" alt="Smiley face" style="float:right;height:110px;">
 O termo <b>regressão</b> foi empregado por Francis Galton em 1866, um dos pais da Biometria e primo de <i>Charles Darwin</i>, no séc. XIX, para descrever o fenômeno biológico onde a altura dos descendentes de pais altos tende a regressar em direção à média. Desta forma, pais muito altos tenderiam a ter descendentes mais baixos que eles próprios e vice versa. A altura dos descendentes tenderia portanto a **regressar** à média da população. </span>
 
 --
 
-+ <span><img src="fig/pearson_name.jpg" alt="Smiley face" style="float:right;height:115px;">
++ <span><img src="img/pearson_name.jpg" alt="Smiley face" style="float:right;height:115px;">
 Para Galton a regressão tinha apenas um significado biológico, mas suas idéias foram estendidas por Udny Yule e Karl Pearson para um contexto estatístico mais geral. Na formulação de Yule e Pearson, assume-se que a distribuição conjunta da variável resposta e da variável preditora $f(Y,X)$ é Gaussiana (Normal), o que confunde os conceitos de regressão e correlação.</span>
 
 --
 
-+ <span><img src="fig/fisher_name.jpg" alt="Smiley face" style="float:right;height:110px;">
++ <span><img src="img/fisher_name.jpg" alt="Smiley face" style="float:right;height:110px;">
 Esta suposição foi modificada por R. A. Fisher em 1922 e 1925. Fisher assumiu que a distribuição condicional da variável resposta $f(Y|X)$ é Gaussiana, mas a conjunta não precisa ser. Esta solução é mais próxima daquela formulada por Gauss. Fisher desenvolveu também o método da <b>Máxima Verossimilhança (MV)</b>. Para uma variável em que $f(Y|X)$ é Gaussiana, a solução pelo <b>MMQ</b> e pela <b>MV</b> convergem.</span>
 
 ---
@@ -192,7 +192,7 @@ class: fundo, textsize
 $$Y = \frac{k \times X}{D + X}$$
 
 ```{r}
-image_read('fig/fotossintese.jpg') %>% 
+image_read('img/fotossintese.jpg') %>% 
   image_scale("28%")
 ```
 
@@ -289,7 +289,7 @@ Para cada observação $y_i$ é conhecida também uma informação sobre $x_i$.
 #   shadow_mark(alpha = 0.3, size = 0.5)
 # magick::image_write(animate(mre_ani), path="regression_model.gif")
 
-image_read('fig/regression_model.gif')
+image_read('img/regression_model.gif')
 
 ```
 
@@ -483,10 +483,11 @@ $$y_i|x_i = \beta_0 + \beta_1x_i + \varepsilon_i$$
 
 
 ```{r}
-riachos <- read_delim("datasets/riachos_costeiros.csv", delim = ';')
+#riachos <- read_delim("datasets/riachos_costeiros.csv", delim = ';')
+riachos <- read.csv("datasets/riachos_costeiros.csv", dec = ',', sep = ';', header = T)
 
 D <- riachos %>% 
-  select("Acentronichthys leptos":"Trichomycterus zonatus") %>% 
+  select("Acentronichthys.leptos":"Trichomycterus.zonatus") %>% 
   diversity(index = "shannon")
 
 peixes <- riachos %>%
@@ -731,7 +732,7 @@ regl <- ggplot(data.frame(x = c(1.1, 9), y = c(1.1, 9)),
   theme_classic()
 
 regl
-#ggsave("fig/regl_det.png")
+#ggsave("img/regl_det.png")
 
 
 ```
@@ -745,13 +746,13 @@ regl
 $$\varepsilon_i \sim \mathcal{N}(0, \sigma^2)$$
 
 ```{r}
-# png("fig/norm_dens.png")
+# png("img/norm_dens.png")
 # xs <- c(seq(-4,4, l = 100), seq(-4,4, l = 100))
 # par(bg=NA)
 # curve(dnorm(x, 0, 1), from = -4, to = 4, axes = F, ylab = "", xlab = "")
 # polygon(x = xs, y = dnorm(xs), col = rgb(0,0,1, alpha = 0.4))
 # dev.off()
-relg_res <- image_read("fig/norm_dens.png")
+relg_res <- image_read("img/norm_dens.png")
 nd <- image_rotate(image_resize(relg_res,  geometry_size_pixels(100)), degrees = -90)
 pin <- c(0.8, 3.6, 1.8, 2.5)
 ax <- seq(0,8, by = 1.2)

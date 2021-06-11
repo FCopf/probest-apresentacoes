@@ -69,9 +69,11 @@ ___
 
 1. Teste $t$ para duas médias independentes
   
-  - Teste $t$ variâncias homogêneas
+  - Teste $t$ de Welch - variâncias heterogêneas
   
-  - Teste $t$ de Welch para variâncias heterogêneas
+  - Comparando variâncias
+  
+  - Teste $t$ variâncias homogêneas
 
 1. Teste $t$ pareado para duas médias dependentes
 
@@ -522,6 +524,7 @@ amostra: `r paste(amostra, collapse = ", ")`
 t.test(amostra, mu = 2.65, alternative = "greater")
 ```
 
+
 ---
 
 class: golden-jackals, left
@@ -574,6 +577,432 @@ jackal_larger %>%
 ```
 
 
+$\overline{X}_{fêmea} = `r medias['Femea']`$; $s_{fêmea} = `r desvio['Femea']`$; $n_{fêmea} = `r n`$
+
+$\overline{X}_{macho} = `r medias['Macho']`$; $s_{macho} = `r desvio['Macho']`$; $n_{macho} = `r n`$
+
+```{r fig.width=6, fig.height=3.5}
+jackal_sum <- jackal %>% 
+  group_by(Sexo) %>% 
+  summarize(media = mean(Comprimento),
+            desvio = sd(Comprimento))
+
+errplot_jackal <- ggplot(jackal_sum,
+                         aes(x = Sexo, y = media)) +
+  geom_errorbar(aes(ymin = media - desvio*1.96, ymax = media + desvio*1.96), width=.1) +
+  geom_point(size = 3) +
+  theme_classic(base_size = 15) +
+   xlab('') + ylab('Comprimento da mandíbula')
+
+errplot_jackal
+```
+
+]
+
+
+---
+
+class: golden-jackals, left
+
+# Teste $t$ de Welch - variâncias heterogêneas
+
+### Existe evidência de que o tamanho das mandíbulas de Chacais dourados seja diferente em machos e fêmeas?
+
+
+.pull-left[
+
+#### Hipóteses estatísticas
+
+$H_0: \mu_{macho} = \mu_{fêmea}$
+
+$H_a: \mu_{macho} \ne \mu_{fêmea}$
+
+$\alpha = 0.05$
+
+]
+
+
+.pull-right[
+
+
+##### 1. Erro padrão da diferença de médias
+
+$s_{\overline{X}_f - \overline{X}_m} = \sqrt{\frac{s_{f}^{2}}{n_f} + \frac{s_{m}^{2}}{n_m}}$
+
+##### 2. Graus de liberdade
+
+$gl = \frac{\left(\frac{s_f^2}{n_f} + \frac{s_m^2}{n_m}\right)^2}{\frac{\left(\frac{s_f^2}{n_f}\right)^2}{n_f - 1} + \frac{\left(\frac{s_m^2}{n_m}\right)^2}{n_m - 1}}$; ou $gl = min(n_f-1, n_m-1)$
+
+##### 3. Estatística $t$
+
+$t_c = \frac{\overline{X}_f - \overline{X}_m}{s_{\overline{X}_f - \overline{X}_m}}$
+
+]
+
+---
+
+class: golden-jackals, left
+
+# Teste $t$ de Welch - variâncias heterogêneas
+
+### Existe evidência de que o tamanho das mandíbulas de Chacais dourados seja diferente em machos e fêmeas?
+
+.pull-left[
+
+#### Hipóteses estatísticas
+
+$H_0: \mu_{macho} = \mu_{fêmea}$
+
+$H_a: \mu_{macho} \ne \mu_{fêmea}$
+
+$\alpha = 0.05$
+
+]
+
+
+
+.pull-right[
+
+```{r}
+jackal_larger %>%
+  t() %>%
+  kbl() %>%
+  kable_classic(full_width = F, html_font = "Cambria", font_size = 15)
+
+epsp <- as.numeric(sqrt((desvio['Femea'])^2/n + (desvio['Macho'])^2/n))
+
+A = as.numeric((desvio['Femea']^2)/n)
+B = as.numeric((desvio['Macho']^2)/n)
+gl1 = (A + B)^2/(((A^2)/(n-1)) + ((B^2)/(n-1)))
+gl2 = n-1
+
+tc_jc <- (medias$Femea - medias$Macho)/epsp
+```
+
+
+##### 1. Erro padrão da diferença de médias
+
+$s_{\overline{X}_f - \overline{X}_m} = \sqrt{\frac{`r round(desvio['Femea'],2)`}{`r n`} + \frac{`r round(desvio['Macho'],2)`}{`r n`}} = `r round(epsp,2)`$
+
+##### 2. Graus de liberdade
+
+$gl = `r round(gl1,2)`$, ou $gl = `r gl2`$ (método simplificado)
+
+##### 3. Estatística $t$
+
+$t_c = \frac{`r round(medias['Femea'],2)` - `r round(medias['Femea'],2)`}{`r round(epsp,2)`} = `r round(tc_jc,2)`$
+
+]
+
+---
+
+class: left
+
+# Teste $t$ de Welch - variâncias heterogêneas
+
+### Existe evidência de que o tamanho das mandíbulas de Chacais dourados seja diferente em machos e fêmeas?
+
+.pull-left[
+
+```{r}
+ttest_jackal <- t.test(jackal_larger$Femea, jackal_larger$Macho, 
+                       alternative = 'two.sided', 
+                       var.equal = FALSE)
+
+curv_jac <- plt_dt_fun(gl = ttest_jackal$parameter,
+                       fill_area = 'outer',
+                       alternative = 'two-sided',
+                       label_limits = 'numeric',
+                       from_alpha = FALSE, 
+                       tc = tc_jc)
+
+p_valor_jac <- curv_jac$area_lower + curv_jac$area_upper
+
+```
+
+
+$\overline{X}_{fêmea} = `r medias['Femea']`$; $\overline{X}_{macho} = `r medias['Macho']`$
+
+##### Resultado do teste
+
+$p = `r curv_jac['area_lower']` + `r curv_jac['area_upper']` = `r p_valor_jac`$
+
+**Rejeito** $H_0$ e concluo que:
+
+> **Há evidências** na amostra para assumir que existem diferenças no comprimento médio entre machos e fêmeas. O comprimento da mandíbula das fêmeas é, em média, $`r abs(medias$Femea - medias$Macho)`$ mm  menor.
+
+]
+
+
+.pull-right[
+
+```{r, fig.height=6, fig.width=7.0}
+curv_jac$plt
+```
+
+]
+
+---
+
+class: code70
+
+# Teste $t$ de Welch - variâncias heterogêneas
+
+### Existe evidência de que o tamanho das mandíbulas de Chacais dourados seja diferente em machos e fêmeas?
+
+.pull-left[
+
+```{r, include = TRUE, echo = TRUE}
+t.test(Comprimento ~ Sexo, data = jackal, 
+                       alternative = 'two.sided', 
+                       var.equal = FALSE)
+
+```
+
+]
+
+.pull-right[
+
+```{r}
+jackal %>%
+  kbl() %>%
+  kable_classic(full_width = F, html_font = "Cambria", font_size = 11)
+```
+
+
+]
+
+---
+
+class: golden-jackals, left
+
+# Teste de hipóteses para duas variâncias - Teste $F$
+
+```{r}
+
+```
+
+
+### Existe evidência de que a variância no tamanho das mandíbulas de Chacais dourados seja diferente em machos e fêmeas?
+
+.pull-left[
+
+#### Hipóteses estatísticas
+
+$H_0: \sigma^2_{macho} = \sigma^2_{fêmea}$
+
+$H_a: \sigma^2_{macho} \ne \sigma^2_{fêmea}$
+
+$\alpha = 0.05$
+
+]
+
+
+
+.pull-right[
+
+```{r}
+jackal_larger %>% 
+  t() %>% 
+  kbl() %>%
+  kable_classic(full_width = F, html_font = "Cambria", font_size = 15)
+```
+
+
+$s^2_{fêmea} = `r round((desvio['Femea'])^2,3)`$; $n_{fêmea} = `r n`$ 
+
+$s^2_{macho} = `r round((desvio['Macho'])^2,3)`$; $n_{macho} = `r nrow(jackal_larger)`$
+
+```{r fig.width=6, fig.height=3.5}
+errplot_jackal
+```
+
+
+
+]
+
+---
+
+class: golden-jackals, left
+
+# Teste de hipóteses para duas variâncias - Teste $F$
+
+```{r}
+
+```
+
+
+### Existe evidência de que a variância no tamanho das mandíbulas de Chacais dourados seja diferente em machos e fêmeas?
+
+.pull-left[
+
+#### Hipóteses estatísticas
+
+$H_0: \sigma^2_{macho} = \sigma^2_{fêmea}$
+
+$H_a: \sigma^2_{macho} \ne \sigma^2_{fêmea}$
+
+$\alpha = 0.05$
+
+]
+
+
+
+.pull-right[
+
+```{r}
+Ftest1 = as.numeric(desvio['Macho']^2/desvio['Femea']^2)
+Ftest2 = as.numeric(desvio['Femea']^2/desvio['Macho']^2)
+```
+
+
+$s^2_{fêmea} = `r round((desvio['Femea'])^2,3)`$; $n_{fêmea} = `r n`$ 
+
+$s^2_{macho} = `r round((desvio['Macho'])^2,3)`$; $n_{macho} = `r nrow(jackal_larger)`$
+
+$F = \frac{s^2_{maior}}{s^2_{menor}} = \frac{`r round((desvio['Macho'])^2,3)`}{`r round((desvio['Femea'])^2,3)`} = `r round(Ftest1,2)`$
+
+```{r fig.width=6, fig.height=3.5}
+params = list(df1 = n-1, df2 = n-1)
+lim = c(0,5)
+pF = pf(q = Ftest1, df1 = n-1, df2 = n-1, lower.tail = F) +
+  pf(q = Ftest2, df1 = n-1, df2 = n-1, lower.tail = T)
+Fcurve <- ggplot(data = data.frame(x = lim), mapping = aes(x = x)) +
+  stat_function(fun = df, args = params) +
+  geom_area(stat = "function", fun = df,
+                args = params,
+                fill = '#d14143',
+                xlim = c(Ftest1, lim[2])) +
+  geom_area(stat = "function", fun = df,
+                args = params,
+                fill = '#d14143',
+                xlim = c(lim[1], Ftest2)) +
+  theme_classic(base_size = 15) +
+  xlab('X') + ylab('Densidade de probabilidade') +
+  ggtitle(label = paste("F = ",round(Ftest1,2),"; p = ", round(pF,4), sep = ''),
+          subtitle = 'Distribuição F') +
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5))
+
+Fcurve           
+  
+```
+
+
+]
+
+---
+
+class: code70
+
+# Teste de hipóteses para duas variâncias - Teste $F$
+
+### Existe evidência de que a variância no tamanho das mandíbulas de Chacais dourados seja diferente em machos e fêmeas?
+
+.pull-left[
+
+```{r include = TRUE, echo = TRUE}
+vmaior = jackal$Comprimento[jackal$Sexo == "Macho"]
+vmenor = jackal$Comprimento[jackal$Sexo == "Femea"]
+var.test(x = vmaior, y = vmenor, data = jackal)
+```
+
+
+]
+
+
+
+.pull-right[
+
+$s^2_{fêmea} = `r round((desvio['Femea'])^2,3)`$; $n_{fêmea} = `r n`$ 
+
+$s^2_{macho} = `r round((desvio['Macho'])^2,3)`$; $n_{macho} = `r nrow(jackal_larger)`$
+
+$F = \frac{s^2_{maior}}{s^2_{menor}} = \frac{`r round((desvio['Macho'])^2,3)`}{`r round((desvio['Femea'])^2,3)`} = `r round(Ftest1,2)`$
+
+```{r fig.width=6, fig.height=3.5}
+Fcurve           
+  
+```
+
+
+]
+
+---
+# Teste de hipóteses para duas variâncias - Teste $F$
+
+### Existe evidência de que a variância no tamanho das mandíbulas de Chacais dourados seja diferente em machos e fêmeas?
+
+.pull-left[
+
+#### Hipóteses estatísticas
+
+$H_0: \sigma^2_{macho} = \sigma^2_{fêmea}$
+
+$H_a: \sigma^2_{macho} \ne \sigma^2_{fêmea}$
+
+$\alpha = 0.05$
+
+
+**Aceito** $H_0$ e concluo que:
+
+> Ainda que a variância amostral em machos seja `r round(Ftest1,2)` vezes maior que em fêmeas, a diferença é **não significativa**. Portanto posso assumir variâncias **homogêneas**, isto é, $\sigma^2_{fêmea} = \sigma^2_{macho}$.
+
+
+]
+
+
+
+.pull-right[
+
+$s^2_{fêmea} = `r round((desvio['Femea'])^2,3)`$; $n_{fêmea} = `r n`$ 
+
+$s^2_{macho} = `r round((desvio['Macho'])^2,3)`$; $n_{macho} = `r nrow(jackal_larger)`$
+
+$F = \frac{s^2_{maior}}{s^2_{menor}} = \frac{`r round((desvio['Macho'])^2,3)`}{`r round((desvio['Femea'])^2,3)`} = `r round(Ftest1,2)`$
+
+```{r fig.width=6, fig.height=3.5}
+Fcurve           
+  
+```
+
+
+]
+
+
+---
+
+class: golden-jackals, left
+
+# Teste $t$ - Variâncias homogêneas
+
+
+### Existe evidência de que o tamanho das mandíbulas de Chacais dourados seja diferente em machos e fêmeas?
+
+.pull-left[
+
+#### Hipóteses estatísticas
+
+$H_0: \mu_{macho} = \mu_{fêmea}$
+
+$H_a: \mu_{macho} \ne \mu_{fêmea}$
+
+$\alpha = 0.05$
+
+]
+
+
+
+.pull-right[
+
+```{r}
+jackal_larger %>% 
+  t() %>% 
+  kbl() %>%
+  kable_classic(full_width = F, html_font = "Cambria", font_size = 15)
+```
+
+
 $\overline{X}_{fêmea} = `r medias['Femea']`$; $\overline{X}_{macho} = `r medias['Macho']`$
 
 $s_{fêmea} = `r desvio['Femea']`$; $s_{macho} = `r desvio['Macho']`$
@@ -587,7 +1016,7 @@ $n_{fêmea} = n_{macho} = `r nrow(jackal_larger)`$
 
 class: golden-jackals, left
 
-# Teste $t$ para duas amostras independentes
+# Teste $t$ - Variâncias homogêneas
 
 ### Existe evidência de que o tamanho das mandíbulas de Chacais dourados seja diferente em machos e fêmeas?
 
@@ -633,7 +1062,7 @@ $t_c = \frac{\overline{X}_f - \overline{X}_m}{s_{\overline{X}_f - \overline{X}_m
 
 class: golden-jackals, left
 
-# Teste $t$ para duas amostras independentes
+# Teste $t$ - Variâncias homogêneas
 
 ### Existe evidência de que o tamanho das mandíbulas de Chacais dourados seja diferente em machos e fêmeas?
 
@@ -685,7 +1114,7 @@ $t_c = \frac{`r round(medias['Femea'],2)` - `r round(medias['Femea'],2)`}{`r rou
 
 class: left
 
-# Teste $t$ para duas amostras independentes
+# Teste $t$ - Variâncias homogêneas
 
 ### Existe evidência de que o tamanho das mandíbulas de Chacais dourados seja diferente em machos e fêmeas?
 
@@ -731,7 +1160,7 @@ curv_jac$plt
 
 class: code70
 
-# Teste $t$ para duas amostras independentes
+# Teste $t$ - Variâncias homogêneas
 
 ### Existe evidência de que o tamanho das mandíbulas de Chacais dourados seja diferente em machos e fêmeas?
 
