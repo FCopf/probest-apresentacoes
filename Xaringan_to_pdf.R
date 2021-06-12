@@ -5,7 +5,5 @@
 pagedown::chrome_print(input = "Teste_t.Rmd", 
                        output = "pdf_presentations/Teste_t.pdf")
 
-pagedown::chrome_print(input = "Regressao_linear_correlacao.html", 
-                       output = "pdf_presentations/Regressao_linear_correlacao.pdf")
 # or just pass the HTML output file path to chrome_print()
 #pagedown::chrome_print("Teste_Hipoteses.html")
