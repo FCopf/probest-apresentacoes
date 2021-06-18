@@ -1198,7 +1198,7 @@ $s_{\overline{X}_f - \overline{X}_m} = \sqrt{\frac{`r round(sp,2)`}{`r n`} + \fr
 
 ##### 3. Estatística $t$
 
-$t_c = \frac{`r round(medias['Femea'],2)` - `r round(medias['Femea'],2)`}{`r round(epsp,2)`} = `r round(tc_jc,2)`$
+$t_c = \frac{`r round(medias['Femea'],2)` - `r round(medias['Macho'],2)`}{`r round(epsp,2)`} = `r round(tc_jc,2)`$
 
 ]
 
@@ -1302,7 +1302,7 @@ class: h1_small
 
 # Teste $t$ pareado para duas médias dependentes
 
-"O fogo é importante na dinâmica das fronteiras cerrado-floresta, geralmente mantendo um equilíbrio entre o avanço e o recuo da floresta." - retirado de Hoffman *et. al.* (2003)
+"O fogo é importante na dinâmica das fronteiras cerrado-floresta, geralmente mantendo um equilíbrio entre o avanço e o recuo da floresta." - retirado de <a href="https://besjournals.onlinelibrary.wiley.com/doi/10.1111/j.1365-2435.2003.00796.x" target="_blank">Hoffman <it>et. al.</it> (2003)</a>
 
 <blockquote style="font-size:70%;">Hoffmann, William A., Birgit Orthen, and Paula Kielse Vargas do Nascimento. Comparative fire ecology of tropical savanna and forest trees. <i>Functional Ecology</i> 17.6 (2003): 720-726.</blockquote>
 
@@ -1420,10 +1420,11 @@ hof_diff <- hof %>%
 ```
 
 
-Buscando a diferença média entre unidades amostrais
+Buscando as diferenças médias entre os pares de unidades amostrais
 
 $\overline{X}_{dif} = `r round(mean(hof_diff[,"Dif"]),2)`$; $s_{dif} = `r round(sd(hof_diff[,"Dif"]),2)`$; $n = `r n`$
 
+___
 
 .pull-left[
 
@@ -1459,13 +1460,13 @@ class: h1_small
 
 # Teste $t$ pareado para duas médias dependentes
 
-
-.pull-left[
-
-Buscando a diferença média entre unidades amostrais
+Buscando as diferenças médias entre os pares de unidades amostrais
 
 $\overline{X}_{dif} = `r round(mean(hof_diff[,"Dif"]),2)`$; $s_{dif} = `r round(sd(hof_diff[,"Dif"]),2)`$; $n = `r n`$
 
+___
+
+.pull-left[
 
 ### As Hipóteses estatísticas
 
@@ -1502,13 +1503,13 @@ class: h1_small
 
 # Teste $t$ pareado para duas médias dependentes
 
-
-.pull-left[
-
-Buscando a diferença média entre unidades amostrais
+Buscando as diferenças médias entre os pares de unidades amostrais
 
 $\overline{X}_{dif} = `r round(mean(hof_diff[,"Dif"]),2)`$; $s_{dif} = `r round(sd(hof_diff[,"Dif"]),2)`$; $n = `r n`$
 
+___
+
+.pull-left[
 
 ### As Hipóteses estatísticas
 
@@ -1545,6 +1546,8 @@ class: h1_small
 # Teste $t$ pareado para duas médias dependentes
 
 ### As Hipóteses estatísticas
+
+___
 
 .pull-left[
 
@@ -1603,6 +1606,8 @@ class: code70, h1_small
 
 ### Os comandos em R
 
+___
+
 .pull-left[
 
 ```{r, include = TRUE, echo = TRUE}
@@ -1629,8 +1634,22 @@ class: left, h1_small
 
 # Teste $t$ pareado para duas médias dependentes
 
+### Pressupostos
+
+___
+
 .pull-left[
 
+
+
+1. As unidades amostrais (os pares de observações) são independentes;
+
+1. A população de diferença de médias tem distribuição Normal;
+
+
+]
+
+.pull-left[
 
 ```{r}
 hof_diff %>%
@@ -1642,16 +1661,5 @@ hof_diff %>%
                 font_size = 15)
 
 ```
-
-
-]
-
-.pull-left[
-
-### Pressupostos
-
-1. As unidades amostrais (os pares de observações) são independentes;
-
-1. A população de diferença de médias tem distribuição Normal;
 
 ]

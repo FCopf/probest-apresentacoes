@@ -1,6 +1,6 @@
 library(tidyverse)
 mmq <- function(
-  frac_pt_size = 1.5,
+  frac_pt_size = 3,
   frac_ytext_Eq = 0.99,
   frac_xtext_Eq = 0.75,
   frac_ytext_SQres = 0.91,
@@ -25,6 +25,8 @@ mmq <- function(
   x = sort(runif(n, min = 0, max = 20)),
   alpha_nonselected = 0.5,
   reg_line_coef = c(780, -1.3),
+  ly = FALSE,
+  
   sem = 5,
   
   try_best_reg = FALSE,
@@ -47,7 +49,11 @@ mmq <- function(
   show_text_Eq = FALSE,
   show_text_SQres = FALSE,
   show_text_SQy = FALSE,
-  show_text_SQx = FALSE
+  show_text_SQx = FALSE,
+  
+  titulo_y = "Y",
+  titulo_x = "X"
+  
   
 ){
   set.seed(sem)
@@ -95,12 +101,25 @@ mmq <- function(
   SQx <- sum(df$dx^2)
   
   #_________________________
+  if (titulo_y == titulo_x) {
+    titulo_y = expression("X"[1])
+    titulo_x = expression("X"[2])
+  }
+  #_________________________
+  if (ly[1] == FALSE) {
+    ylim <- c(min(df$y-10), max(df$y+10))
+  } else {
+    ylim <- ly
+  }
+  
+  
+  #_________________________
   # Plots
   #_________________________
   # Plot sampled points
   plt <- ggplot(df, aes(y = y, x = x)) +
-    labs(y = "Y", x = "X") + 
-    ylim(c(min(df$y-10), max(df$y+10))) +
+    labs(y = titulo_y, x = titulo_x) + 
+    ylim(ylim[1], ylim[2]) +
     xlim(range(df$x))
   
   plt_sel <- plt_pt <- plt_reg_line <- plt_ymean_line <- plt_xmean_line <- 
@@ -239,13 +258,15 @@ mmq <- function(
 
   #_________________________
   # Return plot
-  plt + plt_pt + plt_sel + plt_reg_line + plt_ymean_line + plt_xmean_line + 
+  graf <- plt + plt_pt + plt_sel + plt_reg_line + plt_ymean_line + plt_xmean_line + 
     seg_res + seg_dy + seg_dx +
     plt_ymean_text + plt_xmean_text +
     text_res + text_dy + text_dx + 
     text_Eq + text_SQres + text_SQy + text_SQx + 
-    theme_classic()  
-
+    theme_classic(base_size = 20)  
+  
+  return(list(graf = graf, df = df))
+  
 }
 
   

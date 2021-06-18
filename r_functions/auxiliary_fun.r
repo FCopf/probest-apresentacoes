@@ -282,3 +282,122 @@ plt_dt_fun <- function(gl = 29, fill_area,
 #            label_limits = 'numeric')
 
 #-------------------------------------------------------------
+# Relações binariadas
+rel_bivariadas <- function() {
+  ls <- 15
+  df <- data.frame(x = unique(ChickWeight$Time), 
+             y1 = tapply(ChickWeight$weight, ChickWeight$Time, quantile, prob = c(0.1)),
+             y2 = tapply(ChickWeight$weight, ChickWeight$Time, quantile, prob = c(0.9)))
+  set.seed(3)
+  fake <- data.frame(x = rep(c(15, 20, 25, 30), each = 5)) %>% 
+                       mutate(y = rnorm(n = length(x), mean = 100 + 2 * x, sd = 10))
+  tema <- theme_classic() +
+    theme(legend.position = c(0.1, 0.7), 
+                legend.title = element_text(size = ls),
+                legend.text = element_text(size = ls),
+                axis.text=element_text(size=12),
+                axis.title=element_text(size=15),
+                title = element_text(size = 18))
+  
+  g1 <- ggplot(fake, aes(y = y, x = x)) +#, color = state,
+    #shape = state)) +
+    geom_point(size = 4) + 
+    labs(title = "Produtividade em pés de café", 
+         y = "Número de frutos", 
+         x = bquote("Temperatura ("^'o' ~ "C)")) +
+    geom_smooth(method = 'lm', se = F) + tema
+
+  g2 <- ggplot(penguins, aes(y = body_mass_g, x = flipper_length_mm)) +#, 
+    #color = species, 
+    #shape = species)) +
+    geom_point(size = 4) + 
+    labs(title = "Morfometria em pinguins", 
+         y = "Peso corpóreo (mm)", 
+         x = "Comprimento da asa (mm)") +
+    geom_smooth(method = 'lm', se = F) + tema
+
+  g3 <- ggplot(Puromycin, aes(y = rate, x = conc)) +
+    geom_point(size = 4)  + 
+    labs(title = "Velocidade de reação enzimática", 
+         y = "Taxa instatânea de reação (contagem/min/min)", 
+         x = "Concentração (ppm)") +
+    geom_smooth(method = 'lm', se = F) + 
+    geom_smooth(method = 'loess', color = 'red', linetype = 2, span = 0.40, se = F) + 
+    tema
+  
+  g4 <- ggplot(ChickWeight, aes(y = weight, x = Time)) +#, color = Diet,
+    #shape = Diet)) +
+    geom_point(size = 4) + 
+    labs(title = "Peso de pintinhos sob diferentes dietas", 
+         y = "Peso corpóreo (gramas)", 
+         x = "Tempo (dias)") +
+    #geom_smooth(method = 'lm', se = F) + 
+    geom_line(data = df, aes(x = x, y = y1), color = 'red', linetype = 2) +
+    geom_line(data = df, aes(x = x, y = y2), color = 'red', linetype = 2) +
+    geom_smooth(method = 'loess', color = 'red', linetype = 2, span = 0.40, se = F) +
+    tema
+  
+  
+  
+  (g1 / g2) | (g3 / g4)
+  
+}
+
+#---------------------------------------------------
+r_pearson <- function(n = 100, r = 0, 
+                      m1 = 100, m2 = 70, 
+                      s1 = 20, s2 = 10,
+                      titulo_y = "Y",
+                      titulo_x = "X",
+                      correlation = TRUE,
+                      ptsize = 2, ptfill = 'darkblue',
+                      show_titulo = TRUE,
+                      pttransp = 1){
+  
+  covs <- r * sqrt(s1) * sqrt(s2)
+  cov_mat <- matrix(c(s1, covs,
+                 covs, s2), 2,2)
+  df <- mvtnorm::rmvnorm(n = n, mean = c(m1, m2), sigma = cov_mat) %>% as_tibble()
+  r_obs <- round(cor(df$V1, df$V2), 2)
+  cov_obs <- round(cov(df$V1, df$V2), 2)
+
+  #_________________________
+  if (titulo_y == titulo_x) {
+    titulo_y = expression("X"[1])
+    titulo_x = expression("X"[2])
+  }
+  
+  if (show_titulo){
+    titulo = bquote('r = ' ~ .(r_obs))
+    if (!correlation){
+      titulo = bquote('s'['YX'] ~ '=' ~  .(cov_obs))
+    }
+  } else if (!show_titulo) {
+    titulo = ''
+  }
+  
+  
+
+  tema <- theme_classic() +
+    theme(legend.position = c(0.1, 0.7), 
+          legend.title = element_text(size = ls),
+          legend.text = element_text(size = ls),
+          axis.text=element_text(size=12),
+          axis.title=element_text(size=15),
+          title = element_text(size = 18),
+          plot.title = element_text(hjust = 0.5))
+  
+  
+  g <- ggplot(df, aes(V1, V2)) +
+    geom_point(shape = 21, fill = ptfill, color = 'black', size = ptsize, alpha = pttransp) +
+    labs(title = titulo,
+         y = titulo_y,
+         x = titulo_x) + 
+    tema
+  
+  res <- list(df = df, g = g, r_obs = r_obs, cov_obs = cov_obs)
+  return(res)
+  
+}
+
+#r_pearson(r = 0)
