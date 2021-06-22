@@ -42,6 +42,10 @@ mmq <- function(
   show_seg_dy = FALSE,
   show_seg_dx = FALSE,
   
+  show_seg_SQres = FALSE,
+  show_seg_SQreg = FALSE,
+  show_seg_SQy = FALSE,
+  
   show_text_res = FALSE,
   show_text_dy = FALSE,
   show_text_dx = FALSE,
@@ -66,11 +70,20 @@ mmq <- function(
     reg_line_coef = coef(lm(y ~ x, data = df))
   }
   
+  conf <- predict(lm(y ~ x, data = df), interval = "confidence") %>% 
+    as.data.frame()
+  pred <- predict(lm(y ~ x, data = df), interval = "prediction") %>% 
+    as.data.frame()  
+
   df <- df %>% 
     mutate(yhat = reg_line_coef[1] + reg_line_coef[2] * x,
            yres = y - (reg_line_coef[1] + reg_line_coef[2] * x),
            dy = y - mean(y),
-           dx = x - mean(x))
+           dx = x - mean(x),
+           conf_lwr = conf$lwr, 
+           conf_upr = conf$upr,
+           pred_lwr = pred$lwr, 
+           pred_upr = pred$upr)
   
   
   #_________________________

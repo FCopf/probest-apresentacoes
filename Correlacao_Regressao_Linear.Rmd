@@ -215,6 +215,8 @@ ___
 
 1. Partição da Soma dos Quadrados e variação explicada
 
+1. Os comandos em R
+
 1. Pressupostos do modelo
 
 1. Transformações lineares
@@ -2683,31 +2685,6 @@ dplt2
 ```
 ]
 
----
-
-class: h1_small, code70
-
-# 7. Teste de hipóteses
-
-### Os comandos em R
-
-.pull-left[
-
-```{r, echo = T, include = T}
-m_regressao = lm(Flow ~ Precipitation , data = st_ref)
-summary(m_regressao)
-
-```
-
-]
-
-.pull-right[
-
-```{r echo=FALSE, fig.width=7, fig.height=6}
-dplt2
-```
-]
-
 
 ---
 
@@ -2743,7 +2720,11 @@ plt_icy <- mmq(try_best_reg = TRUE,
     text_eq_size = tsize)
 
 plt_icy$graf +
-  geom_smooth(method = 'lm', color = 'red')
+  geom_smooth(method = 'lm', color = 'red', se = F) +
+#  geom_line(aes(y = conf_lwr), color = 'red', linetype = 2, size = 2) +
+#  geom_line(aes(y = conf_upr), color = 'red', linetype = 2, size = 2) +
+  geom_ribbon(aes(ymin = conf_lwr, ymax = conf_upr), color = 'gray', alpha = 0.3) +
+  ylim(c(680, 830))
 ```
 
 ]
@@ -2775,12 +2756,12 @@ ___
 .pull-right[
 
 ```{r, fig.width = 8, fig.height=7}
-tsize <- 9
-plt_icy <- mmq(try_best_reg = TRUE,
-    text_eq_size = tsize)
-
 plt_icy$graf +
-  geom_smooth(method = 'lm', color = 'red')
+  geom_smooth(method = 'lm', color = 'red', se = F) +
+#  geom_line(aes(y = pred_lwr), color = 'red', linetype = 2, size = 2) +
+#  geom_line(aes(y = pred_upr), color = 'red', linetype = 2, size = 2) +
+  geom_ribbon(aes(ymin = pred_lwr, ymax = pred_upr), color = 'gray', alpha = 0.3) +
+  ylim(c(680, 830))
 ```
 
 ]
@@ -2801,12 +2782,12 @@ $$s_{\hat{Y}|X} = \sqrt{s^2\left(\frac{1}{n} + \frac{(X_i - \overline{X})^2}{SQ_
 $$\hat{Y} \pm t_{(\alpha, n-2)}s_{\hat{Y}|X}$$
 
 ```{r, fig.width = 6, fig.height=4.5}
-tsize <- 9
-plt_icy <- mmq(try_best_reg = TRUE,
-    text_eq_size = tsize)
-
 plt_icy$graf +
-  geom_smooth(method = 'lm', color = 'red')
+  geom_smooth(method = 'lm', color = 'red', se = F) +
+#  geom_line(aes(y = conf_lwr), color = 'red', linetype = 2, size = 2) +
+#  geom_line(aes(y = conf_upr), color = 'red', linetype = 2, size = 2) +
+  geom_ribbon(aes(ymin = conf_lwr, ymax = conf_upr), color = 'gray', alpha = 0.3) +
+  ylim(c(680, 830))
 ```
 
 ]
@@ -2821,12 +2802,12 @@ $$s_{Y^*|X^*} = \sqrt{s^2\left(1 + \frac{1}{n} + \frac{(X^* - \overline{X})^2}{S
 $$Y^* \pm t_{(\alpha, n-2)}s_{Y^*|X^*}$$
 
 ```{r, fig.width = 6, fig.height=4.5}
-tsize <- 9
-plt_icy <- mmq(try_best_reg = TRUE,
-    text_eq_size = tsize)
-
 plt_icy$graf +
-  geom_smooth(method = 'lm', color = 'red')
+  geom_smooth(method = 'lm', color = 'red', se = F) +
+#  geom_line(aes(y = pred_lwr), color = 'red', linetype = 2, size = 2) +
+#  geom_line(aes(y = pred_upr), color = 'red', linetype = 2, size = 2) +
+  geom_ribbon(aes(ymin = pred_lwr, ymax = pred_upr), color = 'gray', alpha = 0.3) +
+  ylim(c(680, 830))
 ```
 
 ]
@@ -2857,7 +2838,7 @@ ___
 
 .pull-right[
 
-Para $\hat{\beta_0}$ temos:
+Para $\hat{\beta_1}$ temos:
 ___
 
 $$s_{\hat{\beta_1}} = \sqrt{\left(\frac{s^2}{SQ_X}\right)}$$
@@ -2878,11 +2859,354 @@ class: h1_small
 
 # 9. Partição da Soma dos Quadrados e variação explicada
 
+$$SQ_Y = SQ_{Reg} + SQ_{Res}$$
+
+```{r, fig.width = 10, fig.height=7}
+tsize <- 9
+ptsel <- 7
+plt_icy <- mmq(try_best_reg = TRUE,
+               show_pt_selected = TRUE,
+               pt_selected = ptsel, alpha_nonselected = 0.2, frac_pt_size = 1,
+               show_seg_SQres = TRUE, show_seg_SQreg = TRUE, show_seg_SQy = TRUE)
+
+plt1 <- plt_icy$graf +
+  geom_smooth(method = 'lm', color = 'red', se = F) +
+  geom_abline(intercept = mean(plt_icy$df$y), slope = 0,
+              size = 3, color = 'gray') +
+  annotate(geom = 'text', y = mean(plt_icy$df$y) + 7, x = 18,
+           label = expression(bar(Y)), size = 10) +
+  annotate(geom = 'text', y = 783, x = 7.6,
+           label = expression(SQ[Res]), size = 8, color = 'green') +
+  annotate(geom = 'text', y = 770, x = 7.6,
+           label = expression(SQ[Reg]), size = 8, color = '#343aeb') +
+  annotate(geom = 'text', y = 779, x = 5,
+           label = expression(SQ[Y]), size = 10, color = 'darkblue', angle = 90) +
+  annotate(geom = 'segment', x = plt_icy$df$x[ptsel], xend = plt_icy$df$x[ptsel], 
+           y = plt_icy$df$y[ptsel], yend = plt_icy$df$yhat[ptsel], color = 'green', size = 2) +
+  annotate(geom = 'segment', x = plt_icy$df$x[ptsel], xend = plt_icy$df$x[ptsel], 
+           y = mean(plt_icy$df$y), yend = plt_icy$df$yhat[ptsel], color = '#343aeb', size = 2)
+
+plt1
+```
+
 ---
 
 class: h1_small
 
-# 10. Pressupostos do modelo
+# 9. Partição da Soma dos Quadrados e variação explicada
+
+
+<h3 style="text-align:center">A Análise de Variância da Regressão</h3>
+
+____
+
+<br></br>
+
+```{r}
+m <- lm(y ~ x, data = plt_icy$df)
+an_m <- data.frame(anova(m))
+rownames(an_m) <- c('X', "Resíduo")
+kable(an_m, col.names = c('gl', 'SQ', 'QM', 'F', 'p'))
+```
+
++ $gl$: graus de liberdade
+
++ $SQ$: soma dos quadrados
+
++ $QM$: quadrado médio
+
++ $F$: estatística $F$
+
++ $p$: valor de probabilidade na distribuição $F$
+
+____
+
+---
+
+class: h1_small
+
+# 9. Partição da Soma dos Quadrados e variação explicada
+
+
+<h3 style="text-align:center">A Análise de Variância da Regressão</h3>
+
+____
+
+$$F_{calculado} = \frac{QM_{Reg}}{QM_{Res}}$$
+
+____
+
+.pull-left[
+
+```{r, fig.width = 6, fig.height=5}
+tsize <- 9
+ptsel <- 7
+plt_icy <- mmq(dp = 15, try_best_reg = TRUE,
+               show_pt_selected = TRUE,
+               pt_selected = ptsel, alpha_nonselected = 0.2, frac_pt_size = 1,
+               show_seg_SQres = TRUE, show_seg_SQreg = TRUE, show_seg_SQy = TRUE)
+
+plt_icy$graf +
+  geom_smooth(method = 'lm', color = 'red', se = F) +
+  geom_abline(intercept = mean(plt_icy$df$y), slope = 0,
+              size = 3, color = 'gray') +
+  annotate(geom = 'text', y = mean(plt_icy$df$y) + 7, x = 18,
+           label = expression(bar(Y)), size = 10) +
+  annotate(geom = 'text', y = 790, x = 9,
+           label = expression(SQ[Res]), size = 12, color = 'green') +
+  annotate(geom = 'text', y = 770, x = 8,
+           label = expression(SQ[Reg]), size = 6, color = '#343aeb') +
+  # annotate(geom = 'text', y = 779, x = 5,
+  #          label = expression(SQ[Y]), size = 10, color = 'darkblue', angle = 90) +
+  annotate(geom = 'segment', x = plt_icy$df$x[ptsel], xend = plt_icy$df$x[ptsel], 
+           y = plt_icy$df$y[ptsel], yend = plt_icy$df$yhat[ptsel], color = 'green', size = 2) +
+  annotate(geom = 'segment', x = plt_icy$df$x[ptsel], xend = plt_icy$df$x[ptsel], 
+           y = mean(plt_icy$df$y), yend = plt_icy$df$yhat[ptsel], color = '#343aeb', size = 2) +
+  ylim(c(710, 810))  
+```
+
+
+
+]
+
+.pull-right[
+
+```{r fig.width=6, fig.height=5}
+glnon <- 1
+glden <- 5
+
+params = list(df1 = glnon, df2 = glden)
+ylim = c(0,5)
+pF = 0.80
+lim <- qf(pF, df1 = glnon, df2 = glden)
+
+Fcurve <- ggplot(data = data.frame(x = c(0,4)), mapping = aes(x = x)) +
+  stat_function(fun = df, args = params) +
+  geom_area(stat = "function", fun = df, color = 1,
+                args = params,
+                fill = '#d14143',
+                xlim = c(lim, ylim[2])) +
+  theme_classic(base_size = 15) +
+  #xlab('X') + #ylab('Densidade de probabilidade') +
+  ggtitle(label = bquote('Aceito H'['0'])) +
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5, color = 'black')) +
+  scale_x_continuous(name = 'F',
+                     limits = c(0,4), labels = NULL, breaks = NULL) +
+  scale_y_continuous(name = 'Densidade de probabilidade',
+                     limits = c(0,0.7), labels = NULL, breaks = NULL) +
+  annotate(geom = 'segment', x = lim - 0.3, xend = lim - 0.3,
+           y = 0.4, yend = 0.15, color = 'gray', size = 2,
+           arrow = arrow(length = unit(2, "mm"))) +
+  annotate(geom = 'text', x = lim - 0.3, y = 0.5, size = 8,
+           color = 'gray', label = expression(F[calculado]))
+
+
+Fcurve           
+  
+```
+]
+
+---
+
+class: h1_small
+
+# 9. Partição da Soma dos Quadrados e variação explicada
+
+
+<h3 style="text-align:center">A Análise de Variância da Regressão</h3>
+
+____
+
+$$F_{calculado} = \frac{QM_{Reg}}{QM_{Res}}$$
+
+____
+
+.pull-left[
+
+```{r, fig.width = 6, fig.height=5}
+tsize <- 9
+ptsel <- 7
+plt_icy <- mmq(dp = 5, try_best_reg = TRUE,
+               show_pt_selected = TRUE,
+               pt_selected = ptsel, alpha_nonselected = 0.2, frac_pt_size = 1,
+               show_seg_SQres = TRUE, show_seg_SQreg = TRUE, show_seg_SQy = TRUE)
+
+plt_icy$graf +
+  geom_smooth(method = 'lm', color = 'red', se = F) +
+  geom_abline(intercept = mean(plt_icy$df$y), slope = 0,
+              size = 3, color = 'gray') +
+  annotate(geom = 'text', y = mean(plt_icy$df$y) + 7, x = 18,
+           label = expression(bar(Y)), size = 10) +
+  annotate(geom = 'text', y = 783, x = 8,
+           label = expression(SQ[Res]), size = 6, color = 'green') +
+  annotate(geom = 'text', y = 770, x = 9,
+           label = expression(SQ[Reg]), size = 12, color = '#343aeb') +
+  # annotate(geom = 'text', y = 779, x = 5,
+  #          label = expression(SQ[Y]), size = 8, color = 'darkblue', angle = 90) +
+  annotate(geom = 'segment', x = plt_icy$df$x[ptsel], xend = plt_icy$df$x[ptsel], 
+           y = plt_icy$df$y[ptsel], yend = plt_icy$df$yhat[ptsel], color = 'green', size = 2) +
+  annotate(geom = 'segment', x = plt_icy$df$x[ptsel], xend = plt_icy$df$x[ptsel], 
+           y = mean(plt_icy$df$y), yend = plt_icy$df$yhat[ptsel], color = '#343aeb', size = 2) +
+  ylim(c(710, 810))
+```
+
+
+
+]
+
+.pull-right[
+
+```{r fig.width=6, fig.height=5}
+glnon <- 1
+glden <- 5
+
+params = list(df1 = glnon, df2 = glden)
+ylim = c(0,5)
+pF = 0.80
+lim <- qf(pF, df1 = glnon, df2 = glden)
+
+Fcurve <- ggplot(data = data.frame(x = c(0,4)), mapping = aes(x = x)) +
+  stat_function(fun = df, args = params) +
+  geom_area(stat = "function", fun = df, color = 1,
+                args = params,
+                fill = '#d14143',
+                xlim = c(lim, ylim[2])) +
+  theme_classic(base_size = 15) +
+  #xlab('X') + #ylab('Densidade de probabilidade') +
+  ggtitle(label = bquote('Rejeito H'['0'])) +
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5, color = 'red')) +
+  scale_x_continuous(name = 'F',
+                     limits = c(0,4), labels = NULL, breaks = NULL) +
+  scale_y_continuous(name = 'Densidade de probabilidade',
+                     limits = c(0,0.7), labels = NULL, breaks = NULL) +
+  annotate(geom = 'segment', x = lim + 0.5, xend = lim + 0.5, 
+           y = 0.4, yend = 0.15, color = 'red', size = 2, 
+           arrow = arrow(length = unit(2, "mm"))) +
+  annotate(geom = 'text', x = lim + 0.5, y = 0.5, size = 8,
+           color = 'red', label = expression(F[calculado]))
+
+
+Fcurve           
+  
+```
+]
+
+---
+
+class: h1_small
+
+# 9. Partição da Soma dos Quadrados e variação explicada
+
+
+<h3 style="text-align:center">O Coeficiente de Determinação</h3>
+
+____
+
+$$R^2 = \frac{SQ_{Reg}}{SQ_{Y}} = \frac{SQ_{Reg}}{SQ_{Reg} + SQ_{Res}}$$
+
+____
+
+.pull-left[
+
+```{r, fig.width = 6, fig.height=5}
+tsize <- 9
+ptsel <- 7
+plt_icy <- mmq(try_best_reg = TRUE,
+               show_pt_selected = TRUE,
+               pt_selected = ptsel, alpha_nonselected = 0.2, frac_pt_size = 1,
+               show_seg_SQres = TRUE, show_seg_SQreg = TRUE, show_seg_SQy = TRUE)
+
+plt1 <- plt_icy$graf +
+  geom_smooth(method = 'lm', color = 'red', se = F) +
+  geom_abline(intercept = mean(plt_icy$df$y), slope = 0,
+              size = 3, color = 'gray') +
+  annotate(geom = 'text', y = mean(plt_icy$df$y) + 7, x = 18,
+           label = expression(bar(Y)), size = 10) +
+  annotate(geom = 'text', y = 783, x = 9,
+           label = expression(SQ[Res]), size = 8, color = 'green') +
+  annotate(geom = 'text', y = 770, x = 9,
+           label = expression(SQ[Reg]), size = 8, color = '#343aeb') +
+  annotate(geom = 'text', y = 779, x = 5,
+           label = expression(SQ[Y]), size = 10, color = 'darkblue', angle = 90) +
+  annotate(geom = 'segment', x = plt_icy$df$x[ptsel], xend = plt_icy$df$x[ptsel], 
+           y = plt_icy$df$y[ptsel], yend = plt_icy$df$yhat[ptsel], color = 'green', size = 2) +
+  annotate(geom = 'segment', x = plt_icy$df$x[ptsel], xend = plt_icy$df$x[ptsel], 
+           y = mean(plt_icy$df$y), yend = plt_icy$df$yhat[ptsel], color = '#343aeb', size = 2)
+
+plt1 
+```
+
+]
+
+.pull-right[
+
+### $R^2$ estima a proporção da variação em $Y$ que pode ser atribuída ao modelo de regressão linear.
+
+$$0 \le R^2 \le 1$$
+
+> Numericamente, o $R^2$ é igual ao coeficiente de correlação linear de Pearson elevado ao quadrado.
+
+]
+
+
+---
+
+class: h1_small, code70
+
+# 10. Os comandos em R
+
+.pull-left[
+
+```{r, echo = T, include = T}
+m_regressao = lm(Flow ~ Precipitation , data = st_ref)
+summary(m_regressao)
+
+```
+
+]
+
+.pull-right[
+
+```{r echo=FALSE, fig.width=7, fig.height=6}
+dplt2
+```
+]
+
+
+
+
+
+---
+
+class: h1_small, code70
+
+# 10. Os comandos em R
+
+.pull-left[
+
+```{r, echo = T, include = T}
+anova(m_regressao)
+
+```
+
+]
+
+.pull-right[
+
+```{r echo=FALSE, fig.width=7, fig.height=6}
+dplt2
+```
+]
+
+
+
+---
+
+class: h1_small
+
+# 11. Pressupostos do modelo
 
 ___
 
@@ -2923,7 +3247,7 @@ ggplot(nl, aes(x = X, y = Y)) +
 
 class: h1_small
 
-# 10. Pressupostos do modelo
+# 11. Pressupostos do modelo
 
 ___
 
@@ -2955,7 +3279,7 @@ tC
 
 class: h1_small
 
-# 10. Pressupostos do modelo
+# 11. Pressupostos do modelo
 
 ___
 
@@ -2991,7 +3315,7 @@ mmq1
 
 class: h1_small
 
-# 10. Pressupostos do modelo
+# 11. Pressupostos do modelo
 
 ___
 
@@ -3026,7 +3350,7 @@ EYX
 
 class: h1_small
 
-# 10. Pressupostos do modelo
+# 11. Pressupostos do modelo
 
 ___
 
@@ -3061,5 +3385,54 @@ EYX
 
 class: h1_small
 
-# 11. Transformações lineares
+# 12. Transformações lineares
+
+<h3 style="text-align:center">Um modelo de regressão linear <b>NÃO</b> precisa ser uma linha reta</h3>
+
+> O que define um modelo estatístico como linear é a posição dos seus parâmetros com relação a(s) variável(is) preditora(s). Os parametros a serem estimados devem estar na **MESMA LINHA** da variável dependente.
+
+> Os métodos discutidos para regressão linear simples também também se aplicam aos modelos de regressão múltipla e aos modelos polinomiais.
+
+<br></br>
+___
+
+$Y_i = \beta_0 + \beta_1 X_i + \epsilon_i$: Regressão Linear Simples
+
+$Y_i = \beta_0 + \beta_1 X_{i1} + \beta_2 X_{i2} + \cdots + \beta_p X_{ip} \epsilon_i$: Regressão Linear Múltipla
+
+$Y_i = \beta_0 + \beta_1 X_{i} + \beta_2 X_i^2 \epsilon_i$: Regressão Polinomial
+
+___
+
+---
+
+class: h1_small
+
+
+# 12. Transformações lineares
+
+#### Outros modelos podem ser *linearizados* por meio de uma **função de ligação** do tipo:
+
+$$\eta = g(\beta_iX_i)$$
+
+#### Modelos Lineares Generalizados 
+___
+
+$\eta = \beta_0 + \beta_1X_i$
+
+$Y \sim \mathcal{N}(\mu = \beta_0 + \beta_1X_i, \sigma^2)$: Modelo Normal (ex. Regressão Linear Simples)
+
+___
+
+$\eta = log(\beta_0X_i^{\beta_1}) = log(\beta_0) + \beta_1log(X_i)$
+
+$Y \sim \mathcal{Pois}(\lambda = e^{\eta})$: Modelo de Poisson (ex. variáveis de contagem)
+
+___
+
+$\eta = logit(\eta) = log\left(\frac{\eta}{1-\eta} \right)$
+
+$Y \sim \mathcal{Binon}(n = 1, p = \frac{e^{\beta_0 + \beta_1X_i}}{1 + e^{\beta_0 + \beta_1X_i}})$: Modelo Binomial ou Regressão Logística (ex. variáveis categóricas binárias)
+
+___
 
