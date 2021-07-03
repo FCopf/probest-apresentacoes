@@ -2131,7 +2131,7 @@ mmq(try_best_reg = TRUE, pt_selected = 1:15, show_pt_selected = FALSE,
 
 class: h1_small
 
-# 5. Lembrando a Covariância entre $Y$ e $X$
+# 5. Relembrando da Covariância entre $Y$ e $X$
 
 .pull-left[
 
@@ -3234,11 +3234,13 @@ set.seed(5)
 nl <- data.frame(X = runif(n = 30, 0,20))
 nl <- nl %>% mutate(Y = rnorm(n = nrow(nl), mean = 2 * 2*X^3, sd = 1000))
 
-ggplot(nl, aes(x = X, y = Y)) +
+plt_nl <- ggplot(nl, aes(x = X, y = Y)) +
   geom_point(size = 5, shape = 19) +
   geom_smooth(method = "loess", color = "red", linetype = 2, se = F) +
   geom_smooth(method = "lm", color = "blue", se = F) +
   theme_classic()
+
+plt_nl
 ```
 
 ]
@@ -3380,6 +3382,272 @@ $$\varepsilon \sim \mathcal{N}(0, \sigma^2)$$
 EYX
 ```
 ]
+
+---
+
+class: h1_small
+
+# 11. Pressupostos do modelo
+
+___
+
+#### Análise de resíduos: indícios de não linearidade.
+
+___
+
+.pull-left[
+
+```{r echo=FALSE, fig.width=7, fig.height=6}
+plt_icy <- mmq(try_best_reg = TRUE, sem = 4)
+
+plt_icy$graf
+
+```
+
+]
+
+.pull-right[
+
+
+```{r echo=FALSE, fig.width=7, fig.height=6}
+plt_icy_res <- ggplot(plt_icy$df, aes(x = yhat, y = yres)) +
+  geom_point(size = 5, shape = 19) +
+  #geom_smooth(method = "loess", color = "red", linetype = 2, se = F) +
+  geom_hline(yintercept = 0, color = "blue") +
+  ylab(bquote("Residuo (" ~ Y - hat(Y) ~ ")")) + xlab(bquote("Estimado (" ~ hat(Y) ~ ")")) +
+  theme_classic()
+
+plt_icy_res
+```
+]
+
+---
+
+class: h1_small
+
+# 11. Pressupostos do modelo
+
+___
+
+#### Análise de resíduos: indícios de não linearidade.
+
+___
+
+.pull-left[
+
+```{r echo=FALSE, fig.width=7, fig.height=6}
+set.seed(5)
+nl <- data.frame(X = runif(n = 30, 0,20))
+nl <- nl %>% mutate(Y = rnorm(n = nrow(nl), mean = 2 * 2*X^3, sd = 1000))
+
+plt_nl <- ggplot(nl, aes(x = X, y = Y)) +
+  geom_point(size = 5, shape = 19) +
+  geom_smooth(method = "loess", color = "red", linetype = 2, se = F) +
+  geom_smooth(method = "lm", color = "blue", se = F) +
+  theme_classic()
+
+plt_nl
+```
+
+]
+
+.pull-right[
+
+
+```{r echo=FALSE, fig.width=7, fig.height=6}
+nl$resid <- resid(lm(Y ~ X, data = nl))
+nl$fit <- predict.lm(lm(Y ~ X, data = nl))
+
+plt_nl_res <- ggplot(nl, aes(x = fit, y = resid)) +
+  geom_point(size = 5, shape = 19) +
+  geom_smooth(method = "loess", color = "red", linetype = 2, se = F) +
+  geom_hline(yintercept = 0, color = "blue") +
+  ylab(bquote("Residuo (" ~ Y - hat(Y) ~ ")")) + xlab(bquote("Estimado (" ~ hat(Y) ~ ")")) +
+  theme_classic()
+
+plt_nl_res
+
+```
+]
+
+
+---
+
+class: h1_small
+
+# 11. Pressupostos do modelo
+
+___
+
+#### Análise de resíduos: indícios de não normalidade.
+
+___
+
+.pull-left[
+
+```{r echo=FALSE, fig.width=7, fig.height=6}
+plt_icy <- mmq(try_best_reg = TRUE, sem = 4)
+
+plt_icy$graf
+
+```
+
+]
+
+.pull-right[
+
+
+```{r echo=FALSE, fig.width=7, fig.height=6}
+plt_icy_res <- ggplot(plt_icy$df, aes(x = yhat, y = yres)) +
+  geom_point(size = 5, shape = 19) +
+  #geom_smooth(method = "loess", color = "red", linetype = 2, se = F) +
+  geom_hline(yintercept = 0, color = "blue") +
+  ylab(bquote("Residuo (" ~ Y - hat(Y) ~ ")")) + xlab(bquote("Estimado (" ~ hat(Y) ~ ")")) +
+  theme_classic()
+
+plt_icy_res
+```
+]
+
+---
+
+class: h1_small
+
+# 11. Pressupostos do modelo
+
+___
+
+#### Análise de resíduos: indícios de não normalidade
+
+___
+
+.pull-left[
+
+```{r echo=FALSE, fig.width=7, fig.height=6}
+set.seed(5)
+nl <- data.frame(X = runif(n = 30, 0,20))
+nl <- nl %>% mutate(Y = rnorm(n = nrow(nl), mean = 2 * 2*X^3, sd = 1000))
+
+plt_nl <- ggplot(nl, aes(x = X, y = Y)) +
+  geom_point(size = 5, shape = 19) +
+  geom_smooth(method = "loess", color = "red", linetype = 2, se = F) +
+  geom_smooth(method = "lm", color = "blue", se = F) +
+  theme_classic()
+
+plt_nl
+```
+
+]
+
+.pull-right[
+
+
+```{r echo=FALSE, fig.width=7, fig.height=6}
+nl$resid <- resid(lm(Y ~ X, data = nl))
+nl$fit <- predict.lm(lm(Y ~ X, data = nl))
+
+plt_nl_res <- ggplot(nl, aes(x = fit, y = resid)) +
+  geom_point(size = 5, shape = 19) +
+  geom_smooth(method = "loess", color = "red", linetype = 2, se = F) +
+  geom_hline(yintercept = 0, color = "blue") +
+  ylab(bquote("Residuo (" ~ Y - hat(Y) ~ ")")) + xlab(bquote("Estimado (" ~ hat(Y) ~ ")")) +
+  theme_classic()
+
+plt_nl_res
+
+```
+]
+
+
+
+---
+
+class: h1_small
+
+# 11. Pressupostos do modelo
+
+___
+
+#### Análise de resíduos: indícios de variâncias não homogêneas.
+
+___
+
+.pull-left[
+
+```{r echo=FALSE, fig.width=7, fig.height=6}
+plt_icy <- mmq(try_best_reg = TRUE, sem = 4)
+
+plt_icy$graf
+
+```
+
+]
+
+.pull-right[
+
+
+```{r echo=FALSE, fig.width=7, fig.height=6}
+plt_icy_res <- ggplot(plt_icy$df, aes(x = yhat, y = yres)) +
+  geom_point(size = 5, shape = 19) +
+  #geom_smooth(method = "loess", color = "red", linetype = 2, se = F) +
+  geom_hline(yintercept = 0, color = "blue") +
+  ylab(bquote("Residuo (" ~ Y - hat(Y) ~ ")")) + xlab(bquote("Estimado (" ~ hat(Y) ~ ")")) +
+  theme_classic()
+
+plt_icy_res
+```
+]
+
+---
+
+class: h1_small
+
+# 11. Pressupostos do modelo
+
+___
+
+#### Análise de resíduos: indícios de variâncias não homogêneas
+
+___
+
+.pull-left[
+
+```{r echo=FALSE, fig.width=7, fig.height=6}
+set.seed(5)
+nl <- data.frame(X = runif(n = 30, 0,20))
+nl <- nl %>% mutate(Y = rnorm(n = nrow(nl), mean = 2 * 2*X^3, sd = 1000))
+
+plt_nl <- ggplot(nl, aes(x = X, y = Y)) +
+  geom_point(size = 5, shape = 19) +
+  geom_smooth(method = "loess", color = "red", linetype = 2, se = F) +
+  geom_smooth(method = "lm", color = "blue", se = F) +
+  theme_classic()
+
+plt_nl
+```
+
+]
+
+.pull-right[
+
+
+```{r echo=FALSE, fig.width=7, fig.height=6}
+nl$resid <- resid(lm(Y ~ X, data = nl))
+nl$fit <- predict.lm(lm(Y ~ X, data = nl))
+
+plt_nl_res <- ggplot(nl, aes(x = fit, y = resid)) +
+  geom_point(size = 5, shape = 19) +
+  geom_smooth(method = "loess", color = "red", linetype = 2, se = F) +
+  geom_hline(yintercept = 0, color = "blue") +
+  ylab(bquote("Residuo (" ~ Y - hat(Y) ~ ")")) + xlab(bquote("Estimado (" ~ hat(Y) ~ ")")) +
+  theme_classic()
+
+plt_nl_res
+
+```
+]
+
+
 
 ---
 

@@ -217,7 +217,7 @@ mmq <- function(
   if(show_text_dy){
     text_dy <- annotate(geom = 'text', x = df$x[pt_selected],
                          y = mean(df$y) + df$dy[pt_selected]/2, 
-                         label = expression(y[i] - bar(y)[i]), 
+                         label = expression(y[i] - bar(y)), 
                          hjust = ifelse(df$x[pt_selected] > mean(df$x), yes = 1.1, no = -0.1),
                          size = text_size, color = 'red')
   }
@@ -227,7 +227,7 @@ mmq <- function(
   if(show_text_dx){
     text_dx <- annotate(geom = 'text', x = mean(df$x) + df$dx[pt_selected]/2,
                          y = df$y[pt_selected], 
-                         label = expression(x[i] - bar(x)[i]), 
+                         label = expression(x[i] - bar(x)), 
                          vjust = ifelse(df$y[pt_selected] > mean(df$y), yes = -0.2, no = 1.3),
                          size = text_size, color = 'red')
   }
