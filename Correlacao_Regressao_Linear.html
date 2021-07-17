@@ -23,7 +23,7 @@ class: center, middle, inverse, title-slide
 ## Correlação e Regressão Linear Simples
 ### Fabio Cop (<a href="mailto:fabiocopf@gmail.com" class="email">fabiocopf@gmail.com</a>)
 ### Instituto do Mar - UNIFESP
-### Última atualização em 03 de julho de 2021
+### Última atualização em 16 de julho de 2021
 
 ---
 
@@ -1532,6 +1532,9 @@ ___
 
 .pull-right[
 &lt;img src="Correlacao_Regressao_Linear_files/figure-html/unnamed-chunk-56-1.png" style="display: block; margin: auto;" /&gt;
+
+`\(\varepsilon_i\)`: resíduo - responsável pela variação de `\(y_i\)` em torno do valor **predito** `\((\hat{y}_i)\)` pela reta de regressão.
+
 ]
 
 ---
@@ -1656,6 +1659,76 @@ ___
 
 .pull-right[
 &lt;img src="Correlacao_Regressao_Linear_files/figure-html/unnamed-chunk-58-1.png" style="display: block; margin: auto;" /&gt;
+
+`\(\varepsilon_i\)`: resíduo - responsável pela variação de `\(y_i\)` em torno do valor **predito** `\((\hat{y}_i)\)` pela reta de regressão.
+
+]
+
+---
+
+class: h1_small
+
+# 5. Regressão linear simples: o modelo estatístico
+
+___
+
+`$$y_i|x_i = \beta_0 + \beta_1x_i + \varepsilon_i$$`
+
+___
+
+.pull-left[
+
+### O resíduo associado a cada observação diminui ou aumenta à medida que o ponto está mais próximo ou distante da reta de regressão.
+
+___
+
+Assume-se que os resíduos têm distribuição Normal de probabilidades com média zero e variância `\(\sigma^2\)`.
+
+`$$\varepsilon_i \sim \mathcal{N}(0, \sigma^2)$$`
+
+
+]
+
+.pull-right[
+&lt;img src="Correlacao_Regressao_Linear_files/figure-html/unnamed-chunk-59-1.png" style="display: block; margin: auto;" /&gt;
+
+### `\(\sigma^2\)` elevada 
+
+- pontos distantes da reta
+
+]
+
+---
+
+class: h1_small
+
+# 5. Regressão linear simples: o modelo estatístico
+
+___
+
+`$$y_i|x_i = \beta_0 + \beta_1x_i + \varepsilon_i$$`
+
+___
+
+.pull-left[
+
+### O resíduo associado a cada observação diminui ou aumenta à medida que o ponto está mais próximo ou distante da reta de regressão.
+
+___
+Assume-se que os resíduos têm distribuição Normal de probabilidades com média zero e variância `\(\sigma^2\)`.
+
+`$$\varepsilon_i \sim \mathcal{N}(0, \sigma^2)$$`
+
+]
+
+
+.pull-right[
+&lt;img src="Correlacao_Regressao_Linear_files/figure-html/unnamed-chunk-60-1.png" style="display: block; margin: auto;" /&gt;
+
+#### `\(\sigma^2\)` reduzida 
+
+- pontos próximos da reta
+
 ]
 
 ---
@@ -1693,59 +1766,9 @@ ___
 
 - `\(\beta_1\)`: coeficiente inclinação da reta;
 
-- `\(\varepsilon_i\)`: resíduo - responsável pela variação de `\(y_i\)` em torno do valor **predito** `\((\hat{y}_i)\)` pela reta de regressão.
+- `\(\sigma^2\)`: variância do resíduo.
 
 ]
-
-.pull-right[
-&lt;img src="Correlacao_Regressao_Linear_files/figure-html/unnamed-chunk-59-1.png" style="display: block; margin: auto;" /&gt;
-]
-
----
-
-class: h1_small
-
-# 5. Regressão linear simples: o modelo estatístico
-
-___
-
-`$$y_i|x_i = \beta_0 + \beta_1x_i + \varepsilon_i$$`
-
-___
-
-.pull-left[
-
-### O resíduo associado a cada observação diminui ou aumenta à medida que o ponto está mais próximo ou distante da reta de regressão.
-
-___
-
-]
-
-.pull-right[
-&lt;img src="Correlacao_Regressao_Linear_files/figure-html/unnamed-chunk-60-1.png" style="display: block; margin: auto;" /&gt;
-]
-
----
-
-class: h1_small
-
-# 5. Regressão linear simples: o modelo estatístico
-
-___
-
-`$$y_i|x_i = \beta_0 + \beta_1x_i + \varepsilon_i$$`
-
-___
-
-.pull-left[
-
-### O resíduo associado a cada observação diminui ou aumenta à medida que o ponto está mais próximo ou distante da reta de regressão.
-
-___
-
-
-]
-
 
 .pull-right[
 &lt;img src="Correlacao_Regressao_Linear_files/figure-html/unnamed-chunk-61-1.png" style="display: block; margin: auto;" /&gt;
@@ -2068,9 +2091,7 @@ ___
 
 ___
 
-`$$\varepsilon \sim \mathcal{N}(0, \sigma^2)$$`
-
-`$$s^2 = QM_{Res} = \frac{SQ_{Res}}{n-2}$$`
+`$$s^2 = QM_{Res} = \frac{\sum_{i=1}^{n}{(Y_i - \overline{Y})^2}}{n-2}$$`
 
 ___
 
@@ -2410,16 +2431,115 @@ ___
 
 ---
 
+
+class: h1_small
+
+# 9. Partição da Soma dos Quadrados e variação explicada
+
+&lt;p&gt;&lt;h4 style="text-align:center"&gt;Somatório dos Quadrados da Regressão - \(SQ_{Reg}\)&lt;/h4&gt;&lt;/p&gt;
+
+___
+
+.pull-left[
+
+`$$SQ_{Reg} = \sum_{i=1}^{n}{(\hat{Y}_i-\overline{Y})}$$`
+
+
+]
+
+.pull-right[
+&lt;img src="Correlacao_Regressao_Linear_files/figure-html/unnamed-chunk-93-1.png" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+
+class: h1_small
+
+# 9. Partição da Soma dos Quadrados e variação explicada
+
+&lt;p&gt;&lt;h4 style="text-align:center"&gt;Somatório dos Quadrados do Resíduo - \(SQ_{Res}\)&lt;/h4&gt;&lt;/p&gt;
+
+___
+
+.pull-left[
+
+`$$SQ_{Res} = \sum_{i=1}^{n}{(Y_i-\hat{Y}_i)}$$`
+
+
+]
+
+.pull-right[
+&lt;img src="Correlacao_Regressao_Linear_files/figure-html/unnamed-chunk-94-1.png" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+class: h1_small
+
+# 9. Partição da Soma dos Quadrados e variação explicada
+
+&lt;p&gt;&lt;h4 style="text-align:center"&gt;Somatório dos Quadrados de \(Y\) - \(SQ_{Y}\)&lt;/h4&gt;&lt;/p&gt;
+
+___
+
+.pull-left[
+
+`$$SQ_{Res} = \sum_{i=1}^{n}{(Y_i-\overline{Y})}$$`
+
+
+]
+
+.pull-right[
+&lt;img src="Correlacao_Regressao_Linear_files/figure-html/unnamed-chunk-95-1.png" style="display: block; margin: auto;" /&gt;
+
+]
+---
+
 class: h1_small
 
 # 9. Partição da Soma dos Quadrados e variação explicada
 
 `$$SQ_Y = SQ_{Reg} + SQ_{Res}$$`
 
-&lt;img src="Correlacao_Regressao_Linear_files/figure-html/unnamed-chunk-93-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Correlacao_Regressao_Linear_files/figure-html/unnamed-chunk-96-1.png" style="display: block; margin: auto;" /&gt;
+
 
 ---
 
+class: h1_small
+
+# 9. Partição da Soma dos Quadrados e variação explicada
+
+
+&lt;h3 style="text-align:center"&gt;O Coeficiente de Determinação&lt;/h3&gt;
+
+____
+
+`$$R^2 = \frac{SQ_{Reg}}{SQ_{Y}} = \frac{SQ_{Reg}}{SQ_{Reg} + SQ_{Res}}$$`
+
+____
+
+.pull-left[
+
+&lt;img src="Correlacao_Regressao_Linear_files/figure-html/unnamed-chunk-97-1.png" style="display: block; margin: auto;" /&gt;
+
+]
+
+.pull-right[
+
+### `\(R^2\)` estima a proporção da variação em `\(Y\)` que pode ser atribuída ao modelo de regressão linear.
+
+`$$0 \le R^2 \le 1$$`
+
+&gt; Numericamente, o `\(R^2\)` é igual ao coeficiente de correlação linear de Pearson elevado ao quadrado.
+
+]
+
+
+---
 class: h1_small
 
 # 9. Partição da Soma dos Quadrados e variação explicada
@@ -2491,7 +2611,7 @@ ____
 
 .pull-left[
 
-&lt;img src="Correlacao_Regressao_Linear_files/figure-html/unnamed-chunk-95-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Correlacao_Regressao_Linear_files/figure-html/unnamed-chunk-99-1.png" style="display: block; margin: auto;" /&gt;
 
 
 
@@ -2499,7 +2619,7 @@ ____
 
 .pull-right[
 
-&lt;img src="Correlacao_Regressao_Linear_files/figure-html/unnamed-chunk-96-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Correlacao_Regressao_Linear_files/figure-html/unnamed-chunk-100-1.png" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -2519,7 +2639,7 @@ ____
 
 .pull-left[
 
-&lt;img src="Correlacao_Regressao_Linear_files/figure-html/unnamed-chunk-97-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Correlacao_Regressao_Linear_files/figure-html/unnamed-chunk-101-1.png" style="display: block; margin: auto;" /&gt;
 
 
 
@@ -2527,40 +2647,8 @@ ____
 
 .pull-right[
 
-&lt;img src="Correlacao_Regressao_Linear_files/figure-html/unnamed-chunk-98-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Correlacao_Regressao_Linear_files/figure-html/unnamed-chunk-102-1.png" style="display: block; margin: auto;" /&gt;
 ]
-
----
-
-class: h1_small
-
-# 9. Partição da Soma dos Quadrados e variação explicada
-
-
-&lt;h3 style="text-align:center"&gt;O Coeficiente de Determinação&lt;/h3&gt;
-
-____
-
-`$$R^2 = \frac{SQ_{Reg}}{SQ_{Y}} = \frac{SQ_{Reg}}{SQ_{Reg} + SQ_{Res}}$$`
-
-____
-
-.pull-left[
-
-&lt;img src="Correlacao_Regressao_Linear_files/figure-html/unnamed-chunk-99-1.png" style="display: block; margin: auto;" /&gt;
-
-]
-
-.pull-right[
-
-### `\(R^2\)` estima a proporção da variação em `\(Y\)` que pode ser atribuída ao modelo de regressão linear.
-
-`$$0 \le R^2 \le 1$$`
-
-&gt; Numericamente, o `\(R^2\)` é igual ao coeficiente de correlação linear de Pearson elevado ao quadrado.
-
-]
-
 
 ---
 
@@ -2590,8 +2678,7 @@ summary(m_regressao)
 ## (Intercept)   -568.54529   78.88794  -7.207  6.2e-08 ***
 ## Precipitation    1.05130    0.06024  17.451  &lt; 2e-16 ***
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 61.51 on 29 degrees of freedom
 ## Multiple R-squared:  0.9131,	Adjusted R-squared:  0.9101 
@@ -2602,7 +2689,7 @@ summary(m_regressao)
 
 .pull-right[
 
-&lt;img src="Correlacao_Regressao_Linear_files/figure-html/unnamed-chunk-101-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Correlacao_Regressao_Linear_files/figure-html/unnamed-chunk-104-1.png" style="display: block; margin: auto;" /&gt;
 ]
 
 
@@ -2630,15 +2717,14 @@ anova(m_regressao)
 ## Precipitation  1 1152275 1152275  304.53 &lt; 2.2e-16 ***
 ## Residuals     29  109730    3784                      
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
 ]
 
 .pull-right[
 
-&lt;img src="Correlacao_Regressao_Linear_files/figure-html/unnamed-chunk-103-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Correlacao_Regressao_Linear_files/figure-html/unnamed-chunk-106-1.png" style="display: block; margin: auto;" /&gt;
 ]
 
 
@@ -2670,7 +2756,7 @@ ___
 
 .pull-right[
 
-&lt;img src="Correlacao_Regressao_Linear_files/figure-html/unnamed-chunk-104-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Correlacao_Regressao_Linear_files/figure-html/unnamed-chunk-107-1.png" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -2701,7 +2787,7 @@ ___
 
 .pull-right[
 
-&lt;img src="Correlacao_Regressao_Linear_files/figure-html/unnamed-chunk-105-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Correlacao_Regressao_Linear_files/figure-html/unnamed-chunk-108-1.png" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -2735,7 +2821,7 @@ ___
 
 `$$E(Y|x_i) = \mu_i = \beta_0 + \beta_1x_i$$`
 
-&lt;img src="Correlacao_Regressao_Linear_files/figure-html/unnamed-chunk-106-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Correlacao_Regressao_Linear_files/figure-html/unnamed-chunk-109-1.png" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -2768,7 +2854,7 @@ ___
 `$$\varepsilon \sim \mathcal{N}(0, \sigma^2)$$`
 
 
-&lt;img src="Correlacao_Regressao_Linear_files/figure-html/unnamed-chunk-107-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Correlacao_Regressao_Linear_files/figure-html/unnamed-chunk-110-1.png" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -2801,157 +2887,8 @@ ___
 `$$\varepsilon \sim \mathcal{N}(0, \sigma^2)$$`
 
 
-&lt;img src="Correlacao_Regressao_Linear_files/figure-html/unnamed-chunk-108-1.png" style="display: block; margin: auto;" /&gt;
-]
-
----
-
-class: h1_small
-
-# 11. Pressupostos do modelo
-
-___
-
-#### Análise de resíduos: indícios de não linearidade.
-
-___
-
-.pull-left[
-
-&lt;img src="Correlacao_Regressao_Linear_files/figure-html/unnamed-chunk-109-1.png" style="display: block; margin: auto;" /&gt;
-
-]
-
-.pull-right[
-
-
-&lt;img src="Correlacao_Regressao_Linear_files/figure-html/unnamed-chunk-110-1.png" style="display: block; margin: auto;" /&gt;
-]
-
----
-
-class: h1_small
-
-# 11. Pressupostos do modelo
-
-___
-
-#### Análise de resíduos: indícios de não linearidade.
-
-___
-
-.pull-left[
-
 &lt;img src="Correlacao_Regressao_Linear_files/figure-html/unnamed-chunk-111-1.png" style="display: block; margin: auto;" /&gt;
-
 ]
-
-.pull-right[
-
-
-&lt;img src="Correlacao_Regressao_Linear_files/figure-html/unnamed-chunk-112-1.png" style="display: block; margin: auto;" /&gt;
-]
-
-
----
-
-class: h1_small
-
-# 11. Pressupostos do modelo
-
-___
-
-#### Análise de resíduos: indícios de não normalidade.
-
-___
-
-.pull-left[
-
-&lt;img src="Correlacao_Regressao_Linear_files/figure-html/unnamed-chunk-113-1.png" style="display: block; margin: auto;" /&gt;
-
-]
-
-.pull-right[
-
-
-&lt;img src="Correlacao_Regressao_Linear_files/figure-html/unnamed-chunk-114-1.png" style="display: block; margin: auto;" /&gt;
-]
-
----
-
-class: h1_small
-
-# 11. Pressupostos do modelo
-
-___
-
-#### Análise de resíduos: indícios de não normalidade
-
-___
-
-.pull-left[
-
-&lt;img src="Correlacao_Regressao_Linear_files/figure-html/unnamed-chunk-115-1.png" style="display: block; margin: auto;" /&gt;
-
-]
-
-.pull-right[
-
-
-&lt;img src="Correlacao_Regressao_Linear_files/figure-html/unnamed-chunk-116-1.png" style="display: block; margin: auto;" /&gt;
-]
-
-
-
----
-
-class: h1_small
-
-# 11. Pressupostos do modelo
-
-___
-
-#### Análise de resíduos: indícios de variâncias não homogêneas.
-
-___
-
-.pull-left[
-
-&lt;img src="Correlacao_Regressao_Linear_files/figure-html/unnamed-chunk-117-1.png" style="display: block; margin: auto;" /&gt;
-
-]
-
-.pull-right[
-
-
-&lt;img src="Correlacao_Regressao_Linear_files/figure-html/unnamed-chunk-118-1.png" style="display: block; margin: auto;" /&gt;
-]
-
----
-
-class: h1_small
-
-# 11. Pressupostos do modelo
-
-___
-
-#### Análise de resíduos: indícios de variâncias não homogêneas
-
-___
-
-.pull-left[
-
-&lt;img src="Correlacao_Regressao_Linear_files/figure-html/unnamed-chunk-119-1.png" style="display: block; margin: auto;" /&gt;
-
-]
-
-.pull-right[
-
-
-&lt;img src="Correlacao_Regressao_Linear_files/figure-html/unnamed-chunk-120-1.png" style="display: block; margin: auto;" /&gt;
-]
-
-
 
 ---
 

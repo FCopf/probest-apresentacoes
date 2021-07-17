@@ -1054,7 +1054,7 @@ pico =  100
 b1 = -b0/(2*pico)
 set.seed(1)
 Y <- rnorm(length(X), mean = -2000 + b0 * X + b1 * X^2, sd = 25)
-df <- data.frame(X, Y)
+DF <- data.frame(X, Y)
 r <- cor(Y, X)
 cor = '#f25555'
   tema <- theme_classic() +
@@ -1068,7 +1068,7 @@ cor = '#f25555'
           plot.subtitle = element_text(hjust = 0.5))
   
   
-  g <- ggplot(df, aes(X, Y)) +
+  g <- ggplot(DF, aes(X, Y)) +
     geom_point(shape = 21, fill = cor, color = 'black', size = 5) +
     labs(title = bquote('r = ' ~ .(round(r,2))),
          subtitle = expression(y == beta[0] + beta[1] * 'x' + beta[2] * 'x'^2),
@@ -1644,6 +1644,9 @@ reg$df %>%
 ```{r echo=FALSE, fig.width=7, fig.height=5}
 reg$graf
 ```
+
+$\varepsilon_i$: resíduo - responsável pela variação de $y_i$ em torno do valor **predito** $(\hat{y}_i)$ pela reta de regressão.
+
 ]
 
 ---
@@ -1684,6 +1687,90 @@ reg$df %>%
 ```{r echo=FALSE, fig.width=7, fig.height=5}
 reg$graf
 ```
+
+$\varepsilon_i$: resíduo - responsável pela variação de $y_i$ em torno do valor **predito** $(\hat{y}_i)$ pela reta de regressão.
+
+]
+
+---
+
+class: h1_small
+
+# 5. Regressão linear simples: o modelo estatístico
+
+___
+
+$$y_i|x_i = \beta_0 + \beta_1x_i + \varepsilon_i$$
+
+___
+
+.pull-left[
+
+### O resíduo associado a cada observação diminui ou aumenta à medida que o ponto está mais próximo ou distante da reta de regressão.
+
+___
+
+Assume-se que os resíduos têm distribuição Normal de probabilidades com média zero e variância $\sigma^2$.
+
+$$\varepsilon_i \sim \mathcal{N}(0, \sigma^2)$$
+
+
+]
+
+.pull-right[
+```{r echo=FALSE, fig.width=7, fig.height=5}
+selpt <- 1:15
+reg <- mmq(dp = 30, pt_selected = selpt, show_pt_selected = F,
+    show_reg_line = TRUE, show_seg_res = TRUE, show_text_res = F,
+    try_best_reg = TRUE, ly = c(690, 850))
+
+reg$graf
+```
+
+### $\sigma^2$ elevada 
+
+- pontos distantes da reta
+
+]
+
+---
+
+class: h1_small
+
+# 5. Regressão linear simples: o modelo estatístico
+
+___
+
+$$y_i|x_i = \beta_0 + \beta_1x_i + \varepsilon_i$$
+
+___
+
+.pull-left[
+
+### O resíduo associado a cada observação diminui ou aumenta à medida que o ponto está mais próximo ou distante da reta de regressão.
+
+___
+Assume-se que os resíduos têm distribuição Normal de probabilidades com média zero e variância $\sigma^2$.
+
+$$\varepsilon_i \sim \mathcal{N}(0, \sigma^2)$$
+
+]
+
+
+.pull-right[
+```{r echo=FALSE, fig.width=7, fig.height=5}
+selpt <- 1:15
+reg <- mmq(dp = 12, pt_selected = selpt, show_pt_selected = F,
+    show_reg_line = TRUE, show_seg_res = TRUE, show_text_res = F,
+    try_best_reg = TRUE, ly = c(690, 850))
+
+reg$graf
+```
+
+#### $\sigma^2$ reduzida 
+
+- pontos próximos da reta
+
 ]
 
 ---
@@ -1721,7 +1808,7 @@ ___
 
 - $\beta_1$: coeficiente inclinação da reta;
 
-- $\varepsilon_i$: resíduo - responsável pela variação de $y_i$ em torno do valor **predito** $(\hat{y}_i)$ pela reta de regressão.
+- $\sigma^2$: variância do resíduo.
 
 ]
 
@@ -1729,70 +1816,6 @@ ___
 ```{r echo=FALSE, fig.width=7, fig.height=5}
 selpt <- 1:15
 reg <- mmq(dp = 30, pt_selected = selpt, show_pt_selected = F,
-    show_reg_line = TRUE, show_seg_res = TRUE, show_text_res = F,
-    try_best_reg = TRUE, ly = c(690, 850))
-
-reg$graf
-```
-]
-
----
-
-class: h1_small
-
-# 5. Regressão linear simples: o modelo estatístico
-
-___
-
-$$y_i|x_i = \beta_0 + \beta_1x_i + \varepsilon_i$$
-
-___
-
-.pull-left[
-
-### O resíduo associado a cada observação diminui ou aumenta à medida que o ponto está mais próximo ou distante da reta de regressão.
-
-___
-
-]
-
-.pull-right[
-```{r echo=FALSE, fig.width=7, fig.height=5}
-selpt <- 1:15
-reg <- mmq(dp = 30, pt_selected = selpt, show_pt_selected = F,
-    show_reg_line = TRUE, show_seg_res = TRUE, show_text_res = F,
-    try_best_reg = TRUE, ly = c(690, 850))
-
-reg$graf
-```
-]
-
----
-
-class: h1_small
-
-# 5. Regressão linear simples: o modelo estatístico
-
-___
-
-$$y_i|x_i = \beta_0 + \beta_1x_i + \varepsilon_i$$
-
-___
-
-.pull-left[
-
-### O resíduo associado a cada observação diminui ou aumenta à medida que o ponto está mais próximo ou distante da reta de regressão.
-
-___
-
-
-]
-
-
-.pull-right[
-```{r echo=FALSE, fig.width=7, fig.height=5}
-selpt <- 1:15
-reg <- mmq(dp = 12, pt_selected = selpt, show_pt_selected = F,
     show_reg_line = TRUE, show_seg_res = TRUE, show_text_res = F,
     try_best_reg = TRUE, ly = c(690, 850))
 
@@ -2233,17 +2256,17 @@ ___
 
 
 ```{r fig.height = 5, fig.width = 7}
-df <- data.frame(x = runif(n = 3000, 0, 20))
-df <- df %>% 
-  mutate(y = rnorm(n = nrow(df), mean = 750 + 4 * x, sd = 30))
+DF <- data.frame(x = runif(n = 3000, 0, 20))
+DF <- DF %>% 
+  mutate(y = rnorm(n = nrow(DF), mean = 750 + 4 * x, sd = 30))
 
-ggplot(df, aes(x = x, y = y)) +
+ggplot(DF, aes(x = x, y = y)) +
   geom_point(size = 3, shape = 19, alpha = 0.1) +
-  annotate("point", x = mean(df$x), y = mean(df$y), col = 'red', size = 6) +
-  annotate("segment", x = mean(df$x), xend = mean(df$x), 
-           y = min(df$y), yend = mean(df$y), col = 'red', size = 1, linetype = 'dotted') +
-  annotate("segment", x = min(df$x), xend = mean(df$x), 
-           y = mean(df$y), yend = mean(df$y), col = 'red', size = 1, linetype = 'dotted') +
+  annotate("point", x = mean(DF$x), y = mean(DF$y), col = 'red', size = 6) +
+  annotate("segment", x = mean(DF$x), xend = mean(DF$x), 
+           y = min(DF$y), yend = mean(DF$y), col = 'red', size = 1, linetype = 'dotted') +
+  annotate("segment", x = min(DF$x), xend = mean(DF$x), 
+           y = mean(DF$y), yend = mean(DF$y), col = 'red', size = 1, linetype = 'dotted') +
   labs(x = "X", y = "Y") +
   theme_classic()
   
@@ -2278,9 +2301,7 @@ mmq(try_best_reg = TRUE, pt_selected = 0, show_pt_selected = FALSE,
 
 ___
 
-$$\varepsilon \sim \mathcal{N}(0, \sigma^2)$$
-
-$$s^2 = QM_{Res} = \frac{SQ_{Res}}{n-2}$$
+$$s^2 = QM_{Res} = \frac{\sum_{i=1}^{n}{(Y_i - \overline{Y})^2}}{n-2}$$
 
 ___
 
@@ -2855,6 +2876,153 @@ ___
 
 ---
 
+
+class: h1_small
+
+# 9. Partição da Soma dos Quadrados e variação explicada
+
+<p><h4 style="text-align:center">Somatório dos Quadrados da Regressão - \(SQ_{Reg}\)</h4></p>
+
+___
+
+.pull-left[
+
+$$SQ_{Reg} = \sum_{i=1}^{n}{(\hat{Y}_i-\overline{Y})}$$
+
+
+]
+
+.pull-right[
+```{r, fig.width = 8, fig.height=7}
+tsize <- 9
+ptsel <- 7
+plt_icy <- mmq(try_best_reg = TRUE,
+               show_pt_selected = TRUE,
+               pt_selected = ptsel, alpha_nonselected = 0.2, frac_pt_size = 1,
+               show_seg_SQres = F, show_seg_SQreg = TRUE, show_seg_SQy = F)
+
+plt1 <- plt_icy$graf +
+  geom_smooth(method = 'lm', color = 'red', se = F) +
+  geom_abline(intercept = mean(plt_icy$df$y), slope = 0,
+              size = 3, color = 'gray') +
+  annotate(geom = 'text', y = mean(plt_icy$df$y) + 7, x = 18,
+           label = expression(bar(Y)), size = 10) +
+  # annotate(geom = 'text', y = 783, x = 7.6,
+  #          label = expression(SQ[Res]), size = 8, color = 'green') +
+  annotate(geom = 'text', y = 770, x = 7.6,
+           label = expression(SQ[Reg]), size = 8, color = '#343aeb') +
+  # annotate(geom = 'text', y = 779, x = 5,
+  #          label = expression(SQ[Y]), size = 10, color = 'darkblue', angle = 90) +
+  # annotate(geom = 'segment', x = plt_icy$df$x[ptsel], xend = plt_icy$df$x[ptsel], 
+  #          y = plt_icy$df$y[ptsel], yend = plt_icy$df$yhat[ptsel], color = 'green', size = 2) +
+  annotate(geom = 'segment', x = plt_icy$df$x[ptsel], xend = plt_icy$df$x[ptsel],
+           y = mean(plt_icy$df$y), yend = plt_icy$df$yhat[ptsel], color = '#343aeb', size = 2)
+
+plt1
+```
+
+]
+
+---
+
+
+class: h1_small
+
+# 9. Partição da Soma dos Quadrados e variação explicada
+
+<p><h4 style="text-align:center">Somatório dos Quadrados do Resíduo - \(SQ_{Res}\)</h4></p>
+
+___
+
+.pull-left[
+
+$$SQ_{Res} = \sum_{i=1}^{n}{(Y_i-\hat{Y}_i)}$$
+
+
+]
+
+.pull-right[
+```{r, fig.width = 8, fig.height=7}
+tsize <- 9
+ptsel <- 7
+plt_icy <- mmq(try_best_reg = TRUE,
+               show_pt_selected = TRUE,
+               pt_selected = ptsel, alpha_nonselected = 0.2, frac_pt_size = 1,
+               show_seg_SQres = T, show_seg_SQreg = F, show_seg_SQy = F)
+
+plt1 <- plt_icy$graf +
+  geom_smooth(method = 'lm', color = 'red', se = F) +
+  geom_abline(intercept = mean(plt_icy$df$y), slope = 0,
+              size = 3, color = 'gray') +
+  annotate(geom = 'text', y = mean(plt_icy$df$y) + 7, x = 18,
+           label = expression(bar(Y)), size = 10) +
+  annotate(geom = 'text', y = 783, x = 7.6,
+           label = expression(SQ[Res]), size = 8, color = 'green') +
+  # annotate(geom = 'text', y = 770, x = 7.6,
+  #          label = expression(SQ[Reg]), size = 8, color = '#343aeb') +
+  # annotate(geom = 'text', y = 779, x = 5,
+  #          label = expression(SQ[Y]), size = 10, color = 'darkblue', angle = 90) +
+  annotate(geom = 'segment', x = plt_icy$df$x[ptsel], xend = plt_icy$df$x[ptsel],
+           y = plt_icy$df$y[ptsel], yend = plt_icy$df$yhat[ptsel], color = 'green', size = 2)# +
+  # annotate(geom = 'segment', x = plt_icy$df$x[ptsel], xend = plt_icy$df$x[ptsel],
+  #          y = mean(plt_icy$df$y), yend = plt_icy$df$yhat[ptsel], color = '#343aeb', size = 2)
+
+plt1
+```
+
+]
+
+---
+
+class: h1_small
+
+# 9. Partição da Soma dos Quadrados e variação explicada
+
+<p><h4 style="text-align:center">Somatório dos Quadrados de \(Y\) - \(SQ_{Y}\)</h4></p>
+
+___
+
+.pull-left[
+
+$$SQ_{Res} = \sum_{i=1}^{n}{(Y_i-\overline{Y})}$$
+
+
+]
+
+.pull-right[
+```{r, fig.width = 8, fig.height=7}
+tsize <- 9
+ptsel <- 7
+plt_icy <- mmq(try_best_reg = TRUE,
+               show_pt_selected = TRUE,
+               pt_selected = ptsel, alpha_nonselected = 0.2, frac_pt_size = 1,
+               show_seg_SQres = F, show_seg_SQreg = F, show_seg_SQy = T)
+
+plt1 <- plt_icy$graf +
+  geom_smooth(method = 'lm', color = 'red', se = F) +
+  geom_abline(intercept = mean(plt_icy$df$y), slope = 0,
+              size = 3, color = 'gray') +
+  annotate(geom = 'text', y = mean(plt_icy$df$y) + 7, x = 18,
+           label = expression(bar(Y)), size = 10) +
+  # annotate(geom = 'text', y = 783, x = 7.6,
+  #          label = expression(SQ[Res]), size = 8, color = 'green') +
+  # annotate(geom = 'text', y = 770, x = 7.6,
+  #          label = expression(SQ[Reg]), size = 8, color = '#343aeb') +
+  annotate(geom = 'text', y = 779, x = 5,
+           label = expression(SQ[Y]), size = 10, color = 'darkblue', angle = 0) +
+  annotate(geom = 'segment', x = plt_icy$df$x[ptsel], xend = plt_icy$df$x[ptsel],
+           y = mean(plt_icy$df$y), yend = plt_icy$df$y[ptsel], color = 'darkblue', size = 2)
+  # annotate(geom = 'segment', x = plt_icy$df$x[ptsel], xend = plt_icy$df$x[ptsel],
+  #          y = plt_icy$df$y[ptsel], yend = plt_icy$df$yhat[ptsel], color = 'green', size = 2) +
+  # annotate(geom = 'segment', x = plt_icy$df$x[ptsel], xend = plt_icy$df$x[ptsel],
+  #          y = mean(plt_icy$df$y), yend = plt_icy$df$yhat[ptsel], color = '#343aeb', size = 2)
+
+plt1
+```
+
+]
+---
+
 class: h1_small
 
 # 9. Partição da Soma dos Quadrados e variação explicada
@@ -2889,8 +3057,66 @@ plt1 <- plt_icy$graf +
 plt1
 ```
 
+
 ---
 
+class: h1_small
+
+# 9. Partição da Soma dos Quadrados e variação explicada
+
+
+<h3 style="text-align:center">O Coeficiente de Determinação</h3>
+
+____
+
+$$R^2 = \frac{SQ_{Reg}}{SQ_{Y}} = \frac{SQ_{Reg}}{SQ_{Reg} + SQ_{Res}}$$
+
+____
+
+.pull-left[
+
+```{r, fig.width = 6, fig.height=5}
+tsize <- 9
+ptsel <- 7
+plt_icy <- mmq(try_best_reg = TRUE,
+               show_pt_selected = TRUE,
+               pt_selected = ptsel, alpha_nonselected = 0.2, frac_pt_size = 1,
+               show_seg_SQres = TRUE, show_seg_SQreg = TRUE, show_seg_SQy = TRUE)
+
+plt1 <- plt_icy$graf +
+  geom_smooth(method = 'lm', color = 'red', se = F) +
+  geom_abline(intercept = mean(plt_icy$df$y), slope = 0,
+              size = 3, color = 'gray') +
+  annotate(geom = 'text', y = mean(plt_icy$df$y) + 7, x = 18,
+           label = expression(bar(Y)), size = 10) +
+  annotate(geom = 'text', y = 783, x = 9,
+           label = expression(SQ[Res]), size = 8, color = 'green') +
+  annotate(geom = 'text', y = 770, x = 9,
+           label = expression(SQ[Reg]), size = 8, color = '#343aeb') +
+  annotate(geom = 'text', y = 779, x = 5,
+           label = expression(SQ[Y]), size = 10, color = 'darkblue', angle = 90) +
+  annotate(geom = 'segment', x = plt_icy$df$x[ptsel], xend = plt_icy$df$x[ptsel], 
+           y = plt_icy$df$y[ptsel], yend = plt_icy$df$yhat[ptsel], color = 'green', size = 2) +
+  annotate(geom = 'segment', x = plt_icy$df$x[ptsel], xend = plt_icy$df$x[ptsel], 
+           y = mean(plt_icy$df$y), yend = plt_icy$df$yhat[ptsel], color = '#343aeb', size = 2)
+
+plt1 
+```
+
+]
+
+.pull-right[
+
+### $R^2$ estima a proporção da variação em $Y$ que pode ser atribuída ao modelo de regressão linear.
+
+$$0 \le R^2 \le 1$$
+
+> Numericamente, o $R^2$ é igual ao coeficiente de correlação linear de Pearson elevado ao quadrado.
+
+]
+
+
+---
 class: h1_small
 
 # 9. Partição da Soma dos Quadrados e variação explicada
@@ -2979,27 +3205,27 @@ params = list(df1 = glnon, df2 = glden)
 ylim = c(0,5)
 pF = 0.80
 lim <- qf(pF, df1 = glnon, df2 = glden)
-
-Fcurve <- ggplot(data = data.frame(x = c(0,4)), mapping = aes(x = x)) +
+dfF <- data.frame(x = c(0.1,4))
+Fcurve <- ggplot(data = dfF, mapping = aes(x = x)) +
   stat_function(fun = df, args = params) +
   geom_area(stat = "function", fun = df, color = 1,
                 args = params,
                 fill = '#d14143',
                 xlim = c(lim, ylim[2])) +
   theme_classic(base_size = 15) +
-  #xlab('X') + #ylab('Densidade de probabilidade') +
+  xlab('X') + #ylab('Densidade de probabilidade') +
   ggtitle(label = bquote('Aceito H'['0'])) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5, color = 'black')) +
   scale_x_continuous(name = 'F',
-                     limits = c(0,4), labels = NULL, breaks = NULL) +
+                     limits = range(dfF$x), labels = NULL, breaks = NULL) +
   scale_y_continuous(name = 'Densidade de probabilidade',
-                     limits = c(0,0.7), labels = NULL, breaks = NULL) +
+                    limits = c(0,0.7), labels = NULL, breaks = NULL) +
   annotate(geom = 'segment', x = lim - 0.3, xend = lim - 0.3,
            y = 0.4, yend = 0.15, color = 'gray', size = 2,
            arrow = arrow(length = unit(2, "mm"))) +
   annotate(geom = 'text', x = lim - 0.3, y = 0.5, size = 8,
-           color = 'gray', label = expression(F[calculado]))
+          color = 'gray', label = bquote("F"["calculado"]))
 
 
 Fcurve           
@@ -3092,64 +3318,6 @@ Fcurve
   
 ```
 ]
-
----
-
-class: h1_small
-
-# 9. Partição da Soma dos Quadrados e variação explicada
-
-
-<h3 style="text-align:center">O Coeficiente de Determinação</h3>
-
-____
-
-$$R^2 = \frac{SQ_{Reg}}{SQ_{Y}} = \frac{SQ_{Reg}}{SQ_{Reg} + SQ_{Res}}$$
-
-____
-
-.pull-left[
-
-```{r, fig.width = 6, fig.height=5}
-tsize <- 9
-ptsel <- 7
-plt_icy <- mmq(try_best_reg = TRUE,
-               show_pt_selected = TRUE,
-               pt_selected = ptsel, alpha_nonselected = 0.2, frac_pt_size = 1,
-               show_seg_SQres = TRUE, show_seg_SQreg = TRUE, show_seg_SQy = TRUE)
-
-plt1 <- plt_icy$graf +
-  geom_smooth(method = 'lm', color = 'red', se = F) +
-  geom_abline(intercept = mean(plt_icy$df$y), slope = 0,
-              size = 3, color = 'gray') +
-  annotate(geom = 'text', y = mean(plt_icy$df$y) + 7, x = 18,
-           label = expression(bar(Y)), size = 10) +
-  annotate(geom = 'text', y = 783, x = 9,
-           label = expression(SQ[Res]), size = 8, color = 'green') +
-  annotate(geom = 'text', y = 770, x = 9,
-           label = expression(SQ[Reg]), size = 8, color = '#343aeb') +
-  annotate(geom = 'text', y = 779, x = 5,
-           label = expression(SQ[Y]), size = 10, color = 'darkblue', angle = 90) +
-  annotate(geom = 'segment', x = plt_icy$df$x[ptsel], xend = plt_icy$df$x[ptsel], 
-           y = plt_icy$df$y[ptsel], yend = plt_icy$df$yhat[ptsel], color = 'green', size = 2) +
-  annotate(geom = 'segment', x = plt_icy$df$x[ptsel], xend = plt_icy$df$x[ptsel], 
-           y = mean(plt_icy$df$y), yend = plt_icy$df$yhat[ptsel], color = '#343aeb', size = 2)
-
-plt1 
-```
-
-]
-
-.pull-right[
-
-### $R^2$ estima a proporção da variação em $Y$ que pode ser atribuída ao modelo de regressão linear.
-
-$$0 \le R^2 \le 1$$
-
-> Numericamente, o $R^2$ é igual ao coeficiente de correlação linear de Pearson elevado ao quadrado.
-
-]
-
 
 ---
 
@@ -3382,272 +3550,6 @@ $$\varepsilon \sim \mathcal{N}(0, \sigma^2)$$
 EYX
 ```
 ]
-
----
-
-class: h1_small
-
-# 11. Pressupostos do modelo
-
-___
-
-#### Análise de resíduos: indícios de não linearidade.
-
-___
-
-.pull-left[
-
-```{r echo=FALSE, fig.width=7, fig.height=6}
-plt_icy <- mmq(try_best_reg = TRUE, sem = 4)
-
-plt_icy$graf
-
-```
-
-]
-
-.pull-right[
-
-
-```{r echo=FALSE, fig.width=7, fig.height=6}
-plt_icy_res <- ggplot(plt_icy$df, aes(x = yhat, y = yres)) +
-  geom_point(size = 5, shape = 19) +
-  #geom_smooth(method = "loess", color = "red", linetype = 2, se = F) +
-  geom_hline(yintercept = 0, color = "blue") +
-  ylab(bquote("Residuo (" ~ Y - hat(Y) ~ ")")) + xlab(bquote("Estimado (" ~ hat(Y) ~ ")")) +
-  theme_classic()
-
-plt_icy_res
-```
-]
-
----
-
-class: h1_small
-
-# 11. Pressupostos do modelo
-
-___
-
-#### Análise de resíduos: indícios de não linearidade.
-
-___
-
-.pull-left[
-
-```{r echo=FALSE, fig.width=7, fig.height=6}
-set.seed(5)
-nl <- data.frame(X = runif(n = 30, 0,20))
-nl <- nl %>% mutate(Y = rnorm(n = nrow(nl), mean = 2 * 2*X^3, sd = 1000))
-
-plt_nl <- ggplot(nl, aes(x = X, y = Y)) +
-  geom_point(size = 5, shape = 19) +
-  geom_smooth(method = "loess", color = "red", linetype = 2, se = F) +
-  geom_smooth(method = "lm", color = "blue", se = F) +
-  theme_classic()
-
-plt_nl
-```
-
-]
-
-.pull-right[
-
-
-```{r echo=FALSE, fig.width=7, fig.height=6}
-nl$resid <- resid(lm(Y ~ X, data = nl))
-nl$fit <- predict.lm(lm(Y ~ X, data = nl))
-
-plt_nl_res <- ggplot(nl, aes(x = fit, y = resid)) +
-  geom_point(size = 5, shape = 19) +
-  geom_smooth(method = "loess", color = "red", linetype = 2, se = F) +
-  geom_hline(yintercept = 0, color = "blue") +
-  ylab(bquote("Residuo (" ~ Y - hat(Y) ~ ")")) + xlab(bquote("Estimado (" ~ hat(Y) ~ ")")) +
-  theme_classic()
-
-plt_nl_res
-
-```
-]
-
-
----
-
-class: h1_small
-
-# 11. Pressupostos do modelo
-
-___
-
-#### Análise de resíduos: indícios de não normalidade.
-
-___
-
-.pull-left[
-
-```{r echo=FALSE, fig.width=7, fig.height=6}
-plt_icy <- mmq(try_best_reg = TRUE, sem = 4)
-
-plt_icy$graf
-
-```
-
-]
-
-.pull-right[
-
-
-```{r echo=FALSE, fig.width=7, fig.height=6}
-plt_icy_res <- ggplot(plt_icy$df, aes(x = yhat, y = yres)) +
-  geom_point(size = 5, shape = 19) +
-  #geom_smooth(method = "loess", color = "red", linetype = 2, se = F) +
-  geom_hline(yintercept = 0, color = "blue") +
-  ylab(bquote("Residuo (" ~ Y - hat(Y) ~ ")")) + xlab(bquote("Estimado (" ~ hat(Y) ~ ")")) +
-  theme_classic()
-
-plt_icy_res
-```
-]
-
----
-
-class: h1_small
-
-# 11. Pressupostos do modelo
-
-___
-
-#### Análise de resíduos: indícios de não normalidade
-
-___
-
-.pull-left[
-
-```{r echo=FALSE, fig.width=7, fig.height=6}
-set.seed(5)
-nl <- data.frame(X = runif(n = 30, 0,20))
-nl <- nl %>% mutate(Y = rnorm(n = nrow(nl), mean = 2 * 2*X^3, sd = 1000))
-
-plt_nl <- ggplot(nl, aes(x = X, y = Y)) +
-  geom_point(size = 5, shape = 19) +
-  geom_smooth(method = "loess", color = "red", linetype = 2, se = F) +
-  geom_smooth(method = "lm", color = "blue", se = F) +
-  theme_classic()
-
-plt_nl
-```
-
-]
-
-.pull-right[
-
-
-```{r echo=FALSE, fig.width=7, fig.height=6}
-nl$resid <- resid(lm(Y ~ X, data = nl))
-nl$fit <- predict.lm(lm(Y ~ X, data = nl))
-
-plt_nl_res <- ggplot(nl, aes(x = fit, y = resid)) +
-  geom_point(size = 5, shape = 19) +
-  geom_smooth(method = "loess", color = "red", linetype = 2, se = F) +
-  geom_hline(yintercept = 0, color = "blue") +
-  ylab(bquote("Residuo (" ~ Y - hat(Y) ~ ")")) + xlab(bquote("Estimado (" ~ hat(Y) ~ ")")) +
-  theme_classic()
-
-plt_nl_res
-
-```
-]
-
-
-
----
-
-class: h1_small
-
-# 11. Pressupostos do modelo
-
-___
-
-#### Análise de resíduos: indícios de variâncias não homogêneas.
-
-___
-
-.pull-left[
-
-```{r echo=FALSE, fig.width=7, fig.height=6}
-plt_icy <- mmq(try_best_reg = TRUE, sem = 4)
-
-plt_icy$graf
-
-```
-
-]
-
-.pull-right[
-
-
-```{r echo=FALSE, fig.width=7, fig.height=6}
-plt_icy_res <- ggplot(plt_icy$df, aes(x = yhat, y = yres)) +
-  geom_point(size = 5, shape = 19) +
-  #geom_smooth(method = "loess", color = "red", linetype = 2, se = F) +
-  geom_hline(yintercept = 0, color = "blue") +
-  ylab(bquote("Residuo (" ~ Y - hat(Y) ~ ")")) + xlab(bquote("Estimado (" ~ hat(Y) ~ ")")) +
-  theme_classic()
-
-plt_icy_res
-```
-]
-
----
-
-class: h1_small
-
-# 11. Pressupostos do modelo
-
-___
-
-#### Análise de resíduos: indícios de variâncias não homogêneas
-
-___
-
-.pull-left[
-
-```{r echo=FALSE, fig.width=7, fig.height=6}
-set.seed(5)
-nl <- data.frame(X = runif(n = 30, 0,20))
-nl <- nl %>% mutate(Y = rnorm(n = nrow(nl), mean = 2 * 2*X^3, sd = 1000))
-
-plt_nl <- ggplot(nl, aes(x = X, y = Y)) +
-  geom_point(size = 5, shape = 19) +
-  geom_smooth(method = "loess", color = "red", linetype = 2, se = F) +
-  geom_smooth(method = "lm", color = "blue", se = F) +
-  theme_classic()
-
-plt_nl
-```
-
-]
-
-.pull-right[
-
-
-```{r echo=FALSE, fig.width=7, fig.height=6}
-nl$resid <- resid(lm(Y ~ X, data = nl))
-nl$fit <- predict.lm(lm(Y ~ X, data = nl))
-
-plt_nl_res <- ggplot(nl, aes(x = fit, y = resid)) +
-  geom_point(size = 5, shape = 19) +
-  geom_smooth(method = "loess", color = "red", linetype = 2, se = F) +
-  geom_hline(yintercept = 0, color = "blue") +
-  ylab(bquote("Residuo (" ~ Y - hat(Y) ~ ")")) + xlab(bquote("Estimado (" ~ hat(Y) ~ ")")) +
-  theme_classic()
-
-plt_nl_res
-
-```
-]
-
-
 
 ---
 
