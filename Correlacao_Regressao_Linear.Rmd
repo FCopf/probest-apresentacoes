@@ -2301,7 +2301,7 @@ mmq(try_best_reg = TRUE, pt_selected = 0, show_pt_selected = FALSE,
 
 ___
 
-$$s^2 = QM_{Res} = \frac{\sum_{i=1}^{n}{(Y_i - \overline{Y})^2}}{n-2}$$
+$$s^2 = QM_{Res} = \frac{\sum_{i=1}^{n}{(Y_i - \hat{Y})^2}}{n-2}$$
 
 ___
 
