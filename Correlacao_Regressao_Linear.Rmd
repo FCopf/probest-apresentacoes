@@ -2887,7 +2887,7 @@ ___
 
 .pull-left[
 
-$$SQ_{Reg} = \sum_{i=1}^{n}{(\hat{Y}_i-\overline{Y})}$$
+$$SQ_{Reg} = \sum_{i=1}^{n}{(\hat{Y}_i-\overline{Y})^2}$$
 
 
 ]
@@ -2936,7 +2936,7 @@ ___
 
 .pull-left[
 
-$$SQ_{Res} = \sum_{i=1}^{n}{(Y_i-\hat{Y}_i)}$$
+$$SQ_{Res} = \sum_{i=1}^{n}{(Y_i-\hat{Y}_i)^2}$$
 
 
 ]
@@ -2984,7 +2984,7 @@ ___
 
 .pull-left[
 
-$$SQ_{Res} = \sum_{i=1}^{n}{(Y_i-\overline{Y})}$$
+$$SQ_{Y} = \sum_{i=1}^{n}{(Y_i-\overline{Y})^2}$$
 
 
 ]

@@ -23,7 +23,7 @@ class: center, middle, inverse, title-slide
 ## Correlação e Regressão Linear Simples
 ### Fabio Cop (<a href="mailto:fabiocopf@gmail.com" class="email">fabiocopf@gmail.com</a>)
 ### Instituto do Mar - UNIFESP
-### Última atualização em 20 de julho de 2021
+### Última atualização em 21 de julho de 2021
 
 ---
 
@@ -2442,7 +2442,7 @@ ___
 
 .pull-left[
 
-`$$SQ_{Reg} = \sum_{i=1}^{n}{(\hat{Y}_i-\overline{Y})}$$`
+`$$SQ_{Reg} = \sum_{i=1}^{n}{(\hat{Y}_i-\overline{Y})^2}$$`
 
 
 ]
@@ -2465,7 +2465,7 @@ ___
 
 .pull-left[
 
-`$$SQ_{Res} = \sum_{i=1}^{n}{(Y_i-\hat{Y}_i)}$$`
+`$$SQ_{Res} = \sum_{i=1}^{n}{(Y_i-\hat{Y}_i)^2}$$`
 
 
 ]
@@ -2487,7 +2487,7 @@ ___
 
 .pull-left[
 
-`$$SQ_{Res} = \sum_{i=1}^{n}{(Y_i-\overline{Y})}$$`
+`$$SQ_{Y} = \sum_{i=1}^{n}{(Y_i-\overline{Y})^2}$$`
 
 
 ]
@@ -2674,11 +2674,16 @@ summary(m_regressao)
 ## -87.86 -41.68 -14.03  30.64 153.09 
 ## 
 ## Coefficients:
-##                 Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)   -568.54529   78.88794  -7.207  6.2e-08 ***
-## Precipitation    1.05130    0.06024  17.451  &lt; 2e-16 ***
+##                 Estimate Std. Error
+## (Intercept)   -568.54529   78.88794
+## Precipitation    1.05130    0.06024
+##               t value Pr(&gt;|t|)    
+## (Intercept)    -7.207  6.2e-08 ***
+## Precipitation  17.451  &lt; 2e-16 ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+##   0 '***' 0.001 '**' 0.01 '*' 0.05
+##   '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 61.51 on 29 degrees of freedom
 ## Multiple R-squared:  0.9131,	Adjusted R-squared:  0.9101 
@@ -2713,11 +2718,16 @@ anova(m_regressao)
 ## Analysis of Variance Table
 ## 
 ## Response: Flow
-##               Df  Sum Sq Mean Sq F value    Pr(&gt;F)    
-## Precipitation  1 1152275 1152275  304.53 &lt; 2.2e-16 ***
-## Residuals     29  109730    3784                      
+##               Df  Sum Sq Mean Sq
+## Precipitation  1 1152275 1152275
+## Residuals     29  109730    3784
+##               F value    Pr(&gt;F)    
+## Precipitation  304.53 &lt; 2.2e-16 ***
+## Residuals                          
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+##   0 '***' 0.001 '**' 0.01 '*' 0.05
+##   '.' 0.1 ' ' 1
 ```
 
 ]
