@@ -11,7 +11,7 @@
     <script src="libs/fabric/fabric.min.js"></script>
     <link href="libs/xaringanExtra-scribble/scribble.css" rel="stylesheet" />
     <script src="libs/xaringanExtra-scribble/scribble.js"></script>
-    <script>document.addEventListener('DOMContentLoaded', function() { window.xeScribble = new Scribble({"pen_color":["#FF0000"],"pen_size":3,"eraser_size":30}) })</script>
+    <script>document.addEventListener('DOMContentLoaded', function() { window.xeScribble = new Scribble({"pen_color":["#FF0000"],"pen_size":3,"eraser_size":30,"palette":[]}) })</script>
     <script src="libs/kePrint/kePrint.js"></script>
     <link href="libs/lightable/lightable.css" rel="stylesheet" />
   </head>
@@ -23,7 +23,7 @@ class: center, middle, inverse, title-slide
 ## O teste t de <em>Student</em>
 ### Fabio Cop (<a href="mailto:fabiocopf@gmail.com" class="email">fabiocopf@gmail.com</a>)
 ### Instituto do Mar - UNIFESP
-### Última atualização em 18 de junho de 2021
+### Última atualização em 01 de outubro de 2021
 
 ---
 
@@ -136,7 +136,7 @@ class: center, h1_small
 
 *Distribuição t*
 
-![](Teste_t_files/figure-html/unnamed-chunk-19-1.png)&lt;!-- --&gt;
+![](Teste_t_files/figure-html/unnamed-chunk-6-1.png)&lt;!-- --&gt;
 
 
 ]
@@ -145,7 +145,7 @@ class: center, h1_small
 
 *Distribuição Normal Padronizada*
 
-![](Teste_t_files/figure-html/unnamed-chunk-20-1.png)&lt;!-- --&gt;
+![](Teste_t_files/figure-html/unnamed-chunk-7-1.png)&lt;!-- --&gt;
 
 ]
 
@@ -160,7 +160,7 @@ class: center, h1_small
 
 *Distribuição t*
 
-![](Teste_t_files/figure-html/unnamed-chunk-21-1.png)&lt;!-- --&gt;
+![](Teste_t_files/figure-html/unnamed-chunk-8-1.png)&lt;!-- --&gt;
 
 
 ]
@@ -169,7 +169,7 @@ class: center, h1_small
 
 *Distribuição Normal Padronizada*
 
-![](Teste_t_files/figure-html/unnamed-chunk-22-1.png)&lt;!-- --&gt;
+![](Teste_t_files/figure-html/unnamed-chunk-9-1.png)&lt;!-- --&gt;
 
 ]
 
@@ -184,7 +184,7 @@ class: center, h1_small
 
 *Distribuição t*
 
-![](Teste_t_files/figure-html/unnamed-chunk-23-1.png)&lt;!-- --&gt;
+![](Teste_t_files/figure-html/unnamed-chunk-10-1.png)&lt;!-- --&gt;
 
 
 ]
@@ -193,7 +193,7 @@ class: center, h1_small
 
 *Distribuição Normal Padronizada*
 
-![](Teste_t_files/figure-html/unnamed-chunk-24-1.png)&lt;!-- --&gt;
+![](Teste_t_files/figure-html/unnamed-chunk-11-1.png)&lt;!-- --&gt;
 
 ]
 
@@ -287,7 +287,7 @@ Utilizando a Tabela t, encontramos a probabilidade de obtermos valores tão ou m
 
 #### Segundo `\(H_0\)`
 
-![](Teste_t_files/figure-html/unnamed-chunk-27-1.png)&lt;!-- --&gt;
+![](Teste_t_files/figure-html/unnamed-chunk-14-1.png)&lt;!-- --&gt;
 
 ]
 
@@ -473,7 +473,7 @@ Utilizando a Tabela t, encontramos a probabilidade de obtermos valores tão ou m
 
 #### Segundo `\(H_0\)`
 
-![](Teste_t_files/figure-html/unnamed-chunk-31-1.png)&lt;!-- --&gt;
+![](Teste_t_files/figure-html/unnamed-chunk-18-1.png)&lt;!-- --&gt;
 
 ]
 
@@ -645,7 +645,7 @@ class: golden-jackals, left, h1_small
 
 `\(\overline{X}_{macho} = 113.4\)`; `\(s_{macho} = 3.72\)`; `\(n_{macho} = 10\)`
 
-![](Teste_t_files/figure-html/unnamed-chunk-36-1.png)&lt;!-- --&gt;
+![](Teste_t_files/figure-html/unnamed-chunk-23-1.png)&lt;!-- --&gt;
 
 ]
 
@@ -764,7 +764,7 @@ class: left, h1_small
 
 .pull-right[
 
-![](Teste_t_files/figure-html/unnamed-chunk-39-1.png)&lt;!-- --&gt;
+![](Teste_t_files/figure-html/unnamed-chunk-26-1.png)&lt;!-- --&gt;
 
 ]
 
@@ -791,7 +791,7 @@ t.test(Comprimento ~ Sexo, data = jackal,
 ## 
 ## data:  Comprimento by Sexo
 ## t = -3.4843, df = 14.894, p-value = 0.00336
-## alternative hypothesis: true difference in means is not equal to 0
+## alternative hypothesis: true difference in means between group Femea and group Macho is not equal to 0
 ## 95 percent confidence interval:
 ##  -7.738105 -1.861895
 ## sample estimates:
@@ -989,7 +989,7 @@ class: golden-jackals, left, h1_small
 
 `\(s^2_{macho} = 13.838\)`; `\(n_{macho} = 10\)`
 
-![](Teste_t_files/figure-html/unnamed-chunk-45-1.png)&lt;!-- --&gt;
+![](Teste_t_files/figure-html/unnamed-chunk-32-1.png)&lt;!-- --&gt;
 
 
 
@@ -1031,7 +1031,7 @@ class: golden-jackals, left, h1_small
 
 `\(F = \frac{s^2_{maior}}{s^2_{menor}} = \frac{13.838}{5.153} = 2.69\)`
 
-![](Teste_t_files/figure-html/unnamed-chunk-48-1.png)&lt;!-- --&gt;
+![](Teste_t_files/figure-html/unnamed-chunk-35-1.png)&lt;!-- --&gt;
 
 
 ]
@@ -1058,8 +1058,7 @@ var.test(x = vmaior, y = vmenor, data = jackal)
 ## 	F test to compare two variances
 ## 
 ## data:  vmaior and vmenor
-## F = 2.681, num df = 9, denom df = 9, p-value =
-## 0.1579
+## F = 2.681, num df = 9, denom df = 9, p-value = 0.1579
 ## alternative hypothesis: true ratio of variances is not equal to 1
 ## 95 percent confidence interval:
 ##   0.665931 10.793829
@@ -1081,7 +1080,7 @@ var.test(x = vmaior, y = vmenor, data = jackal)
 
 `\(F = \frac{s^2_{maior}}{s^2_{menor}} = \frac{13.838}{5.153} = 2.69\)`
 
-![](Teste_t_files/figure-html/unnamed-chunk-50-1.png)&lt;!-- --&gt;
+![](Teste_t_files/figure-html/unnamed-chunk-37-1.png)&lt;!-- --&gt;
 
 
 ]
@@ -1123,7 +1122,7 @@ class: h1_small
 
 `\(F = \frac{s^2_{maior}}{s^2_{menor}} = \frac{13.838}{5.153} = 2.69\)`
 
-![](Teste_t_files/figure-html/unnamed-chunk-51-1.png)&lt;!-- --&gt;
+![](Teste_t_files/figure-html/unnamed-chunk-38-1.png)&lt;!-- --&gt;
 
 
 ]
@@ -1360,7 +1359,7 @@ class: left, h1_small
 
 .pull-right[
 
-![](Teste_t_files/figure-html/unnamed-chunk-56-1.png)&lt;!-- --&gt;
+![](Teste_t_files/figure-html/unnamed-chunk-43-1.png)&lt;!-- --&gt;
 
 ]
 
@@ -1387,7 +1386,7 @@ t.test(Comprimento ~ Sexo, data = jackal,
 ## 
 ## data:  Comprimento by Sexo
 ## t = -3.4843, df = 18, p-value = 0.002647
-## alternative hypothesis: true difference in means is not equal to 0
+## alternative hypothesis: true difference in means between group Femea and group Macho is not equal to 0
 ## 95 percent confidence interval:
 ##  -7.694227 -1.905773
 ## sample estimates:
@@ -1591,7 +1590,7 @@ class: h1_small
 
 .pull-right[
 
-![](Teste_t_files/figure-html/unnamed-chunk-62-1.png)&lt;!-- --&gt;
+![](Teste_t_files/figure-html/unnamed-chunk-49-1.png)&lt;!-- --&gt;
 
 ]
 
@@ -1679,7 +1678,7 @@ class: h1_small
 .pull-right[
 
 
-![](Teste_t_files/figure-html/unnamed-chunk-64-1.png)&lt;!-- --&gt;
+![](Teste_t_files/figure-html/unnamed-chunk-51-1.png)&lt;!-- --&gt;
 
 ]
 
@@ -1778,7 +1777,7 @@ ___
 
 .pull-right[
 
-![](Teste_t_files/figure-html/unnamed-chunk-67-1.png)&lt;!-- --&gt;
+![](Teste_t_files/figure-html/unnamed-chunk-54-1.png)&lt;!-- --&gt;
 
 ]
 
@@ -1907,7 +1906,7 @@ ___
 
 .pull-right[
 
-![](Teste_t_files/figure-html/unnamed-chunk-69-1.png)&lt;!-- --&gt;
+![](Teste_t_files/figure-html/unnamed-chunk-56-1.png)&lt;!-- --&gt;
 
 ]
 
@@ -1949,7 +1948,7 @@ t.test(x = hof$Cerrado, y = hof$Floresta,
 
 .pull-right[
 
-![](Teste_t_files/figure-html/unnamed-chunk-71-1.png)&lt;!-- --&gt;
+![](Teste_t_files/figure-html/unnamed-chunk-58-1.png)&lt;!-- --&gt;
 
 
 ]

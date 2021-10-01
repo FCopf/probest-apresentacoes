@@ -1,0 +1,390 @@
+---
+title: "Introdução à Estatística"
+subtitle: "Estrutura e tipos de dados"
+author: "Fabio Cop (fabiocopf@gmail.com)"
+institute: "Instituto do Mar - UNIFESP"
+date: "Última atualização em `r format(Sys.time(), '%d de %B de %Y')`"
+output:
+  xaringan::moon_reader:
+    css: [default, metropolis, metropolis-fonts]
+    lib_dir: libs
+    nature:
+      highlightStyle: arta
+      highligthLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+---
+
+```{r setup-chunk, include=FALSE, message = FALSE, echo = FALSE, warning = FALSE}
+options(
+  htmltools.dir.version = FALSE,
+  html.preserve.raw = FALSE # needed for windows
+)
+
+# chunk options
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE,
+                      fig.align = 'center', fig.width = 8, fig.height = 6)
+
+# Packages
+suppressMessages(library(tidyverse))
+suppressMessages(library(kableExtra))
+suppressMessages(library(DT))
+suppressMessages(library(gridExtra))
+suppressMessages(library(magick))
+suppressMessages(library(palmerpenguins))
+suppressMessages(library(patchwork))
+suppressMessages(library(mvtnorm))
+suppressMessages(library(ggExtra))
+suppressMessages(library(latex2exp))
+suppressMessages(library(gganimate))
+
+# Functions
+#source('r_functions/auxiliary_fun.r', encoding = "UTF-8")
+#source('r_functions/mmq.r', encoding = "UTF-8")
+
+# datasets
+```
+
+``` {css, echo =F} 
+    .h1_small h1 {
+      font-weight: normal;
+      margin-top: -75px;
+      margin-left: -00px;
+      color: #FAFAFA;
+      font-size: 150%;
+}
+
+    .pull-left-min {
+      float: left;
+      width: 70%;
+    }
+
+    .pull-right-min {
+      float: right;
+      width: 27%;
+    }
+    
+    .golden-jackals {
+      background-image: url('img/Golden_jackals.jpg');
+      background-size: 30%;
+      background-position: left bottom;
+    }
+    
+    .regression table {
+      font-size: 16px;
+    }
+
+    .regression_small table {
+      font-size: 13px;
+    }
+```
+
+```{r xaringan-scribble, echo=FALSE}
+xaringanExtra::use_scribble()
+```
+
+---
+
+class: h1_small
+
+# Conteúdo da aula
+
+___
+
+1. Os dados por trás das imagens
+
+1. Tabulação de dados: alguns exemplos de dados estruturados
+
+1. Unidades amostrais e descritores (ou atributos)
+
+1. Tipos de variáveis e níveis de mensuração
+
+1. Estruturas complexas de informações
+
+___
+
+---
+
+class: h1_small
+
+# Os dados por trás das imagens
+
+___
+
+```{r}
+image_read("img/combined_gif.gif") %>% 
+  image_scale("700x")
+```
+
+___
+
+---
+
+class: h1_small, regression_small
+
+# Tabulação de dados: alguns exemplos de dados estruturados
+
+___
+<h4 style="text-align:center">Programa das Nações Unidas para o Desenvolvimento (PNUD) - Brasil</h4>
+___
+
+
+```{r}
+pnud <- read_delim('datasets/PNUD_FULL.csv', delim = ';')
+pnud %>%
+  sample_n(size = 13) %>% 
+  arrange(Região, UF, Município) %>% 
+  select(-IBGE7, -Espacialidades) %>%
+  kbl() %>%
+  kable_classic(full_width = F, html_font = "Cambria", position = 'center')
+```
+
+fonte: [https://www.br.undp.org](https://www.br.undp.org)
+
+---
+
+class: h1_small, regression_small
+
+# Tabulação de dados: alguns exemplos de dados estruturados
+
+___
+<h4 style="text-align:center">Floresta Experimental de [**Hubbard Brook (HBEF)**](https://hubbardbrook.org/) - EUA</h3>
+___
+
+.pull-left[
+
+```{r}
+hubbrook <- read_delim('datasets/HubbardBrook.csv', delim = ',')
+hubbrook %>%
+  sample_n(size = 13) %>% 
+  kbl() %>%
+  kable_classic(full_width = F, html_font = "Cambria", position = 'center')
+```
+
+]
+
+.pull-right[
+```{r}
+img1 <- image_read('img/Hubbard_brook_deforested_1.jpg') %>%
+  image_crop("250x300+110+20") %>% image_scale("x290") %>%
+  image_border("#6396a8", "2x2") %>%
+  image_annotate("Desmatamento", size = 20, boxcolor = 'white', location = "+30+20")
+img2 <- image_read('img/hubbard_brook_deforested.png') %>%
+  image_crop("250x600+50+20") %>% image_scale("x290") %>%
+  image_border("#6396a8", "2x2") %>%
+  image_annotate("Regeneraçao", size = 20, boxcolor = 'white', location = "+30+20")
+img3 <- image_read('img/hubbard_brook_deforested.png') %>% 
+  image_crop("300x600+600+20") %>% image_scale("x290") %>% 
+  image_border("#6396a8", "2x2") %>% 
+  image_annotate("Estágio 3", size = 20, boxcolor = 'white', location = "+30+20")
+
+image_append(c(img1,img2, img3)) %>% image_scale('x500')
+```
+
+fonte: [https://hubbardbrook.org/](https://hubbardbrook.org/)
+
+]
+
+
+---
+
+class: h1_small, regression_small
+
+# Tabulação de dados: alguns exemplos de dados estruturados
+
+___
+<h4 style="text-align:center">Passageiros do Titanic</h3>
+___
+
+
+```{r}
+set.seed(1)
+Titanic <- read_delim('datasets/Titanic_train_kaggle.csv', delim = ',')
+Titanic %>%
+  sample_n(size = 12) %>% 
+  kbl() %>%
+  kable_classic(full_width = F, html_font = "Cambria", position = 'center')
+
+```
+
+fonte: [https://www.kaggle.com/c/titanic/](https://www.kaggle.com/c/titanic/)
+
+---
+
+class: h1_small, regression_small
+
+# Tabulação de dados: alguns exemplos de dados estruturados
+
+___
+<h4 style="text-align:center">Penguins do Arquipélago de Palmer, Antartica</h3>
+___
+
+
+```{r}
+penguins_raw %>%
+  sample_n(size = 5) %>% 
+  kbl() %>%
+  kable_classic(full_width = F, html_font = "Cambria", position = 'center')
+
+```
+
+fonte: [https://allisonhorst.github.io/palmerpenguins/](https://allisonhorst.github.io/palmerpenguins/)
+
+---
+
+class: h1_small
+
+# Unidades amostrais e descritores (ou atributos)
+
+> Em conjuntos de dados estruturados, cada linha representa uma **unidade amostral** e cada coluna representa uma **variável** que descreve uma característica da unidade, i.e. um atributo desta unidade.
+
+
+
+```{r}
+linhas = 10
+data.frame(ID = paste('Unidade amostral', 1:linhas, by = ' ')) %>%
+  mutate(`Descritor 1` = rep('', linhas), 
+         `Descritor 2` = rep('', linhas),
+         `Descritor 3` = rep('', linhas),
+         `Descritor 4` = rep('', linhas),
+         `Descritor 5` = rep('', linhas),
+         `Descritor 6` = rep('', linhas),
+         `Descritor 7` = rep('', linhas)) %>% 
+  kbl() %>%
+  kable_classic(full_width = F, html_font = "Cambria", position = 'center')
+
+```
+
+
+---
+
+class: h1_small
+
+# Tipos de variáveis e níveis de mensuração
+
+___
+
+**Variáveis Qualitativas**
+___
+
+  - *Categorias não-ordenadas*: Refere-se a atributos que **não-podem** ser ordenados, por exemplo a nomenclatura das bacias hidrográficas brasileiras, ou grupos taxônicos.
+  
+```{r}
+img1 <- image_read('img/brazil_rivers_black_catchments.png') %>% 
+  image_scale("x280")
+img2 <- image_read('img/Siluriformes-species-collected-in-sampling-sites-of-coastal-Atlantic-Rainforest-rivers-of.png') %>% 
+  image_scale("x280")
+
+image_append(c(img1, img2))
+```
+
+<p><small>fontes: <a href="https://www.grasshoppergeography.com/River-Maps/">Grasshopper Geography</a>; <a href="https://www.scielo.br/pdf/bn/v17n1/1676-0611-bn-1676-0611-BN-2016-0196.pdf">Abrahão et al. 2015</a> </p></small>
+
+---
+
+class: h1_small
+
+# Tipos de variáveis e níveis de mensuração
+
+___
+
+ **Variáveis Qualitativas**
+
+___
+
+  - *Categorias ordenadas*: Refere-se a atributos que podem ser ordenados, embora **não seja possível** quantificar a magnitudade das diferenças entre níveis. Considere por exemplo, a classificação do estágio de regenegração de uma área florestal.
+  
+```{r}
+img1 <- image_read('img/Hubbard_brook_deforested_1.jpg') %>% 
+  image_crop("250x300+110+20") %>% image_scale("x270") %>% 
+  image_border("#6396a8", "2x2") %>% 
+  image_annotate("Estágio 1", size = 20, boxcolor = 'white', location = "+30+20")
+img2 <- image_read('img/hubbard_brook_deforested.png') %>% 
+  image_crop("250x600+50+20") %>% image_scale("x270") %>% 
+  image_border("#6396a8", "2x2") %>% 
+  image_annotate("Estágio 2", size = 20, boxcolor = 'white', location = "+30+20")
+img3 <- image_read('img/hubbard_brook_deforested.png') %>% 
+  image_crop("300x600+600+20") %>% image_scale("x270") %>% 
+  image_border("#6396a8", "2x2") %>% 
+  image_annotate("Estágio 3", size = 20, boxcolor = 'white', location = "+30+20")
+
+image_append(c(img1,img2, img3))
+```
+
+
+---
+
+class: h1_small
+
+# Tipos de variáveis e níveis de mensuração
+
+___
+
+ **Variáveis Quantitativas**
+
+___
+
+  - *Discretas*: Variáveis **enumeráveis** como a contagem de barcos que saem para pescar em um determinado dia, o número de peixes de um cardume.
+  
+```{r}
+img1 <- image_read('img/fish_shoal.jpg') %>% image_scale("x300")
+img2 <- image_read('img/Fishing_Boats_Mui_Ne.jpg') %>% image_scale("x300")
+
+image_append(c(img1,img2))
+```
+
+
+---
+
+class: h1_small
+
+# Tipos de variáveis e níveis de mensuração
+
+____
+
+ **Variáveis Quantitativas**
+
+____
+  
+  - *Contínuas*: Variáveis **não enumeráveis**, i.e. podem assumir infinitos valores, sem intervalos vazios. Considere a vazão em $m³/seg$ que verte de uma cachoeira, o volume de chuva em um determinado dia, altura da maré ou a velocidade do vento. O limite de precisão para estas medidas é somente aquele que podemos mensurar com os aparelhos disponíveis.
+  
+```{r}
+img1 <- image_read('img/waterfall.jpg') %>% image_scale("x250")
+img2 <- image_read('img/mare.jpg') %>% image_scale("x250")
+
+image_append(c(img1,img2))
+```
+
+---
+
+class: h1_small
+
+# Tipos de variáveis e níveis de mensuração
+
+____
+
+Quais informações as variáveis carregam? Quais ações são possíveis sobre essas variáveis? 
+
+____
+
+
+```{r}
+image_read('img/Niveis_de_mensuracao.jpg') %>% image_scale("x35 0")
+
+```
+
+---
+
+class: h1_small
+
+# Estruturas complexas de informações
+
+
+```{r}
+
+image_read("img/banco-de-dados.jpg") %>% 
+  image_scale("400x")
+```
+
+```
+
