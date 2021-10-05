@@ -99,8 +99,6 @@ ___
 
 1. Tipos de variáveis e níveis de mensuração
 
-1. Estruturas complexas de informações
-
 ___
 
 ---
@@ -369,22 +367,7 @@ ____
 
 
 ```{r}
-image_read('img/Niveis_de_mensuracao.jpg') %>% image_scale("x35 0")
-
-```
-
----
-
-class: h1_small
-
-# Estruturas complexas de informações
-
-
-```{r}
-
-image_read("img/banco-de-dados.jpg") %>% 
-  image_scale("400x")
-```
+image_read('img/Niveis_de_mensuracao.png') %>% image_scale("x35 0")
 
 ```
 
