@@ -1,6 +1,6 @@
 ---
 title: "Metadados"
-output: html_document
+output: pdf_document
 ---
 
 ```{r setup, include=FALSE}
@@ -14,12 +14,14 @@ knitr::opts_chunk$set(echo = TRUE)
   + **Município**: nome dos municípios.
   + **Região**: regiões do Brasil (Região Centro-Oeste, Região Nordeste, Região Norte, Região Sudeste, Região Sul).
   + **População 2010**: número de habitantes em 2010.
-  + **Porte**: categoria de tamnaho dos municípios (Pequeno I, Pequeno II, Médio, Grande, Metrópole);
+  + **Porte**: porte dos municípios (Pequeno I, Pequeno II, Médio, Grande, Metrópole);
   + **Capital**: indica se o município é capital do estado. NA caso contrário.
   + **IDHM 2010**: índice de desenvolvimento médio de cada município em 2010.
   + **IDHM Renda 2010**: índice de desenvolvimento médio de cada município em 2010 no quesito *Renda*.	
   + **IDHM Longevidade 2010**: índice de desenvolvimento médio de cada município em 2010 no quesito *Longevidade*.	
   + **IDHM Educação 2010**: índice de desenvolvimento médio de cada município em 2010 no quesito *Educação*.
+
+> obs: O Índice de Desenvolvimento Humano (IDH) mede o desenvolvimento de um país segundo os seus aspectos sociais e econômicos, como qualidade de vida, renda e escolarização. Esse indicador permite que os países sejam comparados, sendo, portanto, um parâmetro global de desenvolvimento social. O IDH varia de 0 (pior condição de desenvolvimento) a 1 (melhor condição de desenvolvimento).
 
 ## Passageiros do Titanic ([*Titanic_train_kaggle.csv*](https://github.com/FCopf/probest-apresentacoes/blob/master/datasets/Titanic_train_kaggle.csv))
 
@@ -29,11 +31,11 @@ knitr::opts_chunk$set(echo = TRUE)
  + **Nome**: sobrenome, nome.
  + **Sexo**: female, male.
  + **Idade**: idade em anos do passageiro (número inteiro).
- + **SibSp**: número de quantos irmãos + esposos(as) embracados. 
- + **Parch**: número de filhos(as) + pais embarcados
- + **Ticket**: código do bilhete de embarque
- + **Fare**: Valor pago pela viagem (em  Libras Esterlinas)
- + **Cabin**: código da cabine
+ + **SibSp**: número de irmãos(as) + esposos(as) embarcados. 
+ + **Parch**: número de filhos(as) + pais embarcados.
+ + **Ticket**: código do bilhete de embarque.
+ + **Fare**: Valor pago pela viagem (em  Libras Esterlinas).
+ + **Cabin**: código da cabine.
  + **Embarked**: local do embarque (C = Porto de Cherbourg; Q = Porto de Queenstown; S = Porto de Southampton).
  
 
