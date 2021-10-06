@@ -1,0 +1,41 @@
+---
+title: "Metadados"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## PNUD Brasil ([*PNUD_FULL.csv*](https://github.com/FCopf/probest-apresentacoes/blob/master/datasets/PNUD_FULL.csv))
+
+  + **IBGE**: código de cada município brasileiro.
+  + **UF**: estados do Brasil.
+  + **Município**: nome dos municípios.
+  + **Região**: regiões do Brasil (Região Centro-Oeste, Região Nordeste, Região Norte, Região Sudeste, Região Sul).
+  + **População 2010**: número de habitantes em 2010.
+  + **Porte**: categoria de tamnaho dos municípios (Pequeno I, Pequeno II, Médio, Grande, Metrópole);
+  + **Capital**: indica se o município é capital do estado. NA caso contrário.
+  + **IDHM 2010**: índice de desenvolvimento médio de cada município em 2010.
+  + **IDHM Renda 2010**: índice de desenvolvimento médio de cada município em 2010 no quesito *Renda*.	
+  + **IDHM Longevidade 2010**: índice de desenvolvimento médio de cada município em 2010 no quesito *Longevidade*.	
+  + **IDHM Educação 2010**: índice de desenvolvimento médio de cada município em 2010 no quesito *Educação*.
+
+## Passageiros do Titanic ([*Titanic_train_kaggle.csv*](https://github.com/FCopf/probest-apresentacoes/blob/master/datasets/Titanic_train_kaggle.csv))
+
+ + **Passageiro**: número do passageiro (1 a 891).
+ + **Sobervivente**: sobreviveu ao naufrágio? (0 - não; 1 - sim).
+ + **Classe**: classe de embarque ($1^a$, $3^a$ ou $3^a$ classe).
+ + **Nome**: sobrenome, nome.
+ + **Sexo**: female, male.
+ + **Idade**: idade em anos do passageiro (número inteiro).
+ + **SibSp**: número de quantos irmãos + esposos(as) embracados. 
+ + **Parch**: número de filhos(as) + pais embarcados
+ + **Ticket**: código do bilhete de embarque
+ + **Fare**: Valor pago pela viagem (em  Libras Esterlinas)
+ + **Cabin**: código da cabine
+ + **Embarked**: local do embarque (C = Porto de Cherbourg; Q = Porto de Queenstown; S = Porto de Southampton).
+ 
+
+
+
