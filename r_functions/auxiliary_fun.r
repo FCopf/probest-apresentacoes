@@ -385,7 +385,8 @@ r_pearson <- function(n = 100, r = 0,
           axis.text=element_text(size=12),
           axis.title=element_text(size=15),
           title = element_text(size = 18),
-          plot.title = element_text(hjust = 0.5))
+          plot.title = element_text(hjust = 0.5),
+          plot.subtitle = element_text(hjust = 0.5))
   
   
   g <- ggplot(df, aes(V1, V2)) +

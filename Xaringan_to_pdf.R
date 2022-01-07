@@ -11,6 +11,10 @@ pagedown::chrome_print(input = "Correlacao_Regressao_Linear.Rmd",
 pagedown::chrome_print(input = "Tabulacao_tipo_dados.Rmd", 
                        output = "pdf_presentations/Tabulacao_tipo_dados.pdf")
 
+pagedown::chrome_print(input = "Covariancia_Correlacao_Linear.Rmd", 
+                       output = "pdf_presentations/Covariancia_Correlacao_Linear.pdf")
+
+
 
 # or just pass the HTML output file path to chrome_print()
 #pagedown::chrome_print("Teste_Hipoteses.html")

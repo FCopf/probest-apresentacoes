@@ -1,0 +1,747 @@
+---
+title: "Estatística descritiva"
+subtitle: "Covariância e Correlação Linear"
+author: "Fabio Cop (fabiocopf@gmail.com)"
+institute: "Instituto do Mar - UNIFESP"
+date: "Última atualização em `r format(Sys.time(), '%d de %B de %Y')`"
+output:
+  xaringan::moon_reader:
+    css: [default, metropolis, metropolis-fonts]
+    lib_dir: libs
+    nature:
+      highlightStyle: arta
+      highligthLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+---
+
+```{r setup-chunk, include=FALSE, message = FALSE, echo = FALSE, warning = FALSE}
+options(
+  htmltools.dir.version = FALSE,
+  html.preserve.raw = FALSE # needed for windows
+)
+
+# chunk options
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE,
+                      fig.align = 'center', fig.width = 8, fig.height = 6)
+
+# Packages
+suppressMessages(library(tidyverse))
+suppressMessages(library(kableExtra))
+suppressMessages(library(DT))
+suppressMessages(library(gridExtra))
+suppressMessages(library(magick))
+suppressMessages(library(palmerpenguins))
+suppressMessages(library(patchwork))
+suppressMessages(library(mvtnorm))
+suppressMessages(library(ggExtra))
+suppressMessages(library(latex2exp))
+suppressMessages(library(gganimate))
+
+# Functions
+source('r_functions/auxiliary_fun.r', encoding = "UTF-8")
+source('r_functions/mmq.r', encoding = "UTF-8")
+
+# datasets
+data(penguins)
+#hb <- read_csv("datasets/HubbardBrook.csv")
+st <- read_csv("datasets/HubbardBrook.csv")
+```
+
+``` {css, echo =F} 
+    .h1_small h1 {
+      font-weight: normal;
+      margin-top: -75px;
+      margin-left: -00px;
+      color: #FAFAFA;
+      font-size: 150%;
+}
+
+    .pull-left-min {
+      float: left;
+      width: 70%;
+    }
+
+    .pull-right-min {
+      float: right;
+      width: 27%;
+    }
+    
+    .golden-jackals {
+      background-image: url('img/Golden_jackals.jpg');
+      background-size: 30%;
+      background-position: left bottom;
+    }
+    
+    .regression table {
+      font-size: 16px;
+    }
+
+    .regression_small table {
+      font-size: 13px;
+    }
+```
+
+```{r xaringan-scribble, echo=FALSE}
+xaringanExtra::use_scribble()
+```
+
+---
+
+class: h1_small
+
+# Conteúdo da aula
+
+___
+
+1. Medindo a intensidade de associações lineares
+
+1. Soma dos Quadrados e Variância Amostral
+
+1. Soma dos Produtos Cruzados e Covariância
+
+1. O coeficiente de Correlaçao Linear de Pearson \(r\)
+
+1. Associações Lineares e Causalidade
+
+1. Os comandos em R
+
+___
+
+---
+
+class: h1_small
+
+# 1. Medindo a intensidade de associações lineares
+
+```{r fig.align='center', fig.width = 20, fig.height=10}
+rel_bivariadas()
+```
+
+---
+
+class: h1_small
+
+# 2. Soma dos Quadrados e Variância Amostral
+
+```{r}
+hf <- 6
+desvio <- 20
+semente <- 8
+```
+
+
+.pull-left[
+
+```{r, fig.height = hf, fig.width = hf}
+mmq(pt_selected = 1:15, dp = desvio, sem = semente, show_pt_selected = FALSE, pt_size = 3)$graf
+```
+
+]
+
+.pull-right[
+
+]
+
+---
+
+class: h1_small
+
+# 2. Soma dos Quadrados e Variância Amostral
+
+.pull-left[
+
+```{r, fig.height = hf, fig.width = hf}
+mmq(pt_selected = 6, dp = desvio, sem = semente, 
+    show_pt_selected = FALSE, show_ymean_line = TRUE, text_size = 8, pt_size = 3)$graf
+```
+
+]
+
+.pull-right[
+
+]
+
+---
+
+class: h1_small
+
+# 2. Soma dos Quadrados e Variância Amostral
+
+.pull-left[
+
+```{r, fig.height = hf, fig.width = hf}
+mmq(dp = desvio, sem = semente, 
+    pt_selected = 6, show_pt_selected = TRUE, pt_size = 3,
+    show_seg_dy = TRUE, show_text_dy = TRUE,
+    show_ymean_line = TRUE, text_size = 8, alpha_nonselected = 0.2)$graf
+```
+
+]
+
+.pull-right[
+
+]
+
+---
+
+class: h1_small
+
+# 2. Soma dos Quadrados e Variância Amostral
+
+.pull-left[
+
+```{r, fig.height = hf, fig.width = hf}
+mmq(dp = desvio, sem = semente, 
+    pt_selected = 14, show_pt_selected = TRUE, pt_size = 3, 
+    show_seg_dy = TRUE, show_text_dy = TRUE,
+    show_ymean_line = TRUE, text_size = 8, alpha_nonselected = 0.2)$graf
+```
+
+]
+
+.pull-right[
+
+]
+
+---
+
+class: h1_small
+
+# 2. Soma dos Quadrados e Variância Amostral
+
+.pull-left[
+
+```{r, fig.height = hf, fig.width = hf}
+mmq(dp = desvio, sem = semente, 
+    pt_selected = 1:15, show_pt_selected = TRUE, pt_size = 3, 
+    show_seg_dy = TRUE,
+    show_ymean_line = TRUE, alpha_nonselected = 0.2)$graf
+```
+
+]
+
+.pull-right[
+
+____
+
+<h3 style="text-align:center">Soma dos Quadrados de \(Y\)</h3>
+
+___
+
+$$SQ_Y = \sum_{i = 1}^{n} (y_i - \overline{y})^2 = \sum_{i = 1}^{n} (y_i - \overline{y}) (y_i - \overline{y})$$
+
+<br></br>
+____
+
+<h3 style="text-align:center">Variância amostral de \(Y\)</h3>
+
+___
+
+
+$$s^{2}_{Y} = \frac{\sum_{i = 1}^{n} (y_i - \overline{y})^2}{n-1}$$
+
+]
+
+---
+
+class: h1_small
+
+# 2. Soma dos Quadrados e Variância Amostral
+
+.pull-left[
+
+```{r, fig.height = hf, fig.width = hf}
+mmq(dp = desvio, sem = semente, 
+    pt_selected = 1:15, show_pt_selected = TRUE, pt_size = 3, 
+    show_seg_dx = TRUE,
+    show_xmean_line = TRUE, alpha_nonselected = 0.2)$graf
+```
+
+]
+
+.pull-right[
+
+____
+
+<h3 style="text-align:center">Soma dos Quadrados de \(X\)</h3>
+
+___
+
+$$SQ_X = \sum_{i = 1}^{n} (x_i - \overline{x})^2 = \sum_{i = 1}^{n} (x_i - \overline{x}) (x_i - \overline{x})$$
+
+<br></br>
+____
+
+<h3 style="text-align:center">Variância amostral de \(X\)</h3>
+
+___
+
+$$s^{2}_{X} = \frac{\sum_{i = 1}^{n} (x_i - \overline{x})^2}{n-1}$$
+
+]
+
+---
+
+class: h1_small
+
+# 3. Soma dos Produtos Cruzados e Covariância
+
+.pull-left[
+
+```{r, fig.height = hf, fig.width = hf}
+mmq(dp = desvio, sem = semente, 
+    pt_selected = c(1, 14), show_pt_selected = TRUE, pt_size = 3, 
+    show_seg_dx = TRUE, show_xmean_line = TRUE,
+    show_seg_dy = TRUE, show_ymean_line = TRUE,
+    show_text_dy = TRUE, show_text_dx = TRUE,
+    alpha_nonselected = 0.5)$graf
+```
+
+]
+
+.pull-right[
+
+___
+
+<h3 style="text-align:center;font-size:140%;">Soma dos produtos cruzados de \(Y\) e \(X\)</h3>
+
+___
+
+$$SQ_{YX} = \sum_{i = 1}^{n} (y_i - \overline{y}) (x_i - \overline{x})$$
+
+<br></br>
+
+___
+
+<h3 style="text-align:center">Covariância amostral entre \(Y\) e \(X\)</h3>
+
+___
+
+$$s_{YX} = \frac{\sum_{i = 1}^{n} (y_i - \overline{y}) (x_i - \overline{x})}{n-1}$$
+
+]
+
+---
+
+class: h1_small
+
+# 3. Soma dos Produtos Cruzados e Covariância
+
+.pull-left[
+
+```{r, fig.height = hf, fig.width = hf}
+mmq(dp = desvio, sem = semente, 
+    pt_selected = c(1, 14), show_pt_selected = TRUE, pt_size = 3, 
+    show_seg_dx = TRUE, show_xmean_line = TRUE,
+    show_seg_dy = TRUE, show_ymean_line = TRUE,
+    show_text_dy = TRUE, show_text_dx = TRUE,
+    alpha_nonselected = 0.5)$graf
+```
+
+]
+
+.pull-right[
+
+### Se
+
+$(y_i - \overline{y}) > 0$; $(x_i - \overline{x}) < 0$
+
+
+### ou
+
+$(y_i - \overline{y}) < 0$; $(x_i - \overline{x}) > 0$
+
+### temos
+
+$s_{YX} = \frac{\sum_{i = 1}^{n} (y_i - \overline{y}) (x_i - \overline{x})}{n-1} < 0$
+
+]
+
+<h3 style="text-align:center"> A covariância pode ser <font color="red"><b>NEGATIVA</b></font></h3>
+
+---
+
+class: h1_small
+
+# 3. Soma dos Produtos Cruzados e Covariância
+
+.pull-left[
+
+```{r, fig.height = hf, fig.width = hf}
+mmq(b0 = 725, b1 = 4, dp = desvio, sem = semente, 
+    pt_selected = c(2, 15), show_pt_selected = TRUE, pt_size = 3, 
+    show_seg_dx = TRUE, show_xmean_line = TRUE,
+    show_seg_dy = TRUE, show_ymean_line = TRUE,
+    show_text_dy = TRUE, show_text_dx = TRUE,
+    alpha_nonselected = 0.5)$graf
+```
+
+]
+
+.pull-right[
+
+### Se
+
+$(y_i - \overline{y}) > 0$; $(x_i - \overline{x}) > 0$
+
+### ou
+
+$(y_i - \overline{y}) < 0$; $(x_i - \overline{x}) < 0$
+
+### temos
+
+$s_{YX} = \frac{\sum_{i = 1}^{n} (y_i - \overline{y}) (x_i - \overline{x})}{n-1} > 0$
+
+]
+
+<h3 style="text-align:center"> A covariância pode ser <font color="red"><b>POSITIVA</b></font></h3>
+
+
+---
+
+class: h1_small
+
+# 3. Soma dos Produtos Cruzados e Covariância
+
+
+.pull-left[
+
+```{r, fig.height = hf, fig.width = hf}
+mmq(b0 = 775, b1 = 0, n = 30, dp = desvio, sem = 6, 
+    pt_selected = c(2, 7, 23, 25), show_pt_selected = TRUE, pt_size = 3, 
+    show_seg_dx = TRUE, show_xmean_line = TRUE,
+    show_seg_dy = TRUE, show_ymean_line = TRUE,
+    alpha_nonselected = 0.5)$graf
+```
+
+]
+
+.pull-right[
+
+### Se
+
+$(y_i - \overline{y}) \approx 0$; $(x_i - \overline{x}) \approx 0$
+
+### ou
+
+$(y_i - \overline{y}) \approx 0$; $(x_i - \overline{x}) \approx 0$
+
+### Temos
+
+$s_{YX} = \frac{\sum_{i = 1}^{n} (y_i - \overline{y}) (x_i - \overline{x})}{n-1} \approx 0$
+
+]
+
+<h3 style="text-align:center"> A covariância pode ser <font color="red"><b>NULA</b></font></h3>
+
+---
+
+class: h1_small
+
+# 3. Soma dos Produtos Cruzados e Covariância
+
+```{r}
+na = 5
+set.seed(1); biv_neg <- r_pearson(n = na, r = -0.6, correlation = F, ptsize = 6, m1 = 50, m2 = 7, s1 = 30, s2 = 2)
+set.seed(34); biv_nula <- r_pearson(n = na, r = 0, correlation = F, ptsize = 6, m1 = 50, m2 = 7, s1 = 30, s2 = 2)
+set.seed(9); biv_pos <- r_pearson(n = na, r = 0.6, correlation = F, ptsize = 6, m1 = 50, m2 = 7, s1 = 30, s2 = 2)
+
+```
+
+```{r}
+id <- c(as.character(1:nrow(biv_pos$df)), "\\(\\sum{}\\)")
+x = biv_pos$df$V1
+y = biv_pos$df$V2
+n = nrow(biv_pos$df)
+
+tab <- biv_pos$df %>% 
+  mutate(dif1 = (V1 - mean(V1)),
+         dif2 = (V2 - mean(V2))) %>% 
+  mutate(cp = dif1 * dif2) %>% 
+  add_row(summarise(., across(dif1:cp, sum))) %>% 
+  mutate(id, .before = "V1") %>% 
+  column_to_rownames(var = "id") %>% 
+  mutate(V1 = replace_na(V1, mean(biv_pos$df$V1)),
+         V2 = replace_na(V2, mean(biv_pos$df$V2))) %>% 
+  round(2) 
+  
+
+colnames(tab) <- c("\\(Y\\)", "\\(X\\)", 
+                    "\\((y_{i} - \\overline{y})\\)", 
+                    "\\((x_{i} - \\overline{x})\\)", 
+                    "\\((y_{i} - \\overline{y})(x_{i} - \\overline{x})\\)")
+
+```
+
+
+.pull-left[
+
+___
+
+```{r}
+tab %>% 
+  kbl(caption = "Cálculo da covariância entre Y e X") %>%
+  row_spec(nrow(tab), bold = T, color = "white", background = "#23373B") %>% 
+  kable_classic(full_width = F, html_font = "Cambria", position = 'center')
+```
+
+
+]
+
+
+.pull-right[
+
+___
+
+$$s_{YX} = \frac{\sum_{i = 1}^{n} (y_i - \overline{y}) (x_i - \overline{x})}{n-1}$$
+
+$$s_{YX} = \frac{`r round(sum((x - mean(x)) * (y - mean(y))), 2)`}{`r n`-1} = `r round(cov(x, y),2)` $$
+
+___
+
+```{r fig.width=5, fig.height=5}
+biv_pos$g
+```
+
+
+]
+
+---
+
+class: h1_small
+
+# 3. Soma dos Produtos Cruzados e Covariância
+
+___
+
+<h3 style="text-align:center"> Cenários possíeis</h3>
+
+___
+
+```{r, fig.width=15, fig.height=5}
+gn = biv_neg$g + labs(subtitle = 'Covariância negativa')
+gnul = biv_nula$g + labs(subtitle = 'Covariância próxima de zero')
+gpos = biv_pos$g + labs(subtitle = 'Covariância positiva')
+
+gn | gnul | gpos
+```
+
+---
+
+class: h1_small
+
+# O coeficiente de correlação de Pearson
+
+### Um  pouco de história
+
+.pull-left[
+
+___
+
+##### Na década de 1890, Karl Pearson foi apresentado a Francis Galton pelo zoólogo Walter Weldon. Juntos fundaram a revista Biometrika, com o objetivo de desenvolver teoria em estatística. Galton (primo de Charles Darwin) e Pearson trabalharam juntos em vários problemas relacionados à teoria da evolução, genética, biometria e estatística. Galton trouxe as primeiras ideias sobre a medida de associação entre duas variáveis quantitativas no contexto da hereditariedade e propôs o **coeficiente de correlação linear** para medir esta associação. Suas idéias foram estendidas por Karl Pearson e Udny Yule para um contexto estatístico mais geral. Pearson trouxe ainda muitas outras contribuições á estatística como o coeficiente de $\chi^2$ e a ideia de *graus de liberdade*. O termo **distribuição normal** para variáveis com dustribuição Gaussiana também surgiu como fruto e seu trabalho (veja em: <a href="https://en.wikipedia.org/wiki/Karl_Pearson" target="_blank">Karl Pearson</a>).    
+
+___
+
+]
+
+.pull-right[
+
+
+```{r}
+image_read("img/Pearson_Galton.jpg") %>% 
+  image_resize("x320")
+
+```
+
+
+]
+
+
+---
+
+class: h1_small
+
+# 4. O coeficiente de correlaçao linear de Pearson
+
+
+.pull-left[
+
+___
+
+<h4 style="text-align:center">Covariância amostral entre \(Y\) e \(X\)</h4>
+
+___
+
+$$s_{YX} = \frac{\sum_{i = 1}^{n} (y_i - \overline{y}) (x_i - \overline{x})}{n-1}$$
+
+____
+
+<h4 style="text-align:center">Variância amostral de \(Y\)</h4>
+
+___
+
+$$s^{2}_{Y} = \frac{\sum_{i = 1}^{n} (y_i - \overline{y})^2}{n-1}$$
+
+____
+
+<h4 style="text-align:center">Variância amostral de \(X\)</h4>
+
+___
+
+$$s^{2}_{X} = \frac{\sum_{i = 1}^{n} (x_i - \overline{x})^2}{n-1}$$
+
+]
+
+.pull-right[
+
+____
+
+<h4 style="text-align:center">O coeficiente de correlaçao linear de Pearson \(r\)</h4>
+
+____
+
+$$r = \frac{s_{YX}}{\sqrt{s^{2}_{Y}} \times \sqrt{s^{2}_{X}}}$$
+
+]
+
+<p><h4 style="text-align:center"> O \(r\) de Pearson é a covariância <b>padronizada</b> pelos desvios padrões de \(Y\) e \(X\)</h4></p>
+
+
+---
+
+class: h1_small
+
+# 4. O coeficiente de correlaçao linear de Pearson
+
+<p><h4 style="text-align:center">A covariância não tem limites negativos ou positivos. A escala depende das magnitudes de \(Y\) e de \(X\).</h4></p>
+
+```{r fig.align='center', fig.width = 15, fig.height=6.5}
+set.seed(1); g1 <- r_pearson(n = 100, r = -0.9, correlation = F)
+set.seed(1); g2 <- r_pearson(n = 100, r = 0, correlation = F)
+set.seed(1); g3 <- r_pearson(n = 100, r = 0.9, correlation = F)
+
+set.seed(1); g4 <- r_pearson(n = 100, r = -0.9, correlation = T)
+set.seed(1); g5 <- r_pearson(n = 100, r = 0, correlation = T)
+set.seed(1); g6 <- r_pearson(n = 100, r = 0.9, correlation = T)
+
+(g1$g + g2$g + g3$g) / (g4$g + g5$g + g6$g)
+```
+
+<p><h4 style="text-align:center">O \(r\) de Pearson varia entre \(-1\) e \(+1\).</h4></p>
+
+
+---
+
+class: h1_small
+
+# 4. O coeficiente de correlaçao linear de Pearson
+
+____
+
+$$r = \frac{\sum_{i = 1}^{n} (y_i - \overline{y}) (x_i - \overline{x})}{\sqrt{\sum_{i = 1}^{n} (y_i - \overline{y})^2} \sqrt{\sum_{i = 1}^{n} (x_i - \overline{x})^2}}$$
+____
+
+```{r fig.align='center', fig.width = 20, fig.height=5}
+set.seed(1); g1 <- r_pearson(n = 100, r = -1)
+set.seed(1); g2 <- r_pearson(n = 100, r = 0)
+set.seed(1); g3 <- r_pearson(n = 100, r = 1)
+
+g1$g + g2$g + g3$g
+```
+
+
++ $r = - 1$ (Associção linear perfeitamente **negativa**)
+
++ $r = 0$ (Associção linear inexistente)
+
++ $r = 1$ (Associção linear perfeitamente **positiva**)
+
+---
+
+####FIM####
+
+class: h1_small
+
+---
+
+class: h1_small, regression
+
+# 4. Teste de hipóteses sobre o $r$ de Pearson
+
+
+.pull-left[
+
+___
+
+<p><h4 style="text-align:center">O \(r\) mede associações <font color="red"><b>lineares</b></font></h4></p>
+
+___
+
+```{r fig.align='center', fig.width = 6, fig.height=6}
+set.seed(1)
+X <- runif(100, min = 70, max = 130)
+b0 = 50
+pico =  100
+b1 = -b0/(2*pico)
+set.seed(1)
+Y <- rnorm(length(X), mean = -2000 + b0 * X + b1 * X^2, sd = 25)
+DF <- data.frame(X, Y)
+r <- cor(Y, X)
+cor = '#f25555'
+  tema <- theme_classic() +
+    theme(legend.position = c(0.1, 0.7), 
+          legend.title = element_text(size = ls),
+          legend.text = element_text(size = ls),
+          axis.text=element_text(size=12),
+          axis.title=element_text(size=15),
+          title = element_text(size = 18),
+          plot.title = element_text(hjust = 0.5),
+          plot.subtitle = element_text(hjust = 0.5))
+  
+  
+  g <- ggplot(DF, aes(X, Y)) +
+    geom_point(shape = 21, fill = cor, color = 'black', size = 5) +
+    labs(title = bquote('r = ' ~ .(round(r,2))),
+         subtitle = expression(y == beta[0] + beta[1] * 'x' + beta[2] * 'x'^2),
+         y = "Y",
+         x = "X") + 
+    tema
+  g
+
+```
+
+]
+
+.pull-right[
+
+___
+
+<p><h4 style="text-align:center">Correlação <font color="red"><b>não implica</b></font> causalidade</h4></p>
+
+___
+
+```{r fig.align='center', fig.width = 6, fig.height=6}
+mg <- read.csv('datasets/Margarina_divorcio.csv', header= T, sep = ';', dec = ',')
+r <- cor(mg$Divorcio, mg$Margarina)
+
+#img.file <- system.file(file.path("images", "img/familia_doriana.jpg"),
+#                       package = "ggpubr")
+img <- jpeg::readJPEG("img/familia_doriana.jpg")
+cor = '#f25555' # #2adb59' #'#00ff84' #   'darkred'
+ggplot(mg, aes(y = Divorcio, x = Margarina * 453.592)) +
+  ggpubr::background_image(img) +
+  annotate("rect", 
+           xmin = -Inf, xmax = Inf,
+           ymin = -Inf, ymax = Inf, 
+           fill = "white", alpha = 0.8) +
+  geom_point(shape = 21, fill = cor, color = 'black', size = 7) +
+  labs(title = bquote('r = ' ~ .(round(r, 2))),
+       subtitle = "Taxa de Divórcio no Maine (EUA)",
+       y = "Número de divórcios por 1000 hab.",
+       x = "Consumo de margarina (gramas)") +
+  tema
+  
+```
+
+]
