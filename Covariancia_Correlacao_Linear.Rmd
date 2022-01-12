@@ -659,15 +659,15 @@ g1$g + g2$g + g3$g
 
 ---
 
-####FIM####
+class: h1_small, regression
 
-class: h1_small
+# 5. Associações Lineares e Causalidade
 
 ---
 
 class: h1_small, regression
 
-# 4. Teste de hipóteses sobre o $r$ de Pearson
+# 5. Associações Lineares e Causalidade
 
 
 .pull-left[
