@@ -1,0 +1,318 @@
+---
+title: "Inferência Estatística e Teste de Hipóteses"
+subtitle: "Distribuição das médias amostrais"
+author: "Fabio Cop (fabiocopf@gmail.com)"
+institute: "Instituto do Mar - UNIFESP"
+date: "Última atualização em `r format(Sys.time(), '%d de %B de %Y')`"
+output:
+  xaringan::moon_reader:
+    css: [default, metropolis, metropolis-fonts, hygge]
+    lib_dir: libs
+    nature:
+      highlightStyle: arta
+      highligthLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+---
+
+```{r setup-chunk, include=FALSE, message = FALSE, echo = FALSE, warning = FALSE}
+options(
+  htmltools.dir.version = FALSE,
+  html.preserve.raw = FALSE # needed for windows
+)
+
+# chunk options
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE,
+                      fig.align = 'center', fig.width = 8, fig.height = 6)
+
+# Packages
+suppressMessages(library(tidyverse))
+suppressMessages(library(magick))
+suppressMessages(library(patchwork))
+suppressMessages(library(kableExtra))
+
+# Functions
+
+# datasets
+
+```
+
+``` {css, echo =F} 
+    .h1_small h1 {
+      font-weight: normal;
+      margin-top: -75px;
+      margin-left: -00px;
+      color: #FAFAFA;
+      font-size: 150%;
+    }
+
+    .pull-left-min {
+      float: left;
+      width: 37%;
+    }
+
+    .pull-right-min {
+      float: right;
+      width: 60%;
+    }
+    
+    .fundo_capa {
+      background-image: url('img/TCL_art.png');
+      background-size: 140%;
+      background-position: center;
+    }
+    
+    .fundo_marble {
+      background-image: url('img/marble.jpg');
+      background-size: 140%;
+      background-position: center;
+    }
+    
+    .fundo_sistematica {
+      background-image: url('img/fundo-checkered-na-perspectiva.jpg');
+      background-size: 140%;
+      background-position: center;
+    }
+    
+    .regression table {
+      font-size: 16px;
+    }
+
+    .regression_small table {
+      font-size: 13px;
+    }
+    
+    .font_small table {
+      font-size: 0.9rem;
+    }
+```
+
+```{r xaringan-scribble, echo=FALSE}
+xaringanExtra::use_scribble()
+```
+
+---
+
+class: h1_small, fundo_capa
+
+# Conteúdo da aula
+
+.pull-left[
+
+
+]
+
+.pull-right[
+
+.content-box-gray[
+
+___
+
+1. Amostragem e distribuição das médias amostrais
+
+1. Teorema Central do Limite (TCL)
+
+1. O TCL e populações não-normais
+
+1. Probabilidades na amostra original e na distribuição de médias
+
+___
+
+]
+
+
+]
+
+
+---
+
+class: h1_small
+
+# 1. Amostragem e distribuição das médias amostrais: retomando ideias
+
+```{r}
+amostr1 <- image_read("img/amostragem_inferencia.png") %>% 
+  image_scale("700x")
+amostr1
+```
+
+
+---
+
+class: h1_small
+
+# 1. Amostragem e distribuição das médias amostrais: retomando ideias
+
+```{r}
+amostr2 <- image_read("img/amostragem_inferencia_2.png") %>% 
+  image_scale("700x")
+amostr2
+```
+
+---
+
+class: h1_small
+
+# 1. Amostragem e distribuição das médias amostrais: retomando ideias
+
+```{r}
+amostr3 <- image_read("img/amostragem_inferencia_3.png") %>% 
+   image_scale("650x")
+amostr3
+```
+
+---
+
+class: h1_small
+
+# 2. Teorema Central do Limite (TCL)
+
+.pull-left[
+
+
+___
+
+<h4 style="text-align:center">Definição do TCL</h4>
+
+___
+
+</br>
+
+.content-box-green[
+
+
+
+Seja uma população estatística com média $\mu$ e desvio padrão $\sigma$. A distribuição das médias amostrais desta população tenderá a apresentar uma **distribuição normal de probabilidades** com média $\mu$ e desvio padrão $\frac{\sigma}{\sqrt(n)}$ à medida que o tamanho amostral $n$ aumenta, ainda que a distribuição das observações originais **não possua** uma distribuição normal.
+
+]
+
+]
+
+.pull-right[
+
+</br>
+
+.content-box-green[
+
+```{r}
+tcl_art <- image_read("img/TCL_art.png") %>% 
+   image_scale("700x")
+tcl_art
+```
+
+]
+
+]
+
+---
+
+class: h1_small
+
+# 3. O TCL e populações não-normais
+
+```{r, fig.width=12, fig.height=8}
+source("r_functions/tcl_simetry.R")
+```
+
+---
+
+class: h1_small
+
+# 4. Probabilidades na amostra original e na distribuição de médias
+
+.pull-left[
+
+Segundo o TCL: $\overline{X} \sim \mathcal{N}(\mu_{\overline{X}},\,\sigma^{2}_{\overline{X}})$
+
+]
+
+.pull-right[
+
+em que $\mu_{\overline{X}} = \mu$ e $\sigma^{2}_{\overline{X}} = \frac{\sigma^2}{n}$
+
+]
+
+___
+
+```{r}
+muX = 50
+sigmaX = 10
+x1 <- 55
+n1 <- 2
+n2 <- 10
+```
+
+Seja $X$ uma variável qualquer com $\mu = `r muX`$ e $\sigma = `r sigmaX`$:
+
+
+```{r, fig.align = "center", fig.width = 12, fig.height = 5}
+tam <- 20
+lim_x <- muX + c(-4,4) * sigmaX
+exprx <- expression(
+   paste('média = ', mu, '; desvio padrão = ', sigma))
+expr1 <- expression(
+   paste('média = ', mu, '; desvio padrão = ', frac(sigma, sqrt('n'["1"]))))
+expr2 <- expression(
+   paste('média = ', mu, '; desvio padrão = ', frac(sigma, sqrt('n'["2"]))))
+
+p1 <- ggplot(data.frame(x = lim_x), aes(x = x)) +
+  stat_function(fun = dnorm,
+                args = list(mean = muX,
+                            sd = sigmaX)) +
+   geom_area(stat = "function", fun = dnorm,
+             args = list(mean = muX,
+                         sd = sigmaX),
+             fill = "#00998a", 
+             xlim = c(x1, lim_x[2])) +
+   labs(x = "X", y = "", subtitle = "Distribuição de X") +
+   scale_y_continuous(breaks = NULL) +
+   scale_x_continuous(breaks = c(muX, x1)) +
+   theme(axis.text.x = element_text(size = tam),
+         axis.title.x = element_text(size = tam),
+         plot.title = element_text(hjust = 0.5, size = tam)) +
+   ggtitle(exprx) +
+   theme_classic()
+
+p2 <- ggplot(data.frame(x = lim_x), aes(x = x)) +
+  stat_function(fun = dnorm,
+                args = list(mean = muX,
+                            sd = sigmaX/sqrt(n1))) +
+   geom_area(stat = "function", fun = dnorm,
+             args = list(mean = muX,
+                         sd = sigmaX/sqrt(n1)),
+             fill = "#00998a", 
+             xlim = c(x1, lim_x[2])) +
+   labs(x = expression(bar("X")), y = "", subtitle = paste("Distr. de médias: n = ", n1, sep = '')) +
+   scale_y_continuous(breaks = NULL) +
+   scale_x_continuous(breaks = c(muX, x1)) +
+   theme(axis.text.x = element_text(size = tam),
+         axis.title.x = element_text(size = tam),
+         plot.title = element_text(hjust = 0.5, size = tam)) +
+   ggtitle(expr1) +
+   theme_classic()
+
+p3 <- ggplot(data.frame(x = lim_x), aes(x = x)) +
+  stat_function(fun = dnorm,
+                args = list(mean = muX,
+                            sd = sigmaX/sqrt(n2))) +
+   geom_area(stat = "function", fun = dnorm,
+             args = list(mean = muX,
+                         sd = sigmaX/sqrt(n2)),
+             fill = "#00998a", 
+             xlim = c(x1, lim_x[2])) +
+   labs(x = expression(bar("X")), y = "", subtitle = paste("Distr. de médias: n = ", n2, sep = '')) +
+   scale_y_continuous(breaks = NULL) +
+   scale_x_continuous(breaks = c(muX, x1)) +
+   theme(axis.text.x = element_text(size = tam),
+         axis.title.x = element_text(size = tam),
+         plot.title = element_text(hjust = 0.5, size = tam)) +
+   ggtitle(expr2) +
+   theme_classic()
+
+area <- round(pnorm(x1, mean = muX, sd = sigmaX, lower.tail = F), 3)
+area1 <- round(pnorm(x1, mean = muX, sd = sigmaX/sqrt(n1), lower.tail = F), 3)
+area2 <- round(pnorm(x1, mean = muX, sd = sigmaX/sqrt(n2), lower.tail = F), 3)
+
+p1 | p2 | p3
+
+```

@@ -17,8 +17,8 @@ pagedown::chrome_print(input = "Amostra_Populacao.Rmd",
 pagedown::chrome_print(input = "Distribuicao_normal.Rmd", 
                        output = "pdf_presentations/Distribuicao_normal.pdf")
 
-# pagedown::chrome_print(input = "Distribuicao_medias_tcl.Rmd", 
-#                        output = "pdf_presentations/Distribuicao_medias_tcl.pdf")
+pagedown::chrome_print(input = "Distribuicao_medias_tcl.Rmd",
+                       output = "pdf_presentations/Distribuicao_medias_tcl.pdf")
 
 # pagedown::chrome_print(input = "Inferencia.Rmd", 
 #                        output = "pdf_presentations/Inferencia.pdf")
