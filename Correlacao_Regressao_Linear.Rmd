@@ -148,7 +148,7 @@ class: h1_small
 .pull-left[
 
 
-#### Galton propôs o **coeficiente de correlação** para medir a associação linear entre duas variáveis quantitativas. Suas idéias foram estendidas por Udny Yule e Karl Pearson para um contexto estatístico mais geral. No modelo de Udny e Pearson assume-se que a distribuição conjunta entre a variável resposta e a variável preditora $f(Y,X)$ é Gaussiana (Normal). Pearson cunhou também o termo **distribuição Normal**.
+#### Galton propôs o **coeficiente de correlação** para medir a associação linear entre duas variáveis quantitativas. Suas idéias foram estendidas por Udny Yule e Karl Pearson para um contexto estatístico mais geral. No modelo de Udny e Pearson assume-se que a distribuição conjunta entre a variável resposta e a variável preditora $f(Y,X)$ é Gaussiana (Normal). Pearson foi um dos diversos autores que começaram a utilizar o termo **distribuição Normal** no início do século $XX$.
 
 ]
 
@@ -763,7 +763,9 @@ tab <- biv1$df %>%
   add_row(summarise(., across(dif1_sqr:cp, sum))) %>% 
   mutate(id, .before = "V1") %>% 
   column_to_rownames(var = "id") %>% 
-  round(2) %>% 
+  round(2) %>%
+  mutate(V1 = as.character(V1),
+         V2 = as.character(V2)) %>% 
   mutate(V1 = replace_na(V1, ''),
          V2 = replace_na(V2, ''))
 
@@ -890,6 +892,8 @@ tab2 <- biv2$df %>%
   mutate(id, .before = "V1") %>% 
   column_to_rownames(var = "id") %>% 
   round(2) %>% 
+  mutate(V1 = as.character(V1),
+           V2 = as.character(V2)) %>%
   mutate(V1 = replace_na(V1, ''),
          V2 = replace_na(V2, ''))
 

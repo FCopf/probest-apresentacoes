@@ -22,7 +22,7 @@ class: center, middle, inverse, title-slide
 ## O modelo da distribuição normal
 ### Fabio Cop (<a href="mailto:fabiocopf@gmail.com" class="email">fabiocopf@gmail.com</a>)
 ### Instituto do Mar - UNIFESP
-### Última atualização em 12 de março de 2022
+### Última atualização em 13 de março de 2022
 
 ---
 
@@ -98,11 +98,15 @@ class: h1_small, fundo_capa
 
 ___
 
+1. Um pouco de história
+
+1. A importância do modelo normal em estatística
+
 1. O modelo normal de probabilidades
 
 1. Entendendo a função normal de densidade de probabilidade
 
-1. Fazendo predições com a função normal de densidade
+1. Cálculo de probabilidade com a função normal de densidade
 
 1. A distribuição normal padronizada
 
@@ -117,9 +121,627 @@ ___
 
 ---
 
-class: h1_small, fundo_capa
+class: h1_small
 
-# Descrevendo fenômenos por meio de um modelo probabilístico
+# 1. Um pouco de história
+
+.pull-left[
+
+
+#### Alguns atribuem a proposição deste modelo a &lt;a href="https://en.wikipedia.org/wiki/Abraham_de_Moivre" target="_blank"&gt;Abraham de Moivre&lt;/a&gt;, um matemático Francês que chegou a a distribuição normal como uma aproximação a &lt;a href="https://en.wikipedia.org/wiki/Binomial_distribution" target="_blank"&gt;distribuição binomial&lt;/a&gt; em seu livro &lt;a href="https://en.wikipedia.org/wiki/The_Doctrine_of_Chances" target="_blank"&gt;The Doctrine of Chances&lt;/a&gt; em `\(1718\)`.
+
+&lt;img src="Distribuicao_normal_files/figure-html/unnamed-chunk-2-1.png" width="419" style="display: block; margin: auto;" /&gt;
+
+&lt;center&gt; Abraham de Moivre (1667 - 1754)&lt;/center&gt;
+
+]
+
+.pull-right[
+
+&lt;p&gt;&lt;center&gt;&lt;img src="img/Yanghui_triangle.gif" width="300"/&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="https://en.wikipedia.org/wiki/Yang_Hui" target="_blank"&gt; Triângulo de Yang Hui's de 1261&lt;/a&gt;&lt;/p&gt;&lt;/center&gt;
+
+]
+
+---
+
+class: h1_small
+
+# 1. Um pouco de história
+
+.pull-left[
+
+
+#### A distribuição normal também é conhecida como &lt;b&gt;distribuição gaussiana&lt;/b&gt;. &lt;a href="https://en.wikipedia.org/wiki/Carl_Friedrich_Gauss" target="_blank"&gt;Carl Friedrich Gauss&lt;/a&gt; lidou com este modelo para lidar com a distribuição dos erros de observação de um fenômeno no contexto do &lt;a href="https://en.wikipedia.org/wiki/Least_squares" target="_blank"&gt;Método dos Mínimos Quadrados&lt;/a&gt; em `\(1823\)`.
+
+
+]
+
+.pull-right[
+
+&lt;/br&gt;
+
+&lt;img src="Distribuicao_normal_files/figure-html/unnamed-chunk-3-1.png" width="857" style="display: block; margin: auto;" /&gt;
+
+
+]
+
+---
+
+class: h1_small
+
+# 1. Um pouco de história
+
+.pull-left[
+
+
+#### &lt;a href="https://en.wikipedia.org/wiki/Pierre-Simon_Laplace target="_blank"&gt;Pierre-Simon Laplace&lt;/a&gt; fez contribuições importantes ao modelo e aplicação da distribuição normal. Calcular a integral \(\int e^{-t^{2}} = \sqrt{\pi}\) em 1782, o que permitiu a &lt;b&gt;padronização de uma distribuição normal&lt;/b&gt; e, em 1810, apresentou o &lt;a href="https://en.wikipedia.org/wiki/Central_limit_theorem target="_blank"&gt;Teorema Central do Limite&lt;/a&gt; no contexto da agregação de várias observações independentes, o que foi fundamental para o desenvolvimento da estatística experimental ao longo do século `\(XX\)`.
+
+]
+
+.pull-right[
+
+&lt;/br&gt;
+
+&lt;img src="Distribuicao_normal_files/figure-html/unnamed-chunk-4-1.png" width="364" style="display: block; margin: auto;" /&gt;
+
+&lt;center&gt;Pierre-Simon Laplace (1748 - 1827)&lt;/center&gt;
+
+]
+
+---
+
+class: h1_small
+
+# 1. Um pouco de história
+
+.pull-left[
+
+
+#### Até o final do início do século \(XX\) acurva era conhecida pelo termo &lt;b&gt;modelo de Gauss-Lalpace&lt;/b&gt;, quando começou a ser referida como &lt;b&gt;distribuição normal&lt;/b&gt; por &lt;a href="https://en.wikipedia.org/wiki/Karl_Pearson target="_blank"&gt;Karl Pearson&lt;/a&gt; é vários outros autores. Pearson foi também o primeiro a escrever o modelo em termos de seu &lt;b&gt;desvio padrão&lt;/b&gt; \(\sigma\). Logo em seguida, em 1915 &lt;a href="https://en.wikipedia.org/wiki/Ronald_Fisher target="_blank"&gt;Ronald Fisher&lt;/a&gt; adicionou o parâmetro de posição \(m\), isto é a média, expressando o modelo como fazemos atualmente.
+
+`$$df = \frac{1}{\sqrt{2 \sigma^2 \pi}}e^{-\frac{(x-m)^2}{2 \sigma}} dx$$`
+
+Finalmente, a &lt;b&gt;distribuição normal padrão&lt;/b&gt;, com média \(0\) e desvio padrão \(1\) começou a apracerer nos livros texto por volta de 1950. 
+
+
+]
+
+.pull-right[
+
+&lt;/br&gt;
+
+&lt;img src="Distribuicao_normal_files/figure-html/unnamed-chunk-5-1.png" width="925" style="display: block; margin: auto;" /&gt;
+
+&lt;center&gt;&lt;img src="img/Galtonboard.gif" width="300"/&gt;&lt;/center&gt;
+
+]
+
+
+
+---
+
+class: h1_small
+
+# 2. A importância do modelo normal em estatística
+
++ A descrição de fenômenos e predições com o modelo normal.
+
+___
+
+
+
+&lt;img src="Distribuicao_normal_files/figure-html/unnamed-chunk-6-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: h1_small
+
+# 2. A importância do modelo normal em estatística
+
++ A descrição de fenômenos e predições com o modelo normal.
+
+___
+
+
+&lt;img src="Distribuicao_normal_files/figure-html/unnamed-chunk-7-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: h1_small
+
+# 2. A importância do modelo normal em estatística
+
++ O modelo normal com resultado do processo de amostragem
+___
+
+&lt;img src="Distribuicao_normal_files/figure-html/unnamed-chunk-8-1.png" width="727" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: h1_small
+
+# 3. O modelo normal de probabilidades
+
+___
+
+.pull-left[
+
+&lt;/br&gt;
+`$$f(x) = \frac{1}{\sqrt(2\pi\sigma^2)}e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2}$$`
+
+]
+
+.pull-right[
+
+`$$X \sim \mathcal{N}(\mu,\,\sigma^2)$$`
+
+Lê-se:
+
+`\(X\)` é uma variável aleatória com distribuição normal, média `\(\mu\)` e desvio padrão `\(\sigma\)`.
+
+]
+
+___
+
+&lt;img src="Distribuicao_normal_files/figure-html/unnamed-chunk-9-1.png" style="display: block; margin: auto;" /&gt;
+
+
+
+---
+
+class: h1_small
+
+# 3. O modelo normal de probabilidades
+
+___
+
+.pull-left[
+
+&lt;/br&gt;
+`$$f(x) = \frac{1}{\sqrt(2\pi\sigma^2)}e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2}$$`
+
+]
+
+.pull-right[
+
+Podemos alterar o formato da distribuição normal alterando seu parâmetos de posição (média - `\(\mu\)`) e de dispersão (desvio padrão - `\(\sigma\)`).
+
+]
+
+___
+
+&lt;img src="Distribuicao_normal_files/figure-html/unnamed-chunk-10-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+class: h1_small
+
+# 4. Entendendo a função normal de densidade de probabilidade
+
+___
+
+`$$f(x) = \frac{1}{\sqrt(2\pi\sigma^2)}e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2}$$`
+
+___
+
+
+
+.pull-left-min[
+
+
+Encontrando `\(f(x)\)` para pontos específicos.
+
+___
+
+Seja:
+
+`\(\mu = 1.7\)`; `\(\sigma = 0.11\)`
+
+O ponto `\(x = 1.6\)` tem:
+
+
+`\(f(x) = \frac{1}{\sqrt(2\pi\sigma^2)}e^{-\frac{1}{2}(\frac{1.6-\mu}{\sigma})^2}\)`
+
+`\(f(x) = 2.4\)`
+
+]
+
+.pull-right-min[
+
+&lt;/br&gt;
+
+&lt;img src="Distribuicao_normal_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+class: h1_small
+
+
+# 4. Entendendo a função normal de densidade de probabilidade
+
+___
+
+Calculando de `\(f(x)\)` no R: a função `dnorm()`
+
+Seja `\(\mu = 1.7\)` e `\(\sigma = 0.11\)`
+___
+
+.pull-left[
+
+Para `\(x = 1.5\)` fazemos:
+
+
+```r
+mu &lt;- 1.7
+dp &lt;- 0.11
+dnorm(1.5, mean = mu, sd = dp)
+```
+
+```
+## [1] 0.6945048
+```
+
+]
+
+.pull-right[
+
+E para múltiplos valores de `\(x\)`:
+
+
+```r
+x &lt;- c(1.4, 1.5, 1.6, 1.7)
+dnorm(x, mean = mu, sd = dp)
+```
+
+```
+## [1] 0.0879777 0.6945048 2.3991470 3.6267480
+```
+
+]
+
+---
+
+
+class: h1_small
+
+# 5. Cálculo de probabilidade com a função normal de densidade
+
+A distribuição normal é uma função de **densidade de probabilidade**.
+
+___
+
+.pull-left-min[
+
+&lt;/br&gt;
+
+.content-box-green[
+
+A **área** abaixo de `\(f(x)\)` entre `\(-\infty\)` e `\(+\infty\)` é igual a `\(1\)`.
+
+`$$P(-\infty \le X \le +\infty) = \int_{-\infty}^{+\infty}f(x) dx = 1$$`
+]
+
+]
+
+.pull-right-min[
+
+&lt;/br&gt;
+
+&lt;img src="Distribuicao_normal_files/figure-html/unnamed-chunk-15-1.png" style="display: block; margin: auto;" /&gt;
+
+]
+
+
+---
+
+class: h1_small
+
+# 5. Cálculo de probabilidade com a função normal de densidade
+
+A distribuição normal é uma função de **densidade de probabilidade**.
+
+___
+
+.pull-left-min[
+
+&lt;/br&gt;
+
+.content-box-green[
+
+Utilizamos a distribuição normal para encontrar a probabilidade de uma variável aleatória `\(X\)` estar entre `\(x_1\)` e `\(x_2\)`, o que corresponde a encontrar a **área** abaixo de `\(f(x)\)`.
+
+`$$P(x_1 \le X \le x_2) = \int_{x_1}^{x_2}f(x) dx$$`
+]
+
+
+
+]
+
+.pull-right-min[
+
+&lt;/br&gt;
+
+&lt;img src="Distribuicao_normal_files/figure-html/unnamed-chunk-16-1.png" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+class: h1_small
+
+
+# 5. Cálculo de probabilidade com a função normal de densidade
+
+___
+
+Calculando de `\(P(X)\)` no R: a função `dnorm()`
+
+Seja `\(\mu = 1.7\)` e `\(\sigma = 0.11\)`
+___
+
+.pull-left[
+
+`\(P(X &lt;1.5\)`):
+
+
+```r
+mu &lt;- 1.7
+dp &lt;- 0.11
+pnorm(q = 1.5, mean = mu, sd = dp, lower.tail = TRUE)
+```
+
+```
+## [1] 0.03451817
+```
+
+___
+
+`\(P(X &gt; 1.5)\)` --&gt; `lower.tail == FALSE`: 
+
+
+```r
+mu &lt;- 1.7
+dp &lt;- 0.11
+pnorm(q = 1.5, mean = mu, sd = dp, lower.tail = FALSE)
+```
+
+```
+## [1] 0.9654818
+```
+
+]
+
+.pull-right[
+
+Os argumentos da função `pnorm` (veja o menu de ajuda digitando `?pnorm` no Console do R):
+
+&gt; **q**: o valor de `\(x\)`
+
+&gt; **mean**: média `\(\mu\)` da função normal
+
+&gt; **sd**: desvio padrão `\(\sigma\)` da função normal
+
+&gt; **lower.tail**: se a função irá retornar a probabilidade abaixo (TRUE) ou acima (FALSE) de q
+
+]
+
+---
+
+class: h1_small
+
+
+# 5. Cálculo de probabilidade com a função normal de densidade
+
+___
+
+Calculando de `\(P(X)\)` no R: a função `dnorm()`
+
+Seja `\(\mu = 1.7\)` e `\(\sigma = 0.11\)`
+___
+
+.pull-left[
+
+`\(P(X &lt;1.5\)`):
+
+
+```r
+mu &lt;- 1.7
+dp &lt;- 0.11
+pnorm(q = 1.5, mean = mu, sd = dp, lower.tail = TRUE)
+```
+
+```
+## [1] 0.03451817
+```
+
+___
+
+`\(P(X &gt; 1.5)\)` --&gt; `lower.tail == FALSE`: 
+
+
+```r
+mu &lt;- 1.7
+dp &lt;- 0.11
+pnorm(q = 1.5, mean = mu, sd = dp, lower.tail = FALSE)
+```
+
+```
+## [1] 0.9654818
+```
+
+]
+
+.pull-right[
+
+
+&lt;img src="Distribuicao_normal_files/figure-html/unnamed-chunk-21-1.png" style="display: block; margin: auto;" /&gt;
+
+
+
+]
+
+
+---
+
+class: h1_small
+
+
+# 5. Cálculo de probabilidade com a função normal de densidade
+
+___
+
+Calculando de `\(P(X)\)` no R: a função `dnorm()`
+
+Seja `\(\mu = 1.7\)` e `\(\sigma = 0.11\)`
+___
+
+.pull-left[
+
+`$$P(1.5 \le X \le 1.7) = P(X \le 1.7) - P(X \le 1.5)$$`
+
+
+
+
+
+
+```r
+diff(pnorm(q = c(1.5, 1.7),
+           mean = mu,
+           sd = dp,
+           lower.tail = TRUE)
+     )
+```
+
+```
+## [1] 0.4654818
+```
+
+]
+
+.pull-right[
+
+
+&lt;img src="Distribuicao_normal_files/figure-html/unnamed-chunk-24-1.png" style="display: block; margin: auto;" /&gt;
+
+
+
+]
+
+
+---
+
+class: h1_small
+
+
+# 6. A distribuição normal padronizada
+
+___
+
+.pull-left[
+
+&lt;/br&gt;
+`$$f(x) = \frac{1}{\sqrt(2\pi)}e^{-\frac{1}{2}x^2}$$`
+
+]
+
+.pull-right[
+
+`$$X \sim \mathcal{N}(0,\,1)$$`
+
+`\(X\)` é uma variável aleatória com distribuição normal **padronizada** se, média `\(\mu = 0\)` e desvio padrão `\(\sigma = 1\)`.
+
+]
+
+___
+
+&lt;img src="Distribuicao_normal_files/figure-html/unnamed-chunk-25-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+class: h1_small
+
+
+# 6. A distribuição normal padronizada: a transformação Z
+
+
+___
+
+
+`$$z_i = \frac{x_i - \mu}{\sigma}$$`
+
+___
+
+.pull-left[
+
+
+
+
+
+Seja `\(\mu = 1.7\)` e `\(\sigma = 0.11\)`
+
+A observação `\(x = 1.5\)` corresponte a:
+
+`$$z_i = \frac{x_i - \mu}{\sigma} = \frac{1.5 - 1.7}{0.11} = -1.82$$`
+
+.content-box-green[
+
+Em uma distribuição normal com `\(\mu = 1.7\)` e `\(\sigma = 0.11\)`, a observação `\(x = 1.5\)` está `\(1.82\)` desvios padrões abaixo da média.
+
+]
+
+]
+
+.pull-right[
+
+
+
+
+Seja `\(\mu = 1.7\)` e `\(\sigma = 0.11\)`
+
+A observação `\(x = 2.2\)` corresponte a:
+
+`$$z_i = \frac{x_i - \mu}{\sigma} = \frac{2.2 - 1.7}{0.11} = 4.55$$`
+
+.content-box-green[
+
+Em uma distribuição normal com `\(\mu = 1.7\)` e `\(\sigma = 0.11\)`, a observação `\(x = 2.2\)` está `\(4.55\)` desvios padrões acima da média.
+
+]
+
+
+
+]
+
+---
+
+class: h1_small
+
+
+# 6. A distribuição normal padronizada
+
+Após a transformação `\(Z\)` nos exemplos sobre altura dos alunos e chuva mensal temos: 
+
+&lt;img src="Distribuicao_normal_files/figure-html/unnamed-chunk-28-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: h1_small
+
+# 6. Probabilidades em uma distribuição normal padronizada
+
+___
+
+Limites conhecidos de probabilidade
+
+___
+
+&lt;img src="Distribuicao_normal_files/figure-html/unnamed-chunk-29-1.png" style="display: block; margin: auto;" /&gt;
 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>

@@ -1311,8 +1311,9 @@ hof <- read.csv("datasets/Hoffman_et_al_2003.csv", header = T, sep = ';', dec = 
 
 n <- nrow(hof)
 
-hof_errbar <- hof %>% summarise_at(
-  vars(Cerrado, Floresta), list(media = mean, desvio = sd)
+hof_errbar <- hof %>% 
+  summarise_at(c("Cerrado", "Floresta"),
+  funs(media = mean, desvio = sd)
   ) %>% 
   gather(indicador,value,Cerrado_media:Floresta_desvio) %>% 
   separate(indicador, into = c("Vegetacao", "indicador")) %>% 

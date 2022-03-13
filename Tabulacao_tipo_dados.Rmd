@@ -110,8 +110,8 @@ class: h1_small
 ___
 
 ```{r}
-image_read("img/combined_gif.gif") %>% 
-  image_scale("700x")
+# image_read("img/combined_gif.gif") %>% 
+#   image_scale("700x")
 ```
 
 ___
