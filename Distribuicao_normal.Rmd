@@ -1,0 +1,133 @@
+---
+title: "Inferência Estatística e Teste de Hipóteses"
+subtitle: "O modelo da distribuição normal"
+author: "Fabio Cop (fabiocopf@gmail.com)"
+institute: "Instituto do Mar - UNIFESP"
+date: "Última atualização em `r format(Sys.time(), '%d de %B de %Y')`"
+output:
+  xaringan::moon_reader:
+    css: [default, metropolis, metropolis-fonts, hygge]
+    lib_dir: libs
+    nature:
+      highlightStyle: arta
+      highligthLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+---
+
+```{r setup-chunk, include=FALSE, message = FALSE, echo = FALSE, warning = FALSE}
+options(
+  htmltools.dir.version = FALSE,
+  html.preserve.raw = FALSE # needed for windows
+)
+
+# chunk options
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE,
+                      fig.align = 'center', fig.width = 8, fig.height = 6)
+
+# Packages
+suppressMessages(library(tidyverse))
+suppressMessages(library(magick))
+suppressMessages(library(patchwork))
+suppressMessages(library(kableExtra))
+
+# Functions
+
+# datasets
+
+```
+
+``` {css, echo =F} 
+    .h1_small h1 {
+      font-weight: normal;
+      margin-top: -75px;
+      margin-left: -00px;
+      color: #FAFAFA;
+      font-size: 150%;
+    }
+
+    .pull-left-min {
+      float: left;
+      width: 37%;
+    }
+
+    .pull-right-min {
+      float: right;
+      width: 60%;
+    }
+    
+    .fundo_capa {
+      background-image: url('img/bell-curve.jpg');
+      background-size: 100%;
+      background-position: center;
+    }
+    
+    .fundo_marble {
+      background-image: url('img/marble.jpg');
+      background-size: 140%;
+      background-position: center;
+    }
+    
+    .fundo_sistematica {
+      background-image: url('img/fundo-checkered-na-perspectiva.jpg');
+      background-size: 140%;
+      background-position: center;
+    }
+    
+    .regression table {
+      font-size: 16px;
+    }
+
+    .regression_small table {
+      font-size: 13px;
+    }
+    
+    .font_small table {
+      font-size: 0.9rem;
+    }
+```
+
+```{r xaringan-scribble, echo=FALSE}
+xaringanExtra::use_scribble()
+```
+
+---
+
+class: h1_small, fundo_capa
+
+# Conteúdo da aula
+
+.pull-left[
+
+
+]
+
+.pull-right[
+
+.content-box-gray[
+
+___
+
+1. O modelo normal de probabilidades
+
+1. Entendendo a função normal de densidade de probabilidade
+
+1. Fazendo predições com a função normal de densidade
+
+1. A distribuição normal padronizada
+
+1. Probabilidades em uma distribuição normal padronizada
+
+___
+
+]
+
+
+]
+
+---
+
+class: h1_small, fundo_capa
+
+# Descrevendo fenômenos por meio de um modelo probabilístico
+

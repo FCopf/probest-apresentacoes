@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Amostragem e Delineamento</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Fabio Cop (fabiocopf@gmail.com)" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/metropolis.css" rel="stylesheet" />
+    <link href="libs/remark-css/metropolis-fonts.css" rel="stylesheet" />
+    <link href="libs/remark-css/hygge.css" rel="stylesheet" />
+    <script src="libs/fabric/fabric.min.js"></script>
+    <link href="libs/xaringanExtra-scribble/scribble.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-scribble/scribble.js"></script>
+    <script>document.addEventListener('DOMContentLoaded', function() { window.xeScribble = new Scribble({"pen_color":["#FF0000"],"pen_size":3,"eraser_size":30,"palette":[]}) })</script>
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Amostragem e Delineamento
+## Descrevendo populações e amostras
+### Fabio Cop (<a href="mailto:fabiocopf@gmail.com" class="email">fabiocopf@gmail.com</a>)
+### Instituto do Mar - UNIFESP
+### Última atualização em 12 de março de 2022
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+    .h1_small h1 {
+      font-weight: normal;
+      margin-top: -75px;
+      margin-left: -00px;
+      color: #FAFAFA;
+      font-size: 150%;
+    }
+
+    .pull-left-min {
+      float: left;
+      width: 37%;
+    }
+
+    .pull-right-min {
+      float: right;
+      width: 60%;
+    }
+    
+    .fundo_capa {
+      background-image: url('img/populacoes_amostras_capa.jpg');
+      background-size: 60%;
+      background-position: right;
+    }
+    
+    .fundo_oligoplites {
+      background-image: url('img/Oligoplites_saliens_multiplo.png');
+      background-size: 100%;
+      background-position: center;
+    }
+    
+    .fundo_oligoplites_populacao {
+      background-image: url('img/Oligoplites_saliens_multiplo_populacao.png');
+      background-size: 100%;
+      background-position: center;
+    }
+    
+    .fundo_oligoplites_unidade_amostral {
+      background-image: url('img/Oligoplites_saliens_multiplo_unidade_amostral.png');
+      background-size: 100%;
+      background-position: center;
+    }
+
+    .fundo_oligoplites_amostra {
+      background-image: url('img/Oligoplites_saliens_multiplo_amostra.png');
+      background-size: 100%;
+      background-position: center;
+    }
+
+    .regression table {
+      font-size: 16px;
+    }
+
+    .regression_small table {
+      font-size: 13px;
+    }
+    
+&lt;/style&gt;
+
+
+
+---
+
+class: h1_small, fundo_capa
+
+# Conteúdo da aula
+
+.pull-left-min[
+___
+
+1. População, amostra e unidade amostral
+
+1. Distribuição de frequências na população estatística
+
+1. Distribuições de frequências na amostra
+
+1. Parâmetros e estimadores
+
+1. Amostragem e inferência
+
+___
+
+
+]
+
+.pull-right-min[
+
+]
+
+
+---
+
+class: h1_small
+
+# 1. População, amostra e unidade amostral
+
+.pull-left[
+
+
+.content-box-red[
+
+## Definições
+
++ **População estatística**: todos os elementos que podem compor uma amostra. Podem ser medidas como comprimentos, temperaturas, velocidades, etc.
+
++ **Tamanho populacional (N)**: o número de elementos da população estatística.
+
++ **Unidade amostral**: um único elemento da população.
+
++ **Amostra**: um subconjunto de elementos extraídos da população.
+
++ **Tamanho amostral (n)**: o número de elementos da amostra.
+
++ **Censo**: o levantamento de todos os elementos da população.
+
+
+]
+
+]
+
+.pull-right[
+
+&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;
+
+&lt;img src="Descreve_Populacoes_Amostras_files/figure-html/unnamed-chunk-2-1.png" width="965" style="display: block; margin: auto;" /&gt;
+
+]
+
+
+---
+
+class: h1_small
+
+# 1. População, amostra e unidade amostral
+
+.pull-left-min[
+
+
+.content-box-gray[&lt;h4&gt;&lt;b&gt;Comprimento de &lt;i&gt;Oligoplites saliens&lt;/i&gt;&lt;/b&gt;&lt;/h4&gt;
+
+]
+
+]
+
+.pull-right-min[
+
+&lt;img src="Descreve_Populacoes_Amostras_files/figure-html/unnamed-chunk-3-1.png" width="680" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+class: h1_small, fundo_oligoplites
+
+# 1. População, amostra e unidade amostral
+
+.pull-left-min[
+
+.content-box-gray[&lt;h4&gt;&lt;b&gt;Comprimento de &lt;i&gt;Oligoplites saliens&lt;/i&gt;&lt;/b&gt;&lt;/h4&gt;
+
+]
+
+]
+
+.pull-right-min[
+
+]
+
+
+---
+
+class: h1_small, fundo_oligoplites_populacao
+
+# 1. População, amostra e unidade amostral
+
+.pull-left-min[
+
+
+.content-box-gray[&lt;h4&gt;&lt;b&gt;Comprimento de &lt;i&gt;Oligoplites saliens&lt;/i&gt;&lt;/b&gt;&lt;/h4&gt;
+
+]
+
+.content-box-gray[&lt;b&gt;População estatística&lt;/b&gt;: os comprimentos medidos em &lt;i&gt;cada um&lt;/i&gt; dos indivíduos da espécie.
+
+&lt;b&gt;Tamanho populacional (N)&lt;/b&gt;: o número de elementos da população estatística.
+] 
+
+
+]
+
+.pull-right-min[
+
+]
+
+---
+class: h1_small, fundo_oligoplites_populacao
+
+# 1. População, amostra e unidade amostral
+
+.pull-left-min[
+
+
+.content-box-gray[&lt;h4&gt;&lt;b&gt;Comprimento de &lt;i&gt;Oligoplites saliens&lt;/i&gt;&lt;/b&gt;&lt;/h4&gt;
+
+]
+
+.content-box-gray[&lt;b&gt;Censo&lt;/b&gt;: a medida de &lt;i&gt;TODOS&lt;/i&gt; os comprimentos da população estatística.
+] 
+
+
+]
+
+.pull-right-min[
+
+&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;
+
+
+&lt;img src="Descreve_Populacoes_Amostras_files/figure-html/unnamed-chunk-4-1.png" width="417" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+class: h1_small, fundo_oligoplites_unidade_amostral
+
+# 1. População, amostra e unidade amostral
+
+.pull-left-min[
+
+
+.content-box-gray[&lt;h4&gt;&lt;b&gt;Comprimento de &lt;i&gt;Oligoplites saliens&lt;/i&gt;&lt;/b&gt;&lt;/h4&gt;
+
+]
+
+.content-box-gray[&lt;b&gt;Unidade amostral&lt;/b&gt;: o comprimentos medido em &lt;i&gt;um único&lt;/i&gt; indivíduo.
+
+] 
+
+
+]
+
+.pull-right-min[
+
+]
+
+---
+
+class: h1_small, fundo_oligoplites_amostra
+
+# 1. População, amostra e unidade amostral
+
+.pull-left-min[
+
+
+.content-box-gray[&lt;h4&gt;&lt;b&gt;Comprimento de &lt;i&gt;Oligoplites saliens&lt;/i&gt;&lt;/b&gt;&lt;/h4&gt;
+
+]
+
+.content-box-gray[&lt;b&gt;Amostra&lt;/b&gt;: os comprimentos medidos em &lt;i&gt;um subgrupo&lt;/i&gt; de &lt;i&gt;n&lt;/i&gt; indivíduos da espécie.
+
+&lt;b&gt;Tamanho amostral (n)&lt;/b&gt;: o número de elementos da amostra.
+] 
+
+
+]
+
+.pull-right-min[
+
+]
+
+---
+
+class: h1_small, fundo_oligoplites_populacao
+
+# 2. Distribuição de frequências na população estatística
+
+
+.pull-left-min[
+
+&lt;br/&gt;
+.content-box-gray[Os valores em uma população estatística não são idênticos, existe uma **distribuição de frequências**
+
+]
+
+]
+
+.pull-right-min[
+
+&lt;br/&gt;
+
+&lt;img src="Descreve_Populacoes_Amostras_files/figure-html/unnamed-chunk-5-1.png" style="display: block; margin: auto;" /&gt;
+
+
+]
+
+---
+
+class: h1_small
+
+# 3. Distribuições de frequências na amostra
+
+___
+
+A amostragem busca **aproximar** a distribuição de frequências relativas que existe na população estatística
+
+___
+
+.pull-left-min[
+
+&lt;h5 style="text-align:center"&gt;População estatística&lt;/h5&gt;
+
+&lt;img src="Descreve_Populacoes_Amostras_files/figure-html/unnamed-chunk-6-1.png" style="display: block; margin: auto;" /&gt;
+
+
+]
+
+.pull-right-min[
+
+
+
+
+&lt;h5 style="text-align:center"&gt;Amostra&lt;/h5&gt;
+
+&lt;img src="Descreve_Populacoes_Amostras_files/figure-html/unnamed-chunk-8-1.png" style="display: block; margin: auto;" /&gt;
+
+
+]
+
+
+---
+
+class: h1_small
+
+# 3. Distribuições de frequências na amostra
+
+___
+
+Em cada amostra a distribuição de valores será diferente. O processo amostral busca garantir, em média, uma amostra **representativa**
+
+___
+
+.pull-left-min[
+
+&lt;h5 style="text-align:center"&gt;População estatística&lt;/h5&gt;
+
+&lt;img src="Descreve_Populacoes_Amostras_files/figure-html/unnamed-chunk-9-1.png" style="display: block; margin: auto;" /&gt;
+
+
+]
+
+.pull-right-min[
+
+&lt;h5 style="text-align:center"&gt;Amostras&lt;/h5&gt;
+
+&lt;img src="Descreve_Populacoes_Amostras_files/figure-html/unnamed-chunk-10-1.png" style="display: block; margin: auto;" /&gt;
+
+
+]
+
+---
+
+class: h1_small
+
+# 4. Parâmetros e estimadores
+
+___
+
+**Parâmetros**: descritores da POPULAÇÃO ESTATÍSTICA
+___
+
+.pull-left-min[
+
+
+&lt;br/&gt;
+
+
+.content-box-gray[&lt;h5&gt;Média populacional&lt;/h5&gt; 
+
+`\(\mu = \frac{\sum_{i = 1}^{N}{X_i}}{N}\)`
+
+&lt;h5&gt;Variância populacional&lt;/h5&gt;
+
+`\(\sigma^2 = \frac{\sum_{i = 1}^{N}{(X_i - \mu)^2}}{N}\)`
+
+]
+
+]
+
+.pull-right-min[
+
+&lt;br/&gt;
+
+&lt;img src="Descreve_Populacoes_Amostras_files/figure-html/unnamed-chunk-11-1.png" style="display: block; margin: auto;" /&gt;
+
+
+]
+
+---
+
+class: h1_small
+
+# 4. Parâmetros e estimadores
+
+___
+
+**Estimadores**: descritores da AMOSTRA
+___
+
+.pull-left-min[
+
+
+&lt;br/&gt;
+
+
+.content-box-gray[&lt;h5&gt;Média amostral&lt;/h5&gt; 
+
+`\(\overline{X} = \frac{\sum_{i = 1}^{n}{X_i}}{n}\)`
+
+&lt;h5&gt;Variância amostral&lt;/h5&gt;
+
+`\(s^2 = \frac{\sum_{i = 1}^{n}{(X_i - \overline{X})^2}}{n - 1}\)`
+
+]
+
+]
+
+.pull-right-min[
+
+&lt;br/&gt;
+
+&lt;img src="Descreve_Populacoes_Amostras_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" /&gt;
+
+
+]
+
+
+---
+
+class: h1_small
+
+# 5. Amostragem e inferência
+
+___
+
+**Inferência Estatística**: O processo que consiste em utilizamos descritores da amostra para tirar conclusões sobre as características da população estatística.
+___
+
+&lt;img src="Descreve_Populacoes_Amostras_files/figure-html/unnamed-chunk-13-1.png" width="756" style="display: block; margin: auto;" /&gt;
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "arta",
+"highligthLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

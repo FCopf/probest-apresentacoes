@@ -1,0 +1,869 @@
+---
+title: "Amostragem e Delineamento"
+subtitle: "Amostrando uma população estatística"
+author: "Fabio Cop (fabiocopf@gmail.com)"
+institute: "Instituto do Mar - UNIFESP"
+date: "Última atualização em `r format(Sys.time(), '%d de %B de %Y')`"
+output:
+  xaringan::moon_reader:
+    css: [default, metropolis, metropolis-fonts, hygge]
+    lib_dir: libs
+    nature:
+      highlightStyle: arta
+      highligthLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+---
+
+```{r setup-chunk, include=FALSE, message = FALSE, echo = FALSE, warning = FALSE}
+options(
+  htmltools.dir.version = FALSE,
+  html.preserve.raw = FALSE # needed for windows
+)
+
+# chunk options
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE,
+                      fig.align = 'center', fig.width = 8, fig.height = 6)
+
+# Packages
+suppressMessages(library(tidyverse))
+suppressMessages(library(magick))
+suppressMessages(library(patchwork))
+suppressMessages(library(kableExtra))
+
+# Functions
+
+# datasets
+
+```
+
+``` {css, echo =F} 
+    .h1_small h1 {
+      font-weight: normal;
+      margin-top: -75px;
+      margin-left: -00px;
+      color: #FAFAFA;
+      font-size: 150%;
+    }
+
+    .pull-left-min {
+      float: left;
+      width: 37%;
+    }
+
+    .pull-right-min {
+      float: right;
+      width: 60%;
+    }
+    
+    .fundo_capa {
+      background-image: url('img/Amostra_aleatoria.jpg');
+      background-size: 140%;
+      background-position: center;
+    }
+    
+    .fundo_marble {
+      background-image: url('img/marble.jpg');
+      background-size: 140%;
+      background-position: center;
+    }
+    
+    .fundo_sistematica {
+      background-image: url('img/fundo-checkered-na-perspectiva.jpg');
+      background-size: 140%;
+      background-position: center;
+    }
+    
+    .regression table {
+      font-size: 16px;
+    }
+
+    .regression_small table {
+      font-size: 13px;
+    }
+    
+    .font_small table {
+      font-size: 0.9rem;
+    }
+```
+
+```{r xaringan-scribble, echo=FALSE}
+xaringanExtra::use_scribble()
+```
+
+---
+
+class: h1_small, fundo_capa
+
+# Conteúdo da aula
+
+.pull-left-min[
+
+.content-box-gray[
+
+___
+
+1. Amostragem aleatória simples
+
+1. Amostragem aleatória estratificada
+
+1. Amostragem sistemática
+
+1. Erro amostral, acurácia e precisão
+
+___
+
+]
+
+]
+
+.pull-right-min[
+
+]
+
+---
+
+class: h1_small, fundo_capa
+
+# O processo de amostragem e inferência sobre uma população estatística
+
+```{r}
+image_read("img/amostragem_inferencia_2.png") %>% 
+  image_resize("x400")
+```
+
+---
+
+class: h1_small
+
+# 1.  Amostragem aleatória simples
+
+.pull-left-min[
+
+
+```{r, echo=FALSE}
+pop = c(3, 10, 14, 19, 27, 28, 29, 41, 42, 43)
+N = length(pop)
+n = 5
+set.seed(1)
+Am1 = sample(pop, size = n, replace = F)
+set.seed(2)
+Am2 = sample(pop, size = n, replace = F)
+Am3 = sort(pop, decreasing = FALSE)[1:n]
+Am4 = sort(pop, decreasing = TRUE)[1:n]
+```
+
+___
+
+Suponha uma população hipotética de somente $`r N`$ elementos: 
+
+**População**: `r pop`
+
+___
+
+]
+
+.pull-right-min[
+
+___
+
+<h5 style="text-align:center">Exemplos de amostras aleatórias simples</h5>
+
+___
+Tamanho amostral: $n = `r N`$
+
+**Amostra 1**: `r  Am1`
+
+**Amostra 2**: `r  Am2`
+
+Se nos dois casos, os elementos foram *sorteados* a partir da população estatística, a amostra $1$ é tão aleatória e válida do ponto de vista estatístico quanto a amostra $2$.
+
+]
+
+.content-box-red[
+
+Na amostragem aleatória simples, cada elemento da população tem a **mesma probabilidade** de compor uma amostra. Se a população tem $N$ elementos, cada um tem probabilidade $\frac{1}{N}$ de ser selecionado.
+
+]
+
+---
+
+class: h1_small
+
+# 1.  Amostragem aleatória simples
+
+.pull-left-min[
+
+___
+
+Suponha uma população hipotética de somente $`r N`$ elementos: 
+
+**População**: `r pop`
+
+___
+
+]
+
+.pull-right-min[
+
+___
+
+<h5 style="text-align:center">Exemplos de amostras aleatórias simples</h5>
+
+___
+Tamanho amostral: $n = `r N`$
+
+**Amostra 3**: `r  Am3`
+
+**Amostra 4**: `r  Am4`
+
+Ainda que nos dois casos acima tenhamos conduzido um *sorteio aleratório*, as amostras $3$ e $4$ resultaram respectivamente, nos $`r n`$ **menores** ou nos $`r n`$ **maiores** valores da população estatística.
+
+]
+
+.content-box-red[
+
+Um resultado de uma amostragem aleatória simples pode ser válido do ponto de vista estatístico, mas ainda assim **não representativo** da população estatística.
+
+]
+
+---
+
+class: h1_small, fundo_marble
+
+# 2.  Amostragem aleatória estratificada
+
+.pull-left[
+
+___
+
+Ocorrência de **estratos populacionais**
+
+___
+
+]
+
+.pull-right[
+
+___
+
+<h4 style="text-align:right">Cada estrato é representado na amostra.</h4>
+
+
+___
+
+]
+
+---
+
+class: h1_small, fundo_marble
+
+# 2.  Amostragem aleatória estratificada
+
+.pull-left[
+
+___
+
+Ocorrência de **estratos populacionais**
+
+___
+
+]
+
+.pull-right[
+
+___
+
+<h4 style="text-align:right">Cada estrato é representado na amostra.</h4>
+
+
+___
+
+]
+
+</br></br></br></br></br></br></br></br></br></br></br>
+
+.content-box-gray[
+
+<h4 style="text-align:center">Após a divisão em estratos, é realizada uma amostra aleatória simples <b>dentro</b> de cada estrato.</h4>
+
+]
+
+---
+
+class: h1_small, font_small
+
+# 2.  Amostragem aleatória estratificada
+
+```{r}
+N = 10
+set.seed(2)
+pred = rep(c(0, 4), each = N/2)
+pop_df = data.frame(X = round(rnorm(N, mean = 10 + pred, sd = 3), 1),
+                Estrato = rep(c('A', 'B'), each = N/2))
+```
+
+
+.pull-left[
+
+Suponha uma população de $`r N`$ elementos composta de dois estratos (A ou B).
+
+___
+
+</br>
+
+```{r}
+kbl(pop_df) %>%
+  kable_paper("striped", full_width = F) %>%
+  row_spec(1:5, bold = T, color = "white", background = "#D7261E") %>% 
+  row_spec(6:10, bold = T, color = "white", background = "gray")
+```
+
+]
+
+.pull-right[
+
+
+
+<h4 style="text-align:right">Amostras estratificadas com n = 4 seriam.</h4>
+
+___
+
+```{r}
+am = data.frame(
+  Amostra_1 = c(sample(pop_df$X[1:5], size = 2), sample(pop_df$X[6:10], size = 2)),
+  Amostra_2 = c(sample(pop_df$X[1:5], size = 2), sample(pop_df$X[6:10], size = 2)),
+  Amostra_3 = c(sample(pop_df$X[1:5], size = 2), sample(pop_df$X[6:10], size = 2)),
+  Amostra_4 = c(sample(pop_df$X[1:5], size = 2), sample(pop_df$X[6:10], size = 2))
+  )
+```
+
+</br>
+
+```{r}
+kbl(am) %>%
+  kable_paper("striped", full_width = F) %>%
+  row_spec(1:2, bold = T, color = "white", background = "#D7261E") %>% 
+  row_spec(3:4, bold = T, color = "white", background = "gray")
+
+```
+
+___
+
+Ainda que dentro dos blocos ocorra um sorteio aleatório, sempre são sorteados **exatamente** $2$ elementos de cada estrato.
+___
+
+]
+
+---
+
+class: h1_small, fundo_sistematica
+
+# 3.  Amostragem sistemática
+
+.content-box-green[
+<h4 style="text-align:center">Em uma amostragem sistemática as unidades amostrais são <b>ordenadas</b> seguindo determinado critério e os elementos amostrados em intervalos regulares.</h4>
+
+]
+
+---
+
+class: h1_small
+
+# 3.  Amostragem sistemática
+
+```{r}
+n = 12
+Lm = 35; Ls = 15
+set.seed(11)
+L = round(rnorm(n = n, mean = Lm, sd = Ls),0)
+se = seq(1, n, by = 3)
+img_pop  <- image_read('img/Oligoplites_saliens_semregua.jpg') %>% 
+  image_annotate(text = L[1], location = '+70+30', boxcolor = 'darkred', 
+                 color ='white', style = 'bold', size = 30) %>% 
+  image_scale(paste('x', L[1], sep = ''))
+
+for (i in 2:n){
+  img_pop_aux <- image_read('img/Oligoplites_saliens_semregua.jpg') 
+  
+  if (i %in% se){
+    img_pop_aux <- img_pop_aux %>% 
+      image_annotate(text = L[i], location = '+70+30', boxcolor = 'darkred', 
+                 color ='white', style = 'bold', size = 30)
+  }
+  img_pop_aux <- img_pop_aux %>% 
+    image_scale(paste('x', L[i], sep = ''))
+  
+  img_pop <- image_append(c(img_pop, img_pop_aux))
+}
+```
+
+___
+
+Implicações da amostragem sistemática na estimativa dos parâmetros populacionais.
+___
+
+<h4 style="text-align:center">POPULAÇÃO</h4>
+</br>
+
+```{r}
+img_pop
+```
+
+</br>
+
+.content-box-green[
+<h4 style="text-align:center">Quando a variável de interesse <b>não tem relação</b> com a sequência escolhida, a amostragem sistemática tende a gerar <b>os mesmos</b> resultados da amostragem aleatória.</h4>
+
+]
+
+---
+
+class: h1_small
+
+# 3.  Amostragem sistemática
+
+```{r}
+n = 12
+Lm = 35; Ls = 15
+L = sort(L, decreasing = TRUE)
+se = seq(1, n, by = 3)
+img_pop <- image_read('img/Oligoplites_saliens_semregua.jpg') %>% 
+  image_annotate(text = L[1], location = '+70+30', boxcolor = 'darkred', 
+                 color ='white', style = 'bold', size = 30) %>% 
+  image_scale(paste('x', L[1], sep = ''))
+
+for (i in 2:n){
+  img_pop_aux <- image_read('img/Oligoplites_saliens_semregua.jpg') 
+  
+  if (i %in% se){
+    img_pop_aux <- img_pop_aux %>% 
+      image_annotate(text = L[i], location = '+70+30', boxcolor = 'darkred', 
+                 color ='white', style = 'bold', size = 30)
+  }
+  img_pop_aux <- img_pop_aux %>% 
+    image_scale(paste('x', L[i], sep = ''))
+  
+  img_pop <- image_append(c(img_pop, img_pop_aux))
+}
+```
+
+___
+
+Implicações da amostragem sistemática na estimativa dos parâmetros populacionais.
+___
+
+<h4 style="text-align:center">POPULAÇÃO</h4>
+</br>
+
+```{r}
+img_pop
+```
+
+</br>
+
+.content-box-green[
+<h4 style="text-align:center">Se houver um gradiente justamente na direção do transecto, a variância amostral \(s^{2}\) irá <b>superestimar</b> a variância populacional \(\sigma^2\).</h4>
+
+]
+---
+
+class: h1_small
+
+# 3.  Amostragem sistemática
+
+```{r}
+n = 12
+Lm = 35; Ls = 15
+set.seed(6)
+L = round(rnorm(n = n, mean = Lm * cos(seq(0, 7*pi, length = n)), sd = 8),0)
+se = seq(1, n, by = 3)
+img_pop <- image_read('img/Oligoplites_saliens_semregua.jpg') %>% 
+  image_annotate(text = L[1], location = '+70+30', boxcolor = 'darkred', 
+                 color ='white', style = 'bold', size = 30) %>% 
+  image_scale(paste('x', L[1], sep = ''))
+
+for (i in 2:n){
+  img_pop_aux <- image_read('img/Oligoplites_saliens_semregua.jpg') 
+  
+  if (i %in% se){
+    img_pop_aux <- img_pop_aux %>% 
+      image_annotate(text = L[i], location = '+70+30', boxcolor = 'darkred', 
+                 color ='white', style = 'bold', size = 30)
+  }
+  img_pop_aux <- img_pop_aux %>%
+    image_scale(paste('x', L[i], sep = ''))
+
+  img_pop <- image_append(c(img_pop, img_pop_aux))
+}
+```
+
+___
+
+Implicações da amostragem sistemática na estimativa dos parâmetros populacionais.
+___
+
+<h4 style="text-align:center">POPULAÇÃO</h4>
+</br>
+
+```{r}
+img_pop
+```
+
+</br>
+
+.content-box-green[
+<h4 style="text-align:center">Se houver uma periodicidade que coincida com o intervalo escolhido, a variância amostral \(s^{2}\) irá <b>subsetimar</b> a variância populacional \(\sigma^2\).</h4>
+
+]
+
+---
+
+class: h1_small
+
+# 4. Erro amostral, acurácia e precisão
+
+___
+
++ **Erro amostral (E)**: diferença entre uma estimativa em particular e a média populacional.
+
+$$E = \overline{X} - \mu$$
+
++ **Acurácia**: se refere à proximidade entre o parâmetro e o estimador. Um estimador acurado é, em média, igual ao parâmetro populacional. 
+
+
+$$\mu_{\overline{X}} - \mu$$
+
++ **Precisão**: tem relação com a variabilidade do estimador. Estimadores que geram estimativas similares entre si são mais precisos. A precisão é medida pelo **erro padrão da média**.
+
+$$\sigma_{\overline{X}} =\frac{\sigma}{\sqrt{n}}$$
+
+___
+
+
+---
+
+class: h1_small
+
+# 4. Erro amostral
+
+```{r}
+set.seed(4)
+n = 5
+Am1 = sample(pop, size = n, replace = F)
+somaAm1 = paste(Am1, collapse = "+")
+mp = round(mean(pop),1)
+mAm1 = round(mean(Am1),1)
+E1 = mAm1 - mp
+
+set.seed(3)
+Am2 = sample(pop, size = n, replace = F)
+mAm2 = round(mean(Am2),1)
+E2 = mAm2 - mp
+```
+
+___
+
+Voltemos à nossa população fictícia com $N = `r N`$ elementos:
+
+**População**: `r pop`
+
+___
+
+.pull-left[
+
+A amostra aleatória de tamanho $n = `r n`$:
+
+**Amostra 1**: $`r  Am1`$
+
+Tem média:
+
+$\overline{X}_1 =\frac{`r somaAm1`}{`r n`} = `r mAm1`$
+
+E **erro amostral**:
+
+$E_1 = `r mAm1`  -  `r mp`  =  `r E1`$
+
+]
+
+
+.pull-right[
+
+Outra amostra aleatória de tamanho $n = `r n`$:
+
+**Amostra 2**: $`r Am2`$
+
+Tem média:
+
+$\overline{X}_2 = `r mAm2`$
+
+E **erro amostral**:
+
+$E_2 = `r mAm2`  -  `r mp`  =  `r E2`$
+
+]
+
+.content-box-green[
+
+O erro amostral mede diferença entre a estimativa obtida de uma amostra *particular* e a média populacional.
+
+]
+---
+
+class: h1_small
+
+# 4. Acurácia
+
+```{r, echo=FALSE}
+N = length(pop)
+n = 5
+CT = choose(N,n)
+```
+
+```{r, echo=FALSE}
+set.seed(8)
+R = 8
+A15 = replicate(n = R, sample(pop, size = n, replace = F))
+colnames(A15) = paste("A", 1:ncol(A15), sep = " ")
+Medias = round(apply(A15, 2, mean),2)
+A15 = rbind(A15, Medias)
+#A15 = as.data.frame(A15)
+```
+
+___
+
+Existem:
+
+$${{`r N`}\choose{`r 5`}} = \frac{`r N`!}{(`r N`-`r n`)! \times `r n`!} = `r CT`$$
+
+formas diferentes de tomarmos uma amostra de tamanho $n = `r n`$ de nossa população de tamanho $N = `r N`$.
+
+___
+
+Se tomadas $`r R`$ destas amostras veremos que as médias amostrais $\overline{X}$ diferementre si.
+
+
+```{r, echo=FALSE, warning=FALSE}
+#A15
+kable(A15)
+``` 
+
+---
+
+class: h1_small
+
+# 4. Acurácia
+
+Se tomarmos TODAS as $`r CT`$ amostras possíveis e calcularmos as respectivas médias teremos:
+
+```{r, echo=FALSE, warning=FALSE}
+Allcomb = combn(x = pop, m = 5)
+M_Allcomb = apply(Allcomb,2,mean)
+M_Allcomb_round = round(M_Allcomb,1)
+#matrix(M_Allcomb_round,nc = 14, byrow = T)
+kable(matrix(M_Allcomb_round,nc = 21, byrow = T))
+```
+
+---
+
+class: h1_small
+
+# 4. Acurácia
+
+Que descrevem o seguinte padrão:
+
+.pull-left[
+
+</br>
+
+```{r fig.align='center', echo=FALSE, fig.width=6, fig.height=6}
+M_Allcomb_df = data.frame(M = as.numeric(M_Allcomb))
+
+gp5 <- ggplot(M_Allcomb_df, aes(x = M)) +
+  geom_histogram(fill = 'brown3', color = 'black', bins = 10) +
+  scale_x_continuous(breaks = seq(0, 50, by = 5)) +
+  coord_cartesian(xlim = c(10, 40)) +
+  labs(x = paste("Médias de amostras com n = ", n, " elementos", sep = ''),
+       y = "Frequência") +
+  theme_classic()
+
+gp5
+```
+
+]
+
+.pull-right[
+
++ Média populacional
+
+$$\mu = \sum_{i = 1}^{10}\frac{`r pop`}{`r N`} = `r mean(pop)`$$
+
++ Média das $N = `r CT`$ médias amostrais com $n = `r n`$
+
+$$\mu_{\overline{X}} = \sum_{i = 1}^{N}\frac{\overline{X}_i}{`r CT`} = `r mean(Allcomb)`$$
+
+.content-box-green[
+
+Verificamos que o estimador é acurado pois:
+
+$$\mu_{\overline{X}} - \mu = `r mean(pop)` - `r mean(Allcomb)` = `r mean(pop) - mean(Allcomb)`$$
+
+]
+
+]
+
+---
+
+class: h1_small
+
+<h1> 4. Precisão: o erro padrão da média - \(\sigma_{\overline{X}}\) </h1>
+
+```{r, echo=FALSE}
+n2 = 7
+Allcomb7 = combn(x = pop, m = n2)
+M_Allcomb7 = apply(Allcomb7,2,mean)
+M_Allcomb7_round = round(M_Allcomb7,1)
+CT2 = choose(N,n2)
+```
+
+
+**População**: `r pop`
+
+___
+
+Suponha agora que tomemos ao acaso amostras com $n = `r n2`$ desta mesma população. 
+
+Existem ao todo:
+
+$${{`r N`}\choose{`r n2`}} = \frac{`r N`!}{(`r N`-`r n2`)! \times `r n2`!} = `r CT2`$$
+
+amostras diferentes de tamanho $n = `r n2`$ que podem ser retiradas de uma população de tamanho  $N = `r N`$. 
+
+___
+
+---
+
+class: h1_small
+
+<h1> 4. Precisão: o erro padrão da média - \(\sigma_{\overline{X}}\) </h1>
+
+Se tomarmos estas $`r CT2`$ amostras e calcularmos suas respectivas médias amostrais, teremos:
+
+```{r, warning=FALSE}
+kable(matrix(M_Allcomb7_round,nc = 12, byrow = T))
+```
+
+---
+
+class: h1_small
+
+<h1> 4. Precisão: o erro padrão da média - \(\sigma_{\overline{X}}\) </h1>
+
+.pull-left[
+
+</br>
+
+```{r fig.align='center', echo=FALSE, fig.width=6, fig.height=6}
+M_Allcomb7_df = data.frame(M = as.numeric(M_Allcomb7))
+
+gp7 <- ggplot(M_Allcomb7_df, aes(x = M)) +
+  geom_histogram(fill = 'brown3', color = 'black', bins = 10) +
+  scale_x_continuous(breaks = seq(0, 50, by = 5)) +
+  coord_cartesian(xlim = c(10, 40)) +
+  labs(x = paste("Médias de amostras com n = ", n2, " elementos", sep = ''),
+       y = "Frequência") +
+  theme_classic()
+
+gp7
+```
+
+
+]
+
+.pull-right[
+
++ Média populacional
+
+$$\mu = \sum_{i = 1}^{10}\frac{`r pop`}{`r N`} = `r mean(pop)`$$
+
++ Média das $`r CT2`$ médias amostrais com $n = `r n2`$
+
+$$\mu_{\overline{X}} = \sum_{i = 1}^{N}\frac{\overline{X}_i}{`r CT2`} = `r mean(Allcomb7)`$$
+
+.content-box-green[
+
+Como no exemplo anterior, verificamos que o estimador é acurado pois:
+
+$$\mu_{\overline{X}} - \mu = `r mean(pop)` - `r mean(Allcomb7)` = `r mean(pop) - mean(Allcomb7)`$$
+
+]
+
+]
+
+
+---
+
+class: h1_small
+
+<h1> 4. Precisão: o erro padrão da média - \(\sigma_{\overline{X}}\) </h1>
+
+```{r}
+mu_pop = mean(pop)
+N = length(pop)
+var_pop = mean((pop - mu_pop)^2)
+sigma_pop = sqrt(var_pop)
+
+ep5 = sigma_pop/sqrt(n)
+ep7 = sigma_pop/sqrt(n2)
+```
+
+
+.pull-left[
+
+<h5 style="text-align:center">Distribuição das médias amostrais para n = 5</h5>
+
+```{r fig.align='center', echo=FALSE, fig.width=5, fig.height=5}
+gp5
+```
+
+___
+
+$$\sigma_{\overline{x}} = \frac{\sigma}{\sqrt{n}} = \frac{`r round(sigma_pop,2)`}{\sqrt{`r n`}} = `r round(ep5,3)`$$
+
+___
+
+]
+
+.pull-right[
+
+<h5 style="text-align:center">Distribuição das médias amostrais para n = 7</h5>
+
+```{r fig.align='center', echo=FALSE, fig.width=5, fig.height=5}
+gp7
+```
+
+___
+
+$$\sigma_{\overline{x}} = \frac{\sigma}{\sqrt{n}} = \frac{`r round(sigma_pop,2)`}{\sqrt{`r n2`}} = `r round(ep7,3)`$$
+
+___
+
+]
+
+---
+
+class: h1_small
+
+<h1> 4. Precisão: o erro padrão da média - \(\sigma_{\overline{X}}\) </h1>
+
+</br></br></br>
+
+.content-box-green[
+
+Na prática científica não conhecemos o desvio padrão populacional $\sigma$ e, consequentemente, não temos obter o erro padrão populacional $\sigma_{\overline{X}}$. No entanto, dado que temos uma amostra particular, podemos **estimá-lo** a partir do desvio padrão amostral $s$ pela expressão:
+
+$$s_{\overline{X}} = \frac{s}{\sqrt{n}}$$
+
+em que $s_{\overline{X}}$ é denominado de **erro padrão amostral**
+
+]

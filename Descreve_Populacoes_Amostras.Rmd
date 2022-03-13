@@ -1,0 +1,553 @@
+---
+title: "Amostragem e Delineamento"
+subtitle: "Descrevendo populações  e amostras"
+author: "Fabio Cop (fabiocopf@gmail.com)"
+institute: "Instituto do Mar - UNIFESP"
+date: "Última atualização em `r format(Sys.time(), '%d de %B de %Y')`"
+output:
+  xaringan::moon_reader:
+    css: [default, metropolis, metropolis-fonts, hygge]
+    lib_dir: libs
+    nature:
+      highlightStyle: arta
+      highligthLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+---
+
+```{r setup-chunk, include=FALSE, message = FALSE, echo = FALSE, warning = FALSE}
+options(
+  htmltools.dir.version = FALSE,
+  html.preserve.raw = FALSE # needed for windows
+)
+
+# chunk options
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE,
+                      fig.align = 'center', fig.width = 8, fig.height = 6)
+
+# Packages
+suppressMessages(library(tidyverse))
+suppressMessages(library(magick))
+suppressMessages(library(patchwork))
+
+# Functions
+
+# datasets
+
+```
+
+``` {css, echo =F} 
+    .h1_small h1 {
+      font-weight: normal;
+      margin-top: -75px;
+      margin-left: -00px;
+      color: #FAFAFA;
+      font-size: 150%;
+    }
+
+    .pull-left-min {
+      float: left;
+      width: 37%;
+    }
+
+    .pull-right-min {
+      float: right;
+      width: 60%;
+    }
+    
+    .fundo_capa {
+      background-image: url('img/populacoes_amostras_capa.jpg');
+      background-size: 60%;
+      background-position: right;
+    }
+    
+    .fundo_oligoplites {
+      background-image: url('img/Oligoplites_saliens_multiplo.png');
+      background-size: 100%;
+      background-position: center;
+    }
+    
+    .fundo_oligoplites_populacao {
+      background-image: url('img/Oligoplites_saliens_multiplo_populacao.png');
+      background-size: 100%;
+      background-position: center;
+    }
+    
+    .fundo_oligoplites_unidade_amostral {
+      background-image: url('img/Oligoplites_saliens_multiplo_unidade_amostral.png');
+      background-size: 100%;
+      background-position: center;
+    }
+
+    .fundo_oligoplites_amostra {
+      background-image: url('img/Oligoplites_saliens_multiplo_amostra.png');
+      background-size: 100%;
+      background-position: center;
+    }
+
+    .regression table {
+      font-size: 16px;
+    }
+
+    .regression_small table {
+      font-size: 13px;
+    }
+    
+```
+
+```{r xaringan-scribble, echo=FALSE}
+xaringanExtra::use_scribble()
+```
+
+---
+
+class: h1_small, fundo_capa
+
+# Conteúdo da aula
+
+.pull-left-min[
+___
+
+1. População, amostra e unidade amostral
+
+1. Distribuição de frequências na população estatística
+
+1. Distribuições de frequências na amostra
+
+1. Parâmetros e estimadores
+
+1. Amostragem e inferência
+
+___
+
+
+]
+
+.pull-right-min[
+
+]
+
+
+---
+
+class: h1_small
+
+# 1. População, amostra e unidade amostral
+
+.pull-left[
+
+
+.content-box-red[
+
+## Definições
+
++ **População estatística**: todos os elementos que podem compor uma amostra. Podem ser medidas como comprimentos, temperaturas, velocidades, etc.
+
++ **Tamanho populacional (N)**: o número de elementos da população estatística.
+
++ **Unidade amostral**: um único elemento da população.
+
++ **Amostra**: um subconjunto de elementos extraídos da população.
+
++ **Tamanho amostral (n)**: o número de elementos da amostra.
+
++ **Censo**: o levantamento de todos os elementos da população.
+
+
+]
+
+]
+
+.pull-right[
+
+<br/><br/><br/><br/><br/>
+
+```{r}
+image_read("img/Amostragem_inferencia.png") %>% 
+  image_resize("x320")
+```
+
+]
+
+
+---
+
+class: h1_small
+
+# 1. População, amostra e unidade amostral
+
+.pull-left-min[
+
+
+.content-box-gray[<h4><b>Comprimento de <i>Oligoplites saliens</i></b></h4>
+
+]
+
+]
+
+.pull-right-min[
+
+```{r}
+image_read("img/Oligoplites_saliens.png") %>% 
+  image_resize("x320")
+```
+
+]
+
+---
+
+class: h1_small, fundo_oligoplites
+
+# 1. População, amostra e unidade amostral
+
+.pull-left-min[
+
+.content-box-gray[<h4><b>Comprimento de <i>Oligoplites saliens</i></b></h4>
+
+]
+
+]
+
+.pull-right-min[
+
+]
+
+
+---
+
+class: h1_small, fundo_oligoplites_populacao
+
+# 1. População, amostra e unidade amostral
+
+.pull-left-min[
+
+
+.content-box-gray[<h4><b>Comprimento de <i>Oligoplites saliens</i></b></h4>
+
+]
+
+.content-box-gray[<b>População estatística</b>: os comprimentos medidos em <i>cada um</i> dos indivíduos da espécie.
+
+<b>Tamanho populacional (N)</b>: o número de elementos da população estatística.
+] 
+
+
+]
+
+.pull-right-min[
+
+]
+
+---
+class: h1_small, fundo_oligoplites_populacao
+
+# 1. População, amostra e unidade amostral
+
+.pull-left-min[
+
+
+.content-box-gray[<h4><b>Comprimento de <i>Oligoplites saliens</i></b></h4>
+
+]
+
+.content-box-gray[<b>Censo</b>: a medida de <i>TODOS</i> os comprimentos da população estatística.
+] 
+
+
+]
+
+.pull-right-min[
+
+<br/><br/><br/>
+
+
+```{r}
+image_read("img/censo_ibge.jpg") %>% 
+  image_resize("x250")
+```
+
+]
+
+---
+class: h1_small, fundo_oligoplites_unidade_amostral
+
+# 1. População, amostra e unidade amostral
+
+.pull-left-min[
+
+
+.content-box-gray[<h4><b>Comprimento de <i>Oligoplites saliens</i></b></h4>
+
+]
+
+.content-box-gray[<b>Unidade amostral</b>: o comprimentos medido em <i>um único</i> indivíduo.
+
+] 
+
+
+]
+
+.pull-right-min[
+
+]
+
+---
+
+class: h1_small, fundo_oligoplites_amostra
+
+# 1. População, amostra e unidade amostral
+
+.pull-left-min[
+
+
+.content-box-gray[<h4><b>Comprimento de <i>Oligoplites saliens</i></b></h4>
+
+]
+
+.content-box-gray[<b>Amostra</b>: os comprimentos medidos em <i>um subgrupo</i> de <i>n</i> indivíduos da espécie.
+
+<b>Tamanho amostral (n)</b>: o número de elementos da amostra.
+] 
+
+
+]
+
+.pull-right-min[
+
+]
+
+---
+
+class: h1_small, fundo_oligoplites_populacao
+
+# 2. Distribuição de frequências na população estatística
+
+
+.pull-left-min[
+
+<br/>
+.content-box-gray[Os valores em uma população estatística não são idênticos, existe uma **distribuição de frequências**
+
+]
+
+]
+
+.pull-right-min[
+
+<br/>
+
+```{r, fig.align='center', fig.height=5, fig.width=6}
+mu = 35; sd = 8
+set.seed(1)
+N = 1000
+olisap = data.frame(CP = round(rnorm(n = N, mean = mu, sd = sd),2))
+pop = ggplot(olisap, aes(x = CP)) +
+  geom_histogram(aes(y =..density..), 
+                  fill = 'brown3', color = 'black', bins = 15) +
+   labs(x = "Comprimento em centímetros",
+        y = "Frequência relativa") +
+   theme_classic()
+
+pop
+```
+
+
+]
+
+---
+
+class: h1_small
+
+# 3. Distribuições de frequências na amostra
+
+___
+
+A amostragem busca **aproximar** a distribuição de frequências relativas que existe na população estatística
+
+___
+
+.pull-left-min[
+
+<h5 style="text-align:center">População estatística</h5>
+
+```{r, fig.align='center', fig.height=5, fig.width=6}
+pop
+```
+
+
+]
+
+.pull-right-min[
+
+```{r}
+n = 50
+```
+
+
+<h5 style="text-align:center">Amostra</h5>
+
+```{r, fig.align='center', fig.height=5, fig.width=6}
+
+olisap_amostra = slice_sample(olisap, n = n)
+amos = ggplot(olisap_amostra, aes(x = CP)) +
+  geom_histogram(fill = 'brown3', color = 'black', bins = 15) +
+  labs(x = "Comprimento em centímetros",
+       y = paste("Frequência (n = ",n,")",sep = '')) +
+  coord_cartesian(xlim = c(5, 70)) +
+  theme_classic()
+
+amos
+```
+
+
+]
+
+
+---
+
+class: h1_small
+
+# 3. Distribuições de frequências na amostra
+
+___
+
+Em cada amostra a distribuição de valores será diferente. O processo amostral busca garantir, em média, uma amostra **representativa**
+
+___
+
+.pull-left-min[
+
+<h5 style="text-align:center">População estatística</h5>
+
+```{r, fig.align='center', fig.height=5, fig.width=6}
+pop
+```
+
+
+]
+
+.pull-right-min[
+
+<h5 style="text-align:center">Amostras</h5>
+
+```{r, fig.align='center', fig.height=5, fig.width=6}
+
+plot_list = list()
+for (i in 1:6){
+  p = ggplot(slice_sample(olisap, n = n), aes(x = CP)) +
+  geom_histogram(fill = 'brown3', color = 'black', bins = 10) +
+    labs(x = "",
+         y = paste("Frequência (n = ",n,")",sep = '')) +
+    coord_cartesian(xlim = c(5, 65), ylim = c(0, 15)) +
+    theme_classic()
+  plot_list[[i]] = p
+}
+
+(plot_list[[1]] + plot_list[[2]] + plot_list[[3]]) /
+  (plot_list[[4]] + plot_list[[5]] + plot_list[[6]])
+
+```
+
+
+]
+
+---
+
+class: h1_small
+
+# 4. Parâmetros e estimadores
+
+___
+
+**Parâmetros**: descritores da POPULAÇÃO ESTATÍSTICA
+___
+
+.pull-left-min[
+
+
+<br/>
+
+
+.content-box-gray[<h5>Média populacional</h5> 
+
+$\mu = \frac{\sum_{i = 1}^{N}{X_i}}{N}$
+
+<h5>Variância populacional</h5>
+
+$\sigma^2 = \frac{\sum_{i = 1}^{N}{(X_i - \mu)^2}}{N}$
+
+]
+
+]
+
+.pull-right-min[
+
+<br/>
+
+```{r, fig.align='center', fig.height=5, fig.width=6}
+pop
+```
+
+
+]
+
+---
+
+class: h1_small
+
+# 4. Parâmetros e estimadores
+
+___
+
+**Estimadores**: descritores da AMOSTRA
+___
+
+.pull-left-min[
+
+
+<br/>
+
+
+.content-box-gray[<h5>Média amostral</h5> 
+
+$\overline{X} = \frac{\sum_{i = 1}^{n}{X_i}}{n}$
+
+<h5>Variância amostral</h5>
+
+$s^2 = \frac{\sum_{i = 1}^{n}{(X_i - \overline{X})^2}}{n - 1}$
+
+]
+
+]
+
+.pull-right-min[
+
+<br/>
+
+```{r, fig.align='center', fig.height=5, fig.width=6}
+(plot_list[[1]] + plot_list[[2]] + plot_list[[3]]) /
+  (plot_list[[4]] + plot_list[[5]] + plot_list[[6]])
+
+```
+
+
+]
+
+
+---
+
+class: h1_small
+
+# 5. Amostragem e inferência
+
+___
+
+**Inferência Estatística**: O processo que consiste em utilizamos descritores da amostra para tirar conclusões sobre as características da população estatística.
+___
+
+```{r}
+image_read("img/Amostragem_inferencia_estimadores.png") %>% 
+  image_resize("x350")
+```
+
+

@@ -1,0 +1,1364 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Amostragem e Delineamento</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Fabio Cop (fabiocopf@gmail.com)" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/metropolis.css" rel="stylesheet" />
+    <link href="libs/remark-css/metropolis-fonts.css" rel="stylesheet" />
+    <link href="libs/remark-css/hygge.css" rel="stylesheet" />
+    <script src="libs/fabric/fabric.min.js"></script>
+    <link href="libs/xaringanExtra-scribble/scribble.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-scribble/scribble.js"></script>
+    <script>document.addEventListener('DOMContentLoaded', function() { window.xeScribble = new Scribble({"pen_color":["#FF0000"],"pen_size":3,"eraser_size":30,"palette":[]}) })</script>
+    <script src="libs/kePrint/kePrint.js"></script>
+    <link href="libs/lightable/lightable.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Amostragem e Delineamento
+## Amostrando uma população estatística
+### Fabio Cop (<a href="mailto:fabiocopf@gmail.com" class="email">fabiocopf@gmail.com</a>)
+### Instituto do Mar - UNIFESP
+### Última atualização em 12 de março de 2022
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+    .h1_small h1 {
+      font-weight: normal;
+      margin-top: -75px;
+      margin-left: -00px;
+      color: #FAFAFA;
+      font-size: 150%;
+    }
+
+    .pull-left-min {
+      float: left;
+      width: 37%;
+    }
+
+    .pull-right-min {
+      float: right;
+      width: 60%;
+    }
+    
+    .fundo_capa {
+      background-image: url('img/Amostra_aleatoria.jpg');
+      background-size: 140%;
+      background-position: center;
+    }
+    
+    .fundo_marble {
+      background-image: url('img/marble.jpg');
+      background-size: 140%;
+      background-position: center;
+    }
+    
+    .fundo_sistematica {
+      background-image: url('img/fundo-checkered-na-perspectiva.jpg');
+      background-size: 140%;
+      background-position: center;
+    }
+    
+    .regression table {
+      font-size: 16px;
+    }
+
+    .regression_small table {
+      font-size: 13px;
+    }
+    
+    .font_small table {
+      font-size: 0.9rem;
+    }
+&lt;/style&gt;
+
+
+
+---
+
+class: h1_small, fundo_capa
+
+# Conteúdo da aula
+
+.pull-left-min[
+
+.content-box-gray[
+
+___
+
+1. Amostragem aleatória simples
+
+1. Amostragem aleatória estratificada
+
+1. Amostragem sistemática
+
+1. Erro amostral, acurácia e precisão
+
+___
+
+]
+
+]
+
+.pull-right-min[
+
+]
+
+---
+
+class: h1_small, fundo_capa
+
+# O processo de amostragem e inferência sobre uma população estatística
+
+&lt;img src="Amostra_Populacao_files/figure-html/unnamed-chunk-2-1.png" width="872" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: h1_small
+
+# 1.  Amostragem aleatória simples
+
+.pull-left-min[
+
+
+
+
+___
+
+Suponha uma população hipotética de somente `\(10\)` elementos: 
+
+**População**: 3, 10, 14, 19, 27, 28, 29, 41, 42, 43
+
+___
+
+]
+
+.pull-right-min[
+
+___
+
+&lt;h5 style="text-align:center"&gt;Exemplos de amostras aleatórias simples&lt;/h5&gt;
+
+___
+Tamanho amostral: `\(n = 10\)`
+
+**Amostra 1**: 42, 19, 29, 3, 10
+
+**Amostra 2**: 27, 28, 42, 3, 43
+
+Se nos dois casos, os elementos foram *sorteados* a partir da população estatística, a amostra `\(1\)` é tão aleatória e válida do ponto de vista estatístico quanto a amostra `\(2\)`.
+
+]
+
+.content-box-red[
+
+Na amostragem aleatória simples, cada elemento da população tem a **mesma probabilidade** de compor uma amostra. Se a população tem `\(N\)` elementos, cada um tem probabilidade `\(\frac{1}{N}\)` de ser selecionado.
+
+]
+
+---
+
+class: h1_small
+
+# 1.  Amostragem aleatória simples
+
+.pull-left-min[
+
+___
+
+Suponha uma população hipotética de somente `\(10\)` elementos: 
+
+**População**: 3, 10, 14, 19, 27, 28, 29, 41, 42, 43
+
+___
+
+]
+
+.pull-right-min[
+
+___
+
+&lt;h5 style="text-align:center"&gt;Exemplos de amostras aleatórias simples&lt;/h5&gt;
+
+___
+Tamanho amostral: `\(n = 10\)`
+
+**Amostra 3**: 3, 10, 14, 19, 27
+
+**Amostra 4**: 43, 42, 41, 29, 28
+
+Ainda que nos dois casos acima tenhamos conduzido um *sorteio aleratório*, as amostras `\(3\)` e `\(4\)` resultaram respectivamente, nos `\(5\)` **menores** ou nos `\(5\)` **maiores** valores da população estatística.
+
+]
+
+.content-box-red[
+
+Um resultado de uma amostragem aleatória simples pode ser válido do ponto de vista estatístico, mas ainda assim **não representativo** da população estatística.
+
+]
+
+---
+
+class: h1_small, fundo_marble
+
+# 2.  Amostragem aleatória estratificada
+
+.pull-left[
+
+___
+
+Ocorrência de **estratos populacionais**
+
+___
+
+]
+
+.pull-right[
+
+___
+
+&lt;h4 style="text-align:right"&gt;Cada estrato é representado na amostra.&lt;/h4&gt;
+
+
+___
+
+]
+
+---
+
+class: h1_small, fundo_marble
+
+# 2.  Amostragem aleatória estratificada
+
+.pull-left[
+
+___
+
+Ocorrência de **estratos populacionais**
+
+___
+
+]
+
+.pull-right[
+
+___
+
+&lt;h4 style="text-align:right"&gt;Cada estrato é representado na amostra.&lt;/h4&gt;
+
+
+___
+
+]
+
+&lt;/br&gt;&lt;/br&gt;&lt;/br&gt;&lt;/br&gt;&lt;/br&gt;&lt;/br&gt;&lt;/br&gt;&lt;/br&gt;&lt;/br&gt;&lt;/br&gt;&lt;/br&gt;
+
+.content-box-gray[
+
+&lt;h4 style="text-align:center"&gt;Após a divisão em estratos, é realizada uma amostra aleatória simples &lt;b&gt;dentro&lt;/b&gt; de cada estrato.&lt;/h4&gt;
+
+]
+
+---
+
+class: h1_small, font_small
+
+# 2.  Amostragem aleatória estratificada
+
+
+
+
+.pull-left[
+
+Suponha uma população de `\(10\)` elementos composta de dois estratos (A ou B).
+
+___
+
+&lt;/br&gt;
+
+&lt;table class=" lightable-paper lightable-striped" style='font-family: "Arial Narrow", arial, helvetica, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;'&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:right;"&gt; X &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Estrato &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"&gt; 7.3 &lt;/td&gt;
+   &lt;td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"&gt; A &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"&gt; 10.6 &lt;/td&gt;
+   &lt;td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"&gt; A &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"&gt; 14.8 &lt;/td&gt;
+   &lt;td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"&gt; A &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"&gt; 6.6 &lt;/td&gt;
+   &lt;td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"&gt; A &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"&gt; 9.8 &lt;/td&gt;
+   &lt;td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"&gt; A &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: white !important;background-color: gray !important;"&gt; 14.4 &lt;/td&gt;
+   &lt;td style="text-align:left;font-weight: bold;color: white !important;background-color: gray !important;"&gt; B &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: white !important;background-color: gray !important;"&gt; 16.1 &lt;/td&gt;
+   &lt;td style="text-align:left;font-weight: bold;color: white !important;background-color: gray !important;"&gt; B &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: white !important;background-color: gray !important;"&gt; 13.3 &lt;/td&gt;
+   &lt;td style="text-align:left;font-weight: bold;color: white !important;background-color: gray !important;"&gt; B &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: white !important;background-color: gray !important;"&gt; 20.0 &lt;/td&gt;
+   &lt;td style="text-align:left;font-weight: bold;color: white !important;background-color: gray !important;"&gt; B &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: white !important;background-color: gray !important;"&gt; 13.6 &lt;/td&gt;
+   &lt;td style="text-align:left;font-weight: bold;color: white !important;background-color: gray !important;"&gt; B &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+]
+
+.pull-right[
+
+
+
+&lt;h4 style="text-align:right"&gt;Amostras estratificadas com n = 4 seriam.&lt;/h4&gt;
+
+___
+
+
+
+&lt;/br&gt;
+
+&lt;table class=" lightable-paper lightable-striped" style='font-family: "Arial Narrow", arial, helvetica, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;'&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:right;"&gt; Amostra_1 &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Amostra_2 &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Amostra_3 &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Amostra_4 &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"&gt; 14.8 &lt;/td&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"&gt; 7.3 &lt;/td&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"&gt; 7.3 &lt;/td&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"&gt; 14.8 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"&gt; 9.8 &lt;/td&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"&gt; 6.6 &lt;/td&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"&gt; 10.6 &lt;/td&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"&gt; 7.3 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: white !important;background-color: gray !important;"&gt; 14.4 &lt;/td&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: white !important;background-color: gray !important;"&gt; 20.0 &lt;/td&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: white !important;background-color: gray !important;"&gt; 13.6 &lt;/td&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: white !important;background-color: gray !important;"&gt; 13.6 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: white !important;background-color: gray !important;"&gt; 16.1 &lt;/td&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: white !important;background-color: gray !important;"&gt; 13.3 &lt;/td&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: white !important;background-color: gray !important;"&gt; 16.1 &lt;/td&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: white !important;background-color: gray !important;"&gt; 14.4 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+___
+
+Ainda que dentro dos blocos ocorra um sorteio aleatório, sempre são sorteados **exatamente** `\(2\)` elementos de cada estrato.
+___
+
+]
+
+---
+
+class: h1_small, fundo_sistematica
+
+# 3.  Amostragem sistemática
+
+.content-box-green[
+&lt;h4 style="text-align:center"&gt;Em uma amostragem sistemática as unidades amostrais são &lt;b&gt;ordenadas&lt;/b&gt; seguindo determinado critério e os elementos amostrados em intervalos regulares.&lt;/h4&gt;
+
+]
+
+---
+
+class: h1_small
+
+# 3.  Amostragem sistemática
+
+
+
+___
+
+Implicações da amostragem sistemática na estimativa dos parâmetros populacionais.
+___
+
+&lt;h4 style="text-align:center"&gt;POPULAÇÃO&lt;/h4&gt;
+&lt;/br&gt;
+
+&lt;img src="Amostra_Populacao_files/figure-html/unnamed-chunk-9-1.png" width="1177" style="display: block; margin: auto;" /&gt;
+
+&lt;/br&gt;
+
+.content-box-green[
+&lt;h4 style="text-align:center"&gt;Quando a variável de interesse &lt;b&gt;não tem relação&lt;/b&gt; com a sequência escolhida, a amostragem sistemática tende a gerar &lt;b&gt;os mesmos&lt;/b&gt; resultados da amostragem aleatória.&lt;/h4&gt;
+
+]
+
+---
+
+class: h1_small
+
+# 3.  Amostragem sistemática
+
+
+
+___
+
+Implicações da amostragem sistemática na estimativa dos parâmetros populacionais.
+___
+
+&lt;h4 style="text-align:center"&gt;POPULAÇÃO&lt;/h4&gt;
+&lt;/br&gt;
+
+&lt;img src="Amostra_Populacao_files/figure-html/unnamed-chunk-11-1.png" width="1177" style="display: block; margin: auto;" /&gt;
+
+&lt;/br&gt;
+
+.content-box-green[
+&lt;h4 style="text-align:center"&gt;Se houver um gradiente justamente na direção do transecto, a variância amostral \(s^{2}\) irá &lt;b&gt;superestimar&lt;/b&gt; a variância populacional \(\sigma^2\).&lt;/h4&gt;
+
+]
+---
+
+class: h1_small
+
+# 3.  Amostragem sistemática
+
+
+
+___
+
+Implicações da amostragem sistemática na estimativa dos parâmetros populacionais.
+___
+
+&lt;h4 style="text-align:center"&gt;POPULAÇÃO&lt;/h4&gt;
+&lt;/br&gt;
+
+&lt;img src="Amostra_Populacao_files/figure-html/unnamed-chunk-13-1.png" width="2191" style="display: block; margin: auto;" /&gt;
+
+&lt;/br&gt;
+
+.content-box-green[
+&lt;h4 style="text-align:center"&gt;Se houver uma periodicidade que coincida com o intervalo escolhido, a variância amostral \(s^{2}\) irá &lt;b&gt;subsetimar&lt;/b&gt; a variância populacional \(\sigma^2\).&lt;/h4&gt;
+
+]
+
+---
+
+class: h1_small
+
+# 4. Erro amostral, acurácia e precisão
+
+___
+
++ **Erro amostral (E)**: diferença entre uma estimativa em particular e a média populacional.
+
+`$$E = \overline{X} - \mu$$`
+
++ **Acurácia**: se refere à proximidade entre o parâmetro e o estimador. Um estimador acurado é, em média, igual ao parâmetro populacional. 
+
+
+`$$\mu_{\overline{X}} - \mu$$`
+
++ **Precisão**: tem relação com a variabilidade do estimador. Estimadores que geram estimativas similares entre si são mais precisos. A precisão é medida pelo **erro padrão da média**.
+
+`$$\sigma_{\overline{X}} =\frac{\sigma}{\sqrt{n}}$$`
+
+___
+
+
+---
+
+class: h1_small
+
+# 4. Erro amostral
+
+
+
+___
+
+Voltemos à nossa população fictícia com `\(N = 10\)` elementos:
+
+**População**: 3, 10, 14, 19, 27, 28, 29, 41, 42, 43
+
+___
+
+.pull-left[
+
+A amostra aleatória de tamanho `\(n = 5\)`:
+
+**Amostra 1**: `\(41, 14, 42, 29, 19\)`
+
+Tem média:
+
+`\(\overline{X}_1 =\frac{41+14+42+29+19}{5} = 29\)`
+
+E **erro amostral**:
+
+`\(E_1 = 29  -  25.6  =  3.4\)`
+
+]
+
+
+.pull-right[
+
+Outra amostra aleatória de tamanho `\(n = 5\)`:
+
+**Amostra 2**: `\(27, 29, 19, 10, 14\)`
+
+Tem média:
+
+`\(\overline{X}_2 = 19.8\)`
+
+E **erro amostral**:
+
+`\(E_2 = 19.8  -  25.6  =  -5.8\)`
+
+]
+
+.content-box-green[
+
+O erro amostral mede diferença entre a estimativa obtida de uma amostra *particular* e a média populacional.
+
+]
+---
+
+class: h1_small
+
+# 4. Acurácia
+
+
+
+
+
+___
+
+Existem:
+
+`$${{10}\choose{5}} = \frac{10!}{(10-5)! \times 5!} = 252$$`
+
+formas diferentes de tomarmos uma amostra de tamanho `\(n = 5\)` de nossa população de tamanho `\(N = 10\)`.
+
+___
+
+Se tomadas `\(8\)` destas amostras veremos que as médias amostrais `\(\overline{X}\)` diferementre si.
+
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt;   &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; A 1 &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; A 2 &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; A 3 &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; A 4 &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; A 5 &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; A 6 &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; A 7 &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; A 8 &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 19.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 29 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 10.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 19.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 42.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 29.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 28 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 43.0 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 29.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 43 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 14.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 41.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 29.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 10.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 42 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 28.0 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 10.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 28 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 42.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 43.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 41.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 27.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 10 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 42.0 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 42.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 28.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 28.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 14.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 42.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 43 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 27.0 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 43.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 27 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 29.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 28.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 43.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 27 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 19.0 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Medias &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 28.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 26 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 24.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 26.8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 30.8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 30.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 30 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 31.8 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+
+class: h1_small
+
+# 4. Acurácia
+
+Se tomarmos TODAS as `\(252\)` amostras possíveis e calcularmos as respectivas médias teremos:
+
+&lt;table&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 14.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 14.8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 15.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 17.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 17.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 17.8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 16.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 16.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 19.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 19.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 19.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 16.8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 19.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 19.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 19.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 19.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 19.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 19.8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 22.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 22.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 22.4 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 17.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 17.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 20.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 20.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 20.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 17.8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 20.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 20.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 20.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 20.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 20.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 20.8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 23.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 23.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 23.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 19.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 21.8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 22.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 22.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 22.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 22.2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 22.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 24.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 24.8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 25.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 22.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 22.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 22.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 24.8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 25.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 25.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 25.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 25.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 25.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 27.8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 18.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 18.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 20.8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 21.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 21.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 18.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 21.0 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 21.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 21.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 21.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 21.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 21.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 23.8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 24.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 24.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 20.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 22.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 22.8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 23.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 22.8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 23.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 23.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 25.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 25.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 25.8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 23.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 23.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 23.4 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 25.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 25.8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 26.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 25.8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 26.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 26.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 28.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 21.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 23.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 23.8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 24.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 23.8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 24.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 24.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 26.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 26.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 26.8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 24.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 24.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 24.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 26.6 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 26.8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 27.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 26.8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 27.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 27.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 29.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 25.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 25.8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 26.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 28.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 28.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 28.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 28.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 28.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 28.8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 31.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 28.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 28.8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 29.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 31.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 31.6 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 19.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 19.8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 22.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 22.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 22.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 20.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 22.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 22.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 22.8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 22.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 22.8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 23.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 25.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 25.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 25.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 21.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 24.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 24.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 24.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 24.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 24.4 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 24.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 26.8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 27.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 27.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 24.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 24.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 24.8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 27.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 27.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 27.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 27.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 27.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 27.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 30.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 22.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 25.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 25.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 25.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 25.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 25.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 25.6 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 27.8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 28.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 28.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 25.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 25.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 25.8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 28.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 28.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 28.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 28.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 28.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 28.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 31.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 27.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 27.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 27.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 29.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 29.8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 30.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 29.8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 30.0 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 30.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 32.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 30.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 30.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 30.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 32.8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 33.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 23.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 25.8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 26.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 26.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 26.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 26.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 26.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 28.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 28.8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 29.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 26.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 26.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 26.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 28.8 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 29.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 29.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 29.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 29.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 29.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 31.8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 27.8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 28.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 28.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 30.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 30.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 30.8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 30.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 30.8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 31.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 33.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 30.8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 31.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 31.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 33.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 33.8 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 28.8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 29.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 29.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 31.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 31.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 31.8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 31.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 31.8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 32.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 34.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 31.8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 32.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 32.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 34.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 34.8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 33.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 33.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 33.8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 36.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 36.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 36.6 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+
+class: h1_small
+
+# 4. Acurácia
+
+Que descrevem o seguinte padrão:
+
+.pull-left[
+
+&lt;/br&gt;
+
+&lt;img src="Amostra_Populacao_files/figure-html/unnamed-chunk-19-1.png" style="display: block; margin: auto;" /&gt;
+
+]
+
+.pull-right[
+
++ Média populacional
+
+`$$\mu = \sum_{i = 1}^{10}\frac{3, 10, 14, 19, 27, 28, 29, 41, 42, 43}{10} = 25.6$$`
+
++ Média das `\(N = 252\)` médias amostrais com `\(n = 5\)`
+
+`$$\mu_{\overline{X}} = \sum_{i = 1}^{N}\frac{\overline{X}_i}{252} = 25.6$$`
+
+.content-box-green[
+
+Verificamos que o estimador é acurado pois:
+
+`$$\mu_{\overline{X}} - \mu = 25.6 - 25.6 = 0$$`
+
+]
+
+]
+
+---
+
+class: h1_small
+
+&lt;h1&gt; 4. Precisão: o erro padrão da média - \(\sigma_{\overline{X}}\) &lt;/h1&gt;
+
+
+
+
+**População**: 3, 10, 14, 19, 27, 28, 29, 41, 42, 43
+
+___
+
+Suponha agora que tomemos ao acaso amostras com `\(n = 7\)` desta mesma população. 
+
+Existem ao todo:
+
+`$${{10}\choose{7}} = \frac{10!}{(10-7)! \times 7!} = 120$$`
+
+amostras diferentes de tamanho `\(n = 7\)` que podem ser retiradas de uma população de tamanho  `\(N = 10\)`. 
+
+___
+
+---
+
+class: h1_small
+
+&lt;h1&gt; 4. Precisão: o erro padrão da média - \(\sigma_{\overline{X}}\) &lt;/h1&gt;
+
+Se tomarmos estas `\(120\)` amostras e calcularmos suas respectivas médias amostrais, teremos:
+
+&lt;table&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 18.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 20.3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 20.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 20.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 20.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 20.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 20.7 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 22.3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 22.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 22.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 20.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 20.7 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 20.9 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 22.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 22.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 22.7 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 22.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 22.7 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 22.9 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 24.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 21.7 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 21.9 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 22.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 23.6 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 23.7 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 23.9 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 23.7 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 23.9 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 24.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 25.7 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 23.9 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 24.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 24.1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 25.9 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 26.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 22.4 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 22.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 22.7 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 24.3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 24.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 24.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 24.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 24.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 24.7 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 26.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 24.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 24.7 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 24.9 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 26.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 26.7 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 25.7 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 25.9 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 26.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 27.7 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 27.9 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 28.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 23.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 23.1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 23.3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 24.9 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 25.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 25.1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 25.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 25.1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 25.3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 27.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 25.1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 25.3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 25.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 27.1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 27.3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 26.3 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 26.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 26.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 28.3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 28.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 28.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 27.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 27.1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 27.3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 29.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 29.1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 29.3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 30.4 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 24.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 24.1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 24.3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 25.9 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 26.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 26.1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 26.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 26.1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 26.3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 28.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 26.1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 26.3 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 26.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 28.1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 28.3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 27.3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 27.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 27.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 29.3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 29.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 29.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 28.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 28.1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 28.3 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 30.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 30.1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 30.3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 31.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 28.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 28.7 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 28.9 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 30.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 30.7 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 30.9 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 32.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 32.7 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+
+class: h1_small
+
+&lt;h1&gt; 4. Precisão: o erro padrão da média - \(\sigma_{\overline{X}}\) &lt;/h1&gt;
+
+.pull-left[
+
+&lt;/br&gt;
+
+&lt;img src="Amostra_Populacao_files/figure-html/unnamed-chunk-22-1.png" style="display: block; margin: auto;" /&gt;
+
+
+]
+
+.pull-right[
+
++ Média populacional
+
+`$$\mu = \sum_{i = 1}^{10}\frac{3, 10, 14, 19, 27, 28, 29, 41, 42, 43}{10} = 25.6$$`
+
++ Média das `\(120\)` médias amostrais com `\(n = 7\)`
+
+`$$\mu_{\overline{X}} = \sum_{i = 1}^{N}\frac{\overline{X}_i}{120} = 25.6$$`
+
+.content-box-green[
+
+Como no exemplo anterior, verificamos que o estimador é acurado pois:
+
+`$$\mu_{\overline{X}} - \mu = 25.6 - 25.6 = 0$$`
+
+]
+
+]
+
+
+---
+
+class: h1_small
+
+&lt;h1&gt; 4. Precisão: o erro padrão da média - \(\sigma_{\overline{X}}\) &lt;/h1&gt;
+
+
+
+
+.pull-left[
+
+&lt;h5 style="text-align:center"&gt;Distribuição das médias amostrais para n = 5&lt;/h5&gt;
+
+&lt;img src="Amostra_Populacao_files/figure-html/unnamed-chunk-24-1.png" style="display: block; margin: auto;" /&gt;
+
+___
+
+`$$\sigma_{\overline{x}} = \frac{\sigma}{\sqrt{n}} = \frac{13.27}{\sqrt{5}} = 5.934$$`
+
+___
+
+]
+
+.pull-right[
+
+&lt;h5 style="text-align:center"&gt;Distribuição das médias amostrais para n = 7&lt;/h5&gt;
+
+&lt;img src="Amostra_Populacao_files/figure-html/unnamed-chunk-25-1.png" style="display: block; margin: auto;" /&gt;
+
+___
+
+`$$\sigma_{\overline{x}} = \frac{\sigma}{\sqrt{n}} = \frac{13.27}{\sqrt{7}} = 5.015$$`
+
+___
+
+]
+
+---
+
+class: h1_small
+
+&lt;h1&gt; 4. Precisão: o erro padrão da média - \(\sigma_{\overline{X}}\) &lt;/h1&gt;
+
+&lt;/br&gt;&lt;/br&gt;&lt;/br&gt;
+
+.content-box-green[
+
+Na prática científica não conhecemos o desvio padrão populacional `\(\sigma\)` e, consequentemente, não temos obter o erro padrão populacional `\(\sigma_{\overline{X}}\)`. No entanto, dado que temos uma amostra particular, podemos **estimá-lo** a partir do desvio padrão amostral `\(s\)` pela expressão:
+
+`$$s_{\overline{X}} = \frac{s}{\sqrt{n}}$$`
+
+em que `\(s_{\overline{X}}\)` é denominado de **erro padrão amostral**
+
+]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "arta",
+"highligthLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
