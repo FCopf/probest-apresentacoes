@@ -1,0 +1,423 @@
+---
+title: "Inferência Estatística e Teste de Hipóteses"
+subtitle: "Estimando a média populacional"
+author: "Fabio Cop (fabiocopf@gmail.com)"
+institute: "Instituto do Mar - UNIFESP"
+date: "Última atualização em `r format(Sys.time(), '%d de %B de %Y')`"
+output:
+  xaringan::moon_reader:
+    css: [default, metropolis, metropolis-fonts, hygge]
+    lib_dir: libs
+    nature:
+      highlightStyle: arta
+      highligthLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+---
+
+```{r setup-chunk, include=FALSE, message = FALSE, echo = FALSE, warning = FALSE}
+options(
+  htmltools.dir.version = FALSE,
+  html.preserve.raw = FALSE # needed for windows
+)
+
+# chunk options
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE,
+                      fig.align = 'center', fig.width = 8, fig.height = 6)
+
+# Packages
+suppressMessages(library(tidyverse))
+suppressMessages(library(magick))
+suppressMessages(library(patchwork))
+suppressMessages(library(kableExtra))
+
+# Functions
+
+# datasets
+
+```
+
+``` {css, echo =F} 
+    .h1_small h1 {
+      font-weight: normal;
+      margin-top: -75px;
+      margin-left: -00px;
+      color: #FAFAFA;
+      font-size: 150%;
+    }
+
+    .pull-left-min {
+      float: left;
+      width: 37%;
+    }
+
+    .pull-right-min {
+      float: right;
+      width: 60%;
+    }
+    
+    .fundo_capa {
+      background-image: url('img/TCL_art.png');
+      background-size: 140%;
+      background-position: center;
+    }
+    
+    .fundo_marble {
+      background-image: url('img/marble.jpg');
+      background-size: 140%;
+      background-position: center;
+    }
+    
+    .fundo_sistematica {
+      background-image: url('img/fundo-checkered-na-perspectiva.jpg');
+      background-size: 140%;
+      background-position: center;
+    }
+    
+    .regression table {
+      font-size: 16px;
+    }
+
+    .regression_small table {
+      font-size: 13px;
+    }
+    
+    .font_small table {
+      font-size: 0.9rem;
+    }
+```
+
+```{r xaringan-scribble, echo=FALSE}
+xaringanExtra::use_scribble()
+```
+
+---
+
+class: h1_small, fundo_capa
+
+# Conteúdo da aula
+
+.pull-left[
+
+
+]
+
+.pull-right[
+
+.content-box-gray[
+
+___
+
+1. Relembrando o Teorema Central do Limite
+
+1. Estimação pontual e estimação intervalar: o intervalo de confiança
+
+1. A distribuição $t$ de Student: IC para $\mu$ e $\sigma$ desconhecidos
+
+1. Introdução à suficiência amostral: margen de erro e nível de confiança 
+
+___
+
+]
+
+
+]
+
+
+---
+
+class: h1_small
+
+# 1. Relembrando o Teorema Central do Limite
+
+</br></br>
+
+.pull-left[
+
+.content-box-green[
+
+A distribuição das médias amostrais de uma população estatística tende a apresentar uma **distribuição normal de probabilidades** com média $\mu$ e desvio padrão $\frac{\sigma}{\sqrt(n)}$ à medida que o tamanho amostral $n$ aumenta.
+
+O **erro padrão** 
+
+$$\sigma_{\overline{X}} = \frac{\sigma}{\sqrt{n}}$$
+
+é uma medida do desvio padrão das médias amostrais.
+
+]
+
+
+]
+
+.pull-right[
+
+```{r}
+amostr3 <- image_read("img/amostragem_inferencia_3.png") %>% 
+   image_scale("650x")
+amostr3
+```
+
+
+]
+
+---
+
+class: h1_small
+
+# 2. Estimação pontual e estimação intervalar: o intervalo de confiança
+
+</br></br>
+
+.pull-left[
+
+.content-box-green[
+
+<h4 style="text-align:center">O intervalo de confiança da média - \(IC_{1-\alpha}\)</h4>
+
+É o intervalo de valores associado a um determinado nível de significância $\alpha$. Quando dizemos que um intervalo foi calculado a um nível de confiança de $95\%$, isto é,  $1 - \alpha$, estamos dizendo que a probabilidade do IC conter o valor da média populacional $\mu$ é de $95\%$.
+
+$$IC_{1-\alpha} = \mu \pm z_{\alpha/2} \times \frac{\sigma}{\sqrt{n}}$$
+
+]
+
+]
+
+.pull-right[
+
+``` {r fig.width=6, fig.height=6, fig.align = "center", echo=FALSE}
+qr = qnorm(p = c(1-c(0.995, 0.975, 0.95),0.5,c(0.95, 0.975, 0.995)))
+dqr = dnorm(x = qr)
+
+
+qrc1 = c(qr[3], qr[5], seq(qr[5],qr[3], by = -0.001))
+dqrc1 = c(0, 0, dnorm(x = seq(qr[5],qr[3], by = -0.001)))
+
+qrc2 = c(qr[6], qr[7], seq(qr[7], qr[6], by = -0.001))
+dqrc2 = c(0, 0, dnorm(x = seq(qr[7], qr[6], by = -0.001)))
+
+qrc2m = c(qr[1], qr[2], seq(qr[2],qr[1], by = -0.001))
+dqrc2m = c(0, 0, dnorm(x = seq(qr[2],qr[1], by = -0.001)))
+
+pqr = pnorm(q = qr)
+perc = diff(pqr) * 100
+
+curve(expr = dnorm(x, 0,1), from = -4, to = 4, 
+      ylab = "Densidade da distribuição normal padronizada",
+      xlab = "Distribuição de Z", ylim = c(0, 0.7), axes = F)
+axis(1, at = -5:5, cex.axis = 0.8)
+axis(2, at = seq(-1, 0.5, by = 0.1), cex.axis = 0.8)
+segments(x0 = qr, x1 = qr, y0 = 0, y1 = c(0.65, 0.55, 0.45, dnorm(0), 0.45, 0.55, 0.65), lty = 2)
+polygon(x = qrc1, y = dqrc1, col = rgb(red = 0.9, 0,0, alpha = 0.5))  
+polygon(x = qrc2, y = dqrc2, col = rgb(red = 0.9, 0,0, alpha = 0.5))  
+polygon(x = qrc2m, y = dqrc2m, col = rgb(red = 0.9, 0,0, alpha = 0.5))
+segments(x0 = qr[1], x1 = qr[7], y0 = 0.65, y1 = 0.65, lwd = 2)
+segments(x0 = qr[2], x1 = qr[6], y0 = 0.55, y1 = 0.55, lwd = 2)
+segments(x0 = qr[3], x1 = qr[5], y0 = 0.45, y1 = 0.45, lwd = 2)
+text(x = 0, y = 0.67, labels = bquote(.(round(diff(pnorm(q = c(qr[1],qr[7]))*100),0)) ~ "% entre " ~ .(round(qr[1],2)) ~ " e " ~ .(round(qr[7],2))), cex = 1.2)
+text(x = 0, y = 0.57, labels = bquote(.(round(diff(pnorm(q = c(qr[2],qr[6]))*100),0)) ~ "% entre " ~ .(round(qr[2],2)) ~ " e " ~ .(round(qr[6],2))), cex = 1.2)
+text(x = 0, y = 0.47, labels = bquote(.(round(diff(pnorm(q = c(qr[3],qr[5]))*100),0)) ~ "% entre " ~ .(round(qr[3],2)) ~ " e " ~ .(round(qr[5],2))), cex = 1.2)    
+```
+
+]
+
+---
+
+class: h1_small
+
+# 3. A distribuição $t$ de Student: IC para $\mu$ e $\sigma$ desconhecidos
+
+</br>
+___
+
+.pull-left[
+
+Para $\mu$ e $\sigma$ e/ou as amostras são pequenas (ex. $n<30$), a dsitribuição normal não é a melhor aproximação para o comportamento das médias amostrais. Nestes casos, substituímos a distribuição de $z$ pela **Distribuição $t$ de Student**, sendo o intervalo de confiança obtido por:
+
+___
+
+$$IC_{1-\alpha} = \overline{X} \pm t_{\alpha/2, gl} \times \frac{s}{\sqrt{n}}$$
+
+___
+
+sendo $gl$ denominado de **graus de liberdade**
+
+$$gl = n-1$$
+]
+
+.pull-right[
+
+
+
+```{r}
+n1 <- 2
+n2 <- 5
+n3 <- 30
+ggplot(data = data.frame(x = c(-4,4)),
+       mapping = aes(x = x)) +
+  stat_function(mapping = aes(color = "Dist. Normal"),
+                fun = dnorm) +
+  stat_function(mapping = aes(color = paste("Dist. t; n =",n1)),
+                fun = dt,
+                args = list(df = n1-1)) +
+  stat_function(mapping = aes(color = paste("Dist. t; n =",n2)),
+                fun = dt,
+                args = list(df = n2-1)) +
+  stat_function(mapping = aes(color = paste("Dist. t; n =",n3)),
+                fun = dt,
+                args = list(df = n3-1)) +
+  labs(colour = "", y = "Densidade de probabilidade", x = "") +
+  theme_classic()
+
+
+```
+
+
+]
+
+___
+
+---
+
+class: h1_small
+
+# 4. Introdução à suficiência amostral: margen de Erro e nível de confiança
+
+</br>
+___
+
+.pull-left[
+
+A precisão de um experimento é medida pelo erro pádrão da média $\sigma_{\overline{X}}$ que por sua vez, depende do tamanho amostral $n$.
+
+$$\sigma_{\overline{X}} = \frac{\sigma}{\sqrt{n}}$$
+
+___
+
+Pergunta-se:
+
+> **"Qual tamanho amostral aplicar em meu estudo?"**
+
+___
+
+
+]
+
+.pull-right[
+
+
+
+```{r}
+curve(expr = 4/sqrt(x), from = 1, to = 100, ylab = bquote("Erro padrão da média (" ~ sigma[bar(x)] ~ ")"),
+      xlab = "Tamanho amostral (n)", axes = F)
+axis(1, at = seq(-10, 200, by = 10))
+axis(2, seq(-1,10, by = 0.5), las = 2)
+```
+
+
+]
+
+___
+
+
+---
+
+class: h1_small
+
+# 4. Introdução à suficiência amostral: margen de Erro e nível de confiança
+
+</br>
+___
+
+.pull-left[
+
+</br>
+
+> **Margem de Erro - $E$** (nível de acurácia desejado): diferença máxima provável (com  probabilidade $1-\alpha$) entre a média amostral e a média populacional.
+
+$$E = z_{\alpha/2} \times \frac{\sigma}{\sqrt{n}}$$
+
+___
+
+> **Nível de confiança**: garante que a estimativa estará dentro da margem de erro $E$ com probabilidade $1-\alpha$
+
+]
+
+.pull-right[
+
+
+
+``` {r fig.width=8, fig.height=6, fig.align = "center", echo=FALSE}
+qr = qnorm(p = c(0.10, 0.90))
+dqr = dnorm(x = qr)
+
+
+qrc1 = c(qr[1], qr[2], seq(qr[2],qr[1], by = -0.001))
+dqrc1 = c(0, 0, dnorm(x = seq(qr[2],qr[1], by = -0.001)))
+
+pqr = pnorm(q = qr)
+perc = diff(pqr) * 100
+
+eixox = expression(mu-E, mu, mu+E)
+
+curve(expr = dnorm(x, 0,1), from = -4, to = 4, 
+      ylab = "Densidade da distribuição normal",
+      xlab = "Distribuição de z", ylim = c(0, 0.5), axes = F)
+axis(1, at = c(qr[1],0,qr[2]), labels = eixox, cex.axis = 0.8)
+axis(2, at = seq(-1, 0.5, by = 0.1), cex.axis = 0.8)
+polygon(x = qrc1, y = dqrc1, col = rgb(red = 0.9, 0,0, alpha = 0.3))  
+segments(x0 = qr[1], x1 = qr[7], y0 = 0.65, y1 = 0.65, lwd = 2)
+text(y = c(0.05), x = c(-1.7), labels = bquote(alpha/2))
+text(y = c(0.1), x = c(0), labels = bquote(1-alpha))
+text(y = c(0.05), x = c(1.7), labels = bquote(alpha/2))
+
+```
+
+]
+
+___
+
+
+---
+
+class: h1_small
+
+# 4. Introdução à suficiência amostral: margen de erro e nível de confiança
+
+</br>
+___
+
+.pull-left[
+
+A pergunta:
+
+> "Qual tamanho amostral aplicar em meu estudo?"
+
+___
+
+Pode ser reformulada por:
+
+> Qual tamanho amostral $n$ garante uma margem de erro $E$ e o nível de confiança $1 - \alpha$ desejados
+
+]
+
+.pull-right[
+
+E para respondê-la, partimos da equação do **erro amostral**
+
+$$E = z_{\alpha/2} \times \frac{\sigma}{\sqrt{n}}$$
+
+___
+
+e isolamos a variável $n$ para obter:
+
+$$n = (\frac{ z_{\alpha/2} \times \sigma}{E})^2$$
+
+]
+
+</br>
+
+___
+
+> Uma vez que não conhecemos o desvio padrão populacional $\sigma$ podemos substituí-lo pelo desvio padrão $s$ de um experimento piloto ou estimá-lo a partir da literatura. 
+
+___

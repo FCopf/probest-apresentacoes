@@ -1,20 +1,28 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>Teste de hipóteses, Teste Z</title>
+    <title>Inferência Estatística e Teste de Hipóteses</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Instituto de Ciências do Mar - UNIFESP" />
-    <script src="Teste_Hipoteses_files/header-attrs/header-attrs.js"></script>
-    <link rel="stylesheet" href="xaringan-themer_uso.css" type="text/css" />
+    <meta name="author" content="Fabio Cop (fabiocopf@gmail.com)" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/metropolis.css" rel="stylesheet" />
+    <link href="libs/remark-css/metropolis-fonts.css" rel="stylesheet" />
+    <link href="libs/remark-css/hygge.css" rel="stylesheet" />
+    <script src="libs/fabric/fabric.min.js"></script>
+    <link href="libs/xaringanExtra-scribble/scribble.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-scribble/scribble.js"></script>
+    <script>document.addEventListener('DOMContentLoaded', function() { window.xeScribble = new Scribble({"pen_color":["#FF0000"],"pen_size":3,"eraser_size":30,"palette":[]}) })</script>
   </head>
   <body>
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# Teste de hipóteses, Teste Z
-## Fabio Cop
-### Instituto de Ciências do Mar - UNIFESP
-### 13 março, 2022
+# Inferência Estatística e Teste de Hipóteses
+## Introdução ao teste de hipóteses
+### Fabio Cop (<a href="mailto:fabiocopf@gmail.com" class="email">fabiocopf@gmail.com</a>)
+### Instituto do Mar - UNIFESP
+### Última atualização em 14 de março de 2022
 
 ---
 
@@ -22,29 +30,65 @@ class: center, middle, inverse, title-slide
 
 
 &lt;style type="text/css"&gt;
-.fundo {
-  padding: 0 1em 0 1em;
-  margin: 0;
-  background-image: url(img/borda.png);
-  background-size: 100%;
-  background-position: 1% 1%;
-  }
+    .h1_small h1 {
+      font-weight: normal;
+      margin-top: -75px;
+      margin-left: -00px;
+      color: #FAFAFA;
+      font-size: 150%;
+    }
 
-.espaco1 {line-height: 1.5em;}
-.espaco2 {line-height: 1.1em;}
-.textsizecaption{font-size: 1rem}
-.textsize{font-size: 0.8rem}
+    .pull-left-min {
+      float: left;
+      width: 37%;
+    }
 
+    .pull-right-min {
+      float: right;
+      width: 60%;
+    }
+    
+    .fundo_capa {
+      background-image: url('img/TCL_art.png');
+      background-size: 140%;
+      background-position: center;
+    }
+    
+    .fundo_marble {
+      background-image: url('img/marble.jpg');
+      background-size: 140%;
+      background-position: center;
+    }
+    
+    .fundo_sistematica {
+      background-image: url('img/fundo-checkered-na-perspectiva.jpg');
+      background-size: 140%;
+      background-position: center;
+    }
+    
+    .regression table {
+      font-size: 16px;
+    }
+
+    .regression_small table {
+      font-size: 13px;
+    }
+    
+    .font_small table {
+      font-size: 0.9rem;
+    }
 &lt;/style&gt;
 
 
 ---
 
-class: fundo, textsizecaption
+class: h1_small
 
-## Conteúdo da Aula
+# Conteúdo da aula
 
-1. Introdução ao teste de hipóteses, teste z
+___
+
+1. Introdução ao teste de hipóteses: o teste `\(z\)`
 
  1.1. Hipótese nula e alternativa
  
@@ -56,24 +100,32 @@ class: fundo, textsizecaption
   
 2. Testes bilaterais e unilaterais
 
-3. Modificando o nível de significância: Erros de decisão
+3. Considerações sobre o nível de significância: erros de decisão
 
+___
 
 ---
 
-class: fundo, textsize
+class: h1_small
 
-### 1. Introdução ao teste de hipóteses
+# 1. Introdução ao teste de hipóteses: o teste `\(z\)`
+
+___
 
 Digamos que o número de batimentos cardíacos por minuto de um adulto em repouso tenha distribuição normal com média `\(\mu = 65\)` e desvio padrão `\(\sigma = 9\)`. Você imagina que o sedentarismo altera o batimento médio de um adulto.
 
+___
+
 .pull-left[
 
-`\(H_0: \mu = 65\)` batimentos por minuto
 
-`\(H_a: \mu \ne 65\)` batimentos por minuto (Teste bilateral)
+`\(H_0: \mu = 65\)` batimentos por minuto (Hipótese Nula)
+
+`\(H_a: \mu \ne 65\)` batimentos por minuto (Hipótese Alternativa - teste BILATERAL)
 
 `\(\alpha = 0,05\)` nível de significância
+
+___
 
 ]
 
@@ -83,23 +135,30 @@ Digamos que o número de batimentos cardíacos por minuto de um adulto em repous
 
 A hipótese nula estabelece que:
 
+___
+
 &lt;img src="Teste_Hipoteses_files/figure-html/unnamed-chunk-2-1.png" style="display: block; margin: auto;" /&gt;
 
 ]
 
 ---
 
-class: fundo, textsize
+class: h1_small
 
-### 1. Método do valor crítico: definindo a área de rejeição
+# 1. Método do valor crítico: definindo a área de rejeição
+
+___
 
 Digamos que o número de batimentos cardíacos por minuto de um adulto em repouso tenha distribuição normal com média `\(\mu = 65\)` e desvio padrão `\(\sigma = 9\)`. Você imagina que o sedentarismo altera o batimento médio de um adulto.
 
+___
+
 .pull-left[
 
-`\(H_0: \mu = 65\)` batimentos por minuto
 
-`\(H_a: \mu \ne 65\)` batimentos por minuto (Teste bilateral)
+`\(H_0: \mu = 65\)` batimentos por minuto (Hipótese Nula)
+
+`\(H_a: \mu \ne 65\)` batimentos por minuto (Hipótese Alternativa - teste BILATERAL)
 
 `\(\alpha = 0,05\)` nível de significância
 
@@ -115,20 +174,30 @@ Determinar `\(\overline{X}\)` para que:
 
 A hipótese nula estabelece que:
 
+___
+
 &lt;img src="Teste_Hipoteses_files/figure-html/unnamed-chunk-3-1.png" style="display: block; margin: auto;" /&gt;
 
 ]
 
 ---
-class: fundo, textsize
 
-### 1. Método do valor crítico: definindo a área de rejeição
+class: h1_small
+
+# 1. Método do valor crítico: definindo a área de rejeição
+
+___
 
 Digamos que o número de batimentos cardíacos por minuto de um adulto em repouso tenha distribuição normal com média `\(\mu = 65\)` e desvio padrão `\(\sigma = 9\)`. Você imagina que o sedentarismo altera o batimento médio de um adulto.
+
+___
 
 .pull-left[
 
 `\(P(|E| \ge |\overline{X} - \mu|) = 0,05\)`
+
+___
+
 
 &lt;img src="Teste_Hipoteses_files/figure-html/unnamed-chunk-4-1.png" style="display: block; margin: auto;" /&gt;
 
@@ -139,6 +208,8 @@ Digamos que o número de batimentos cardíacos por minuto de um adulto em repous
 
 `\(P(|Z| \ge |\frac{\overline{X} - \mu}{\sigma_{\mu}}|) = 0,05\)`
 
+___
+
 &lt;img src="Teste_Hipoteses_files/figure-html/unnamed-chunk-5-1.png" style="display: block; margin: auto;" /&gt;
 
 ]
@@ -146,81 +217,99 @@ Digamos que o número de batimentos cardíacos por minuto de um adulto em repous
 
 ---
 
-class: fundo, textsize
+class: h1_small
 
-### 1. Método do valor crítico: definindo a área de rejeição
+# 1. Método do valor crítico: definindo a área de rejeição
+
+___
 
 Digamos que o número de batimentos cardíacos por minuto de um adulto em repouso tenha distribuição normal com média `\(\mu = 65\)` e desvio padrão `\(\sigma = 9\)`. Você imagina que o sedentarismo altera o batimento médio de um adulto.
 
-.pull-left[
+___
+
+.pull-left-min[
 
 `\(Z_{crítico} = 1.96\)`
+
+___
 
 Aceitamos `\(H_0\)` se 
 
 `$$|Z_{calculado}| &lt; |Z_{crítico}|$$`
 
+___
+
 e rejeitamos `\(H_0\)` se 
 
 `$$|Z_{calculado}| \ge |Z_{crítico}|$$`
+
+___
+
 sendo:
 
 `\(Z_{calculado} = \frac{\overline{X} - \mu}{\sigma_{\mu}}\)`
 
 ]
 
-.pull-right[
+.pull-right-min[
 
-Obtém-se a seguinda amostra *aleatória*: 
+Obtém-se em seguida uma amostra *aleatória*: 
 
 
 
 Amostra: 65, 73, 56, 71, 69, 69, 68, 59, 73, 68, 69, 64, 67, 64, 66
 
+___
+
 que nos dá uma média amostral de:
 
 `\(\overline{X} = \frac{\sum{X_i}}{n} = \frac{65+73+56+71+69+69+68+59+73+68+69+64+67+64+66}{15} = 66.73\)` batimentos por minuto;
+
+___
 
 e um erro padrão de:
 
 `\(\sigma_{\mu} = \frac{\sigma}{\sqrt{n}} = \frac{9}{3.87} = 2.32\)`
 
-Com estes resultados, encontramos o valor correspondente de:
-
-`\(z_{calculado} = \frac{\overline{X} - \mu}{\sigma_{\mu}} = \frac{66.73 - 65}{2.32} = 0.75\)`
-
 ]
 
 ---
-class: fundo, textsize
 
-### 1. Método do valor crítico: definindo a área de rejeição
+class: h1_small
+
+# 1. Método do valor crítico: definindo a área de rejeição
+
+___
 
 Digamos que o número de batimentos cardíacos por minuto de um adulto em repouso tenha distribuição normal com média `\(\mu = 65\)` e desvio padrão `\(\sigma = 9\)`. Você imagina que o sedentarismo altera o batimento médio de um adulto.
 
+___
+
 .pull-left[
 
-
+Com estes resultados encontramos:
 
 `\(z_{calculado} = \frac{\overline{X} - \mu}{\sigma_{\mu}} = \frac{66.73 - 65}{2.32} = 0.75\)`
 
+___
+
 Como:
 
-`\(|Z_{calculado}| &lt; |Z_{crítico}|\)`
+`\(|Z_{calculado}| &lt; |Z_{crítico}|\)` pois `\(|0.75| &lt; |1,96|\)`
 
-`\(|0.75| &lt; |1,96|\)`
-
-
+___
 
 Aceitamos `\(H_0\)` e dizemos que:
 
 &gt; **não há evidências na amostra de que o batimento cardíaco de adultos sedentários seja diferente de 65.**
 
+___
+
 ]
 
 .pull-right[
 
-`\(P(|Z| \ge |\frac{\overline{X} - \mu}{\sigma_{\mu}}|) = 0,05\)`
+&lt;/br&gt;
 
 &lt;img src="Teste_Hipoteses_files/figure-html/unnamed-chunk-7-1.png" style="display: block; margin: auto;" /&gt;
 
@@ -228,64 +317,82 @@ Aceitamos `\(H_0\)` e dizemos que:
 
 ---
 
-class: fundo, textsize
+class: h1_small
 
-### 1. Método do valor de p
+# 1. Método do valor de p
+
+___
 
 Digamos que o número de batimentos cardíacos por minuto de um adulto em repouso tenha distribuição normal com média `\(\mu = 65\)` e desvio padrão `\(\sigma = 9\)`. Você imagina que o sedentarismo altera o batimento médio de um adulto.
 
-.pull-left[
+___
 
-O objetivo é encontrar o `\(Z_{calculado}\)` e a probabilidade de termos um valor tão ou mais extremo.
+.pull-left-min[
+
+&gt; O objetivo é encontrar o `\(Z_{calculado}\)` e a probabilidade de termos um valor tão ou mais extremo.
+
+___
 
 Aceitamos `\(H_0\)` se 
 
 `$$P(Z \ge |Z_{calculado}|) &gt; 0.05$$`
 
+___
+
 e rejeitamos `\(H_0\)` se 
 
 `$$P(Z \ge |Z_{calculado}|) \le 0.05$$`
+
+___
+
 sendo:
 
 `\(Z_{calculado} = \frac{\overline{X} - \mu}{\sigma_{\mu}}\)`
 
 ]
 
-.pull-right[
+.pull-right-min[
 
-Obtém-se a seguinda amostra *aleatória*: 
+Obtém-se em seguida amostra *aleatória*: 
 
 
 
 Amostra: 65, 73, 56, 71, 69, 69, 68, 59, 73, 68, 69, 64, 67, 64, 66
 
+___
+
 que nos dá uma média amostral de:
 
 `\(\overline{X} = \frac{\sum{X_i}}{n} = \frac{65+73+56+71+69+69+68+59+73+68+69+64+67+64+66}{15} = 66.73\)` batimentos por minuto;
+
+___
 
 e um erro padrão de:
 
 `\(\sigma_{\mu} = \frac{\sigma}{\sqrt{n}} = \frac{9}{3.87} = 2.32\)`
 
-Com estes resultados, encontramos o valor correspondente de:
-
-`\(z_{calculado} = \frac{\overline{X} - \mu}{\sigma_{\mu}} = \frac{66.73 - 65}{2.32} = 0.75\)`
-
 ]
 
 ---
 
-class: fundo, textsize
+class: h1_small
 
-### 1. Método do valor de p
+# 1. Método do valor de p
+
+___
 
 Digamos que o número de batimentos cardíacos por minuto de um adulto em repouso tenha distribuição normal com média `\(\mu = 65\)` e desvio padrão `\(\sigma = 9\)`. Você imagina que o sedentarismo altera o batimento médio de um adulto.
 
+___
+
+
 .pull-left[
 
-Como:
+Com estes resultados encontramos:
 
 `\(z_{calculado} = \frac{\overline{X} - \mu}{\sigma_{\mu}} = \frac{66.73 - 65}{2.32} = 0.75\)`
+
+___
 
 e
 
@@ -297,13 +404,17 @@ Portanto:
 
 Valor de p = `\(0.456\)` que é `\(&gt; 0,05\)`. 
 
-Consequentemente, aceitamos `\(H_0\)` e dizemos que:
 
-&gt; **não há evidências na amostra de que o batimento cardíaco de adultos sedentários seja diferente de 65.**
 
 ]
 
 .pull-right[
+
+Consequentemente, aceitamos `\(H_0\)` e dizemos que:
+
+&gt; **não há evidências na amostra de que o batimento cardíaco de adultos sedentários seja diferente de 65.**
+
+___
 
 &lt;img src="Teste_Hipoteses_files/figure-html/unnamed-chunk-9-1.png" style="display: block; margin: auto;" /&gt;
 
@@ -311,13 +422,19 @@ Consequentemente, aceitamos `\(H_0\)` e dizemos que:
 
 ---
 
-class: fundo, textsize
+class: h1_small
 
-### 2. Exemplo de um teste unilateral
+# 2. Exemplo de um teste unilateral
+
+___
 
 Digamos que o número de batimentos cardíacos por minuto de um adulto em repouso tenha distribuição normal com média `\(\mu = 65\)` e desvio padrão `\(\sigma = 9\)`. A literatura sugere que o sedentarismo **aumenta** o batimento médio de um adulto.
 
-As hipótese estatísticas ficam:
+___
+
+.pull-left[
+
+As hipóteses estatísticas ficam:
 
 `\(H_0: \mu = 65\)` batimentos por minuto
 
@@ -325,20 +442,26 @@ As hipótese estatísticas ficam:
 
 `\(\alpha = 0,05\)` nível de significância
 
+___
+
+]
+
 ---
 
-class: fundo, textsize
+class: h1_small
 
-### 2. Exemplo de um teste unilateral
+# 2. Exemplo de um teste unilateral
+
+___
 
 Digamos que o número de batimentos cardíacos por minuto de um adulto em repouso tenha distribuição normal com média `\(\mu = 65\)` e desvio padrão `\(\sigma = 9\)`. A literatura sugere que o sedentarismo **aumenta** o batimento médio de um adulto.
+
+___
 
 
 .pull-left[
 
-Nos testes unilaterais, toda a área de rejeição deve estar à direita ou à esquerda, a depender da hipótese alternativa. 
-
-No caso de um `\(\alpha = 0,05\)` o nível crítico de `\(Z = 1,64\)`.
+##### Nos testes unilaterais, toda a área de rejeição deve estar à direita ou à esquerda, a depender da hipótese alternativa. No caso de um `\(\alpha = 0,05\)` o nível crítico de `\(Z = 1,64\)`.
 
 &lt;img src="Teste_Hipoteses_files/figure-html/unnamed-chunk-10-1.png" style="display: block; margin: auto;" /&gt;
 
@@ -347,7 +470,7 @@ No caso de um `\(\alpha = 0,05\)` o nível crítico de `\(Z = 1,64\)`.
 
 .pull-right[
 
-Da mesma forma, quando utilizamos o valor de p, consideramos **somente** um dos lados da curva. Neste exemplo, o valor de p seria `\(p = 0.228\)`, que é metade do que obtivemos no teste bilateral, porém **ainda** `\(\ge 0,05\)`.
+##### Da mesma forma, quando utilizamos o valor de p, consideramos **somente** um dos lados da curva. Neste exemplo, o valor de p seria `\(p = 0.228\)`, que é metade do que obtivemos no teste bilateral, porém **ainda** `\(\ge 0,05\)`.
 
 &lt;img src="Teste_Hipoteses_files/figure-html/unnamed-chunk-11-1.png" style="display: block; margin: auto;" /&gt;
 
@@ -356,24 +479,42 @@ Da mesma forma, quando utilizamos o valor de p, consideramos **somente** um dos 
 
 ---
 
-class: fundo, textsize
+class: h1_small
 
-### 3. Modificando o nível de significância: Erros de decisão
+# 3. Considerações sobre o nível de significância: erros de decisão
+
+___
 
 A interpretação da probabilidade final esta associada à situação em que `\(H_0\)` seja verdadeira. Neste caso, **o que esperar caso `\(H_0\)` seja falsa**?
+
+___
+
+
+.pull-left[
+
+&lt;/br&gt;
 
 |                   | `\(H_0\)` Verdadeira           | `\(H_0\)` Falsa
 | :---              | :------:                   | :------:
 | `\(H_0\)` é rejeitada | `\(\alpha\)` (**Erro Tipo I**) | `\(1 - \beta\)` (Decisão correta)
 | `\(H_0\)` é aceita    | `\(1 - \alpha\)` (Decisão correta) | `\(\beta\)` (**Erro Tipo II**)
 
+]
+
+.pull-right[
 
 &lt;img src="Teste_Hipoteses_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" /&gt;
+
+]
+
+___
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
-"highlightLines": true,
+"highlightStyle": "arta",
+"highligthLines": true,
+"countIncrementalSlides": false,
 "ratio": "16:9"
 });
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
@@ -440,24 +581,7 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
       links[i].target = '_blank';
     }
   }
-})();
-// adds .remark-code-has-line-highlighted class to <pre> parent elements
-// of code chunks containing highlighted lines with class .remark-code-line-highlighted
-(function(d) {
-  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
-  const preParents = [];
-  const findPreParent = function(line, p = 0) {
-    if (p > 1) return null; // traverse up no further than grandparent
-    const el = line.parentElement;
-    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
-  };
-
-  for (let line of hlines) {
-    let pre = findPreParent(line);
-    if (pre && !preParents.includes(pre)) preParents.push(pre);
-  }
-  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
-})(document);</script>
+})();</script>
 
 <script>
 slideshow._releaseMath = function(el) {
