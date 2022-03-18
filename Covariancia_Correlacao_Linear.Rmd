@@ -6,7 +6,7 @@ institute: "Instituto do Mar - UNIFESP"
 date: "Última atualização em `r format(Sys.time(), '%d de %B de %Y')`"
 output:
   xaringan::moon_reader:
-    css: [default, metropolis, metropolis-fonts]
+    css: [default, metropolis, metropolis-fonts, hygge]
     lib_dir: libs
     nature:
       highlightStyle: arta
@@ -67,10 +67,11 @@ st <- read_csv("datasets/HubbardBrook.csv")
       width: 27%;
     }
     
-    .golden-jackals {
-      background-image: url('img/Golden_jackals.jpg');
-      background-size: 30%;
-      background-position: left bottom;
+
+    .fundo_capa {
+      background-image: url('img/Correlacao_pearson_capa.jpg');
+      background-size: 100%;
+      background-position: center;
     }
     
     .regression table {
@@ -88,9 +89,15 @@ xaringanExtra::use_scribble()
 
 ---
 
-class: h1_small
+class: h1_small, fundo_capa
 
 # Conteúdo da aula
+
+</br>
+
+.pull-right[
+
+.content-box-gray[
 
 ___
 
@@ -107,6 +114,41 @@ ___
 1. Os comandos em R
 
 ___
+
+]
+
+]
+---
+
+class: h1_small
+
+# O coeficiente de correlação de Pearson
+
+### Um  pouco de história
+
+.pull-left[
+
+___
+
+##### Na década de 1890, Karl Pearson foi apresentado a Francis Galton pelo zoólogo Walter Weldon. Juntos fundaram a revista Biometrika, com o objetivo de desenvolver teoria em estatística. Galton (primo de Charles Darwin) e Pearson trabalharam juntos em vários problemas relacionados à teoria da evolução, genética, biometria e estatística. Galton trouxe as primeiras ideias sobre a medida de associação entre duas variáveis quantitativas no contexto da hereditariedade e propôs o **coeficiente de correlação linear** para medir esta associação. Suas idéias foram estendidas por Karl Pearson e Udny Yule para um contexto estatístico mais geral. Pearson trouxe ainda muitas outras contribuições á estatística como o coeficiente de $\chi^2$ e a ideia de *graus de liberdade*. O termo **distribuição normal** para variáveis com dustribuição Gaussiana também surgiu como fruto e seu trabalho (veja em: <a href="https://en.wikipedia.org/wiki/Karl_Pearson" target="_blank">Karl Pearson</a>).    
+
+___
+
+]
+
+.pull-right[
+
+
+```{r}
+image_read("img/Pearson_Galton.jpg") %>% 
+  image_resize("x320")
+
+```
+
+
+]
+
+
 
 ---
 
@@ -477,6 +519,7 @@ colnames(tab) <- c("\\(Y\\)", "\\(X\\)",
 
 .pull-left[
 
+</br>
 ___
 
 ```{r}
@@ -526,37 +569,6 @@ gpos = biv_pos$g + labs(subtitle = 'Covariância positiva')
 
 gn | gnul | gpos
 ```
-
----
-
-class: h1_small
-
-# O coeficiente de correlação de Pearson
-
-### Um  pouco de história
-
-.pull-left[
-
-___
-
-##### Na década de 1890, Karl Pearson foi apresentado a Francis Galton pelo zoólogo Walter Weldon. Juntos fundaram a revista Biometrika, com o objetivo de desenvolver teoria em estatística. Galton (primo de Charles Darwin) e Pearson trabalharam juntos em vários problemas relacionados à teoria da evolução, genética, biometria e estatística. Galton trouxe as primeiras ideias sobre a medida de associação entre duas variáveis quantitativas no contexto da hereditariedade e propôs o **coeficiente de correlação linear** para medir esta associação. Suas idéias foram estendidas por Karl Pearson e Udny Yule para um contexto estatístico mais geral. Pearson trouxe ainda muitas outras contribuições á estatística como o coeficiente de $\chi^2$ e a ideia de *graus de liberdade*. O termo **distribuição normal** para variáveis com dustribuição Gaussiana também surgiu como fruto e seu trabalho (veja em: <a href="https://en.wikipedia.org/wiki/Karl_Pearson" target="_blank">Karl Pearson</a>).    
-
-___
-
-]
-
-.pull-right[
-
-
-```{r}
-image_read("img/Pearson_Galton.jpg") %>% 
-  image_resize("x320")
-
-```
-
-
-]
-
 
 ---
 
@@ -661,13 +673,7 @@ g1$g + g2$g + g3$g
 
 class: h1_small, regression
 
-# 5. Associações Lineares e Causalidade
-
----
-
-class: h1_small, regression
-
-# 5. Associações Lineares e Causalidade
+# 5. Linearidade e Causalidade
 
 
 .pull-left[
@@ -745,3 +751,390 @@ ggplot(mg, aes(y = Divorcio, x = Margarina * 453.592)) +
 ```
 
 ]
+
+
+---
+
+class: h1_small
+
+# 6. Teste de hipóteses sobre o $r$ de Pearson
+
+___
+
+#### Dada uma **amostra** com $n$ observações para os pares $Y$ e $X$, a correlação entre $Y$ e $X$ na **população estatística** é diferente de zero?
+
+___
+
+```{r}
+na = 10
+set.seed(3); biv1 <- r_pearson(n = na, r = -0.3, correlation = T, ptsize = 6)
+```
+
+
+.pull-left[
+
+
+$H_0: \rho = 0$
+
+$H_a: \rho \ne 0$
+
+$n = `r na`$
+
+
+]
+
+.pull-right[
+
+```{r fig.align='center', fig.width = 8, fig.height=6}
+biv1$g
+```
+
+]
+
+
+---
+
+class: h1_small
+
+# 6. Teste de hipóteses sobre o $r$ de Pearson
+
+
+
+```{r}
+N = 5000
+set.seed(3); bivnull <- r_pearson(n = N, r = 0, correlation = T, ptsize = 3, ptfill = 'gray', show_titulo = FALSE, pttransp = 0.3)
+set.seed(3); bivpos <- r_pearson(n = N, r = 0.6, correlation = T, ptsize = 3, ptfill = 'gray', show_titulo = FALSE, pttransp = 0.3)
+set.seed(3); bivneg <- r_pearson(n = N, r = -0.6, correlation = T, ptsize = 3, ptfill = 'gray', show_titulo = FALSE, pttransp = 0.3)
+```
+
+
+.pull-left[
+
+
+$H_0: \rho = 0$
+
+```{r fig.align='left', fig.height=3, fig.width=4}
+bivnull$g
+```
+
+
+
+$H_a: \rho \ne 0$
+
+```{r fig.align='left', fig.height=3, fig.width=7}
+bivpos$g + bivneg$g
+```
+
+$n = `r na`$
+
+
+]
+
+.pull-right[
+
+____
+
+#### Os dados segundo $H_0$
+
+___
+
+```{r fig.align='center', fig.width = 8, fig.height=6}
+bivnull$g +
+  geom_point(data = biv1$df, aes(x = V1, y = V2), size = 6)
+```
+
+]
+
+---
+
+class: h1_small
+
+# 6. Teste de hipóteses sobre o $r$ de Pearson
+
+```{r}
+Y <- biv1$df$V1
+X <- biv1$df$V2
+r <- cor(Y, X)
+tc <- r/sqrt((1-(r^2))/(na-2))
+r_test <- cor.test(Y,X)
+p <- r_test$p.value
+id <- c(as.character(1:nrow(biv1$df)), "\\(\\sum{}\\)")
+tab <- biv1$df %>% 
+  mutate(dif1_sqr = (V1 - mean(V1))^2,
+         dif2_sqr = (V2 - mean(V2))^2,
+         cp = (V1 - mean(V1)) * (V2 - mean(V2))) %>% 
+  add_row(summarise(., across(dif1_sqr:cp, sum))) %>% 
+  mutate(id, .before = "V1") %>% 
+  column_to_rownames(var = "id") %>% 
+  round(2) %>%
+  mutate(V1 = as.character(V1),
+         V2 = as.character(V2)) %>% 
+  mutate(V1 = replace_na(V1, ''),
+         V2 = replace_na(V2, ''))
+
+colnames(tab) <- c("\\(Y\\)", "\\(X\\)", 
+                    "\\(\\sum{(y_{i} - \\overline{y})^2}\\)", 
+                    "\\(\\sum{(x_{i} - \\overline{x})^2}\\)", 
+                    "\\((y_{i} - \\overline{y})(x_{i} - \\overline{x})\\)")
+
+```
+___
+
+Assumimos que distribuição conjunta entre $f(Y,X)$ é Normal.
+
+___
+
+.pull-left[
+
+
+$H_0: \rho = 0$
+
+$H_a: \rho \ne 0$
+
+$\alpha = 0.05$
+
+$n = `r na`$
+
+$r = `r round(r,2)`$
+
+___
+
+<p><h4 style="text-align:center">Estatística do teste  - \(t\)</h4></p>
+
+___
+
+$t_{calculado} = \frac{r}{\sqrt{\frac{1-r^2}{n-2}}}$
+
+]
+
+.pull-right[
+
+#### Segundo $H_0$
+
+___
+
+```{r fig.align='center', fig.width = 5.5, fig.height=5.5}
+p2 <- bivnull$g +
+  geom_point(data = biv1$df, aes(x = V1, y = V2), size = 4)
+
+ggp2 <- ggMarginal(p2, type = "histogram", fill="darkblue")
+ggp2
+```
+
+]
+
+---
+
+class: h1_small, regression
+
+# 6. Teste de hipóteses sobre o $r$ de Pearson
+
+
+.pull-left[
+
+___
+
+<p><h4 style="text-align:center">Teste de hipótese sobre \(\rho\)</h4></p>
+
+___
+
+$\overline{Y} = `r round(mean(Y),2)`$; $\overline{X} = `r round(mean(X),2)`$; $n = `r na`$
+
+$r = `r round(r,2)`$
+
+$t_{calculado} = \frac{r}{\sqrt{\frac{1-r^2}{n-2}}} = \frac{`r round(r,2)`}{\sqrt{\frac{1-(`r round(r,2)`)^2}{`r na-2`}}} = `r round(tc,3)`$
+
+$p = `r round(p,3)`$
+
+___
+
+Assumindo $\alpha = 0.05$, **Aceito** $H_0$:
+
+> Não há evidências de correlação entre $Y$ e $X$.
+
+]
+
+.pull-right[
+
+```{r}
+tab %>% 
+  kbl(caption = "Cálculo do coeficiente de correlação") %>%
+  row_spec(11, bold = T, color = "white", background = "#23373B") %>% 
+  kable_classic(full_width = F, html_font = "Cambria", position = 'center')
+```
+
+]
+
+---
+
+class: h1_small
+
+# 6. Teste de hipóteses sobre o $r$ de Pearson
+
+```{r}
+na2 = 50
+set.seed(6); biv2 <- r_pearson(n = na2, r = -0.3, correlation = T, ptsize = 6)
+# n = 10, set.seed(3), r = -0.3, p = 0.36
+# n = 50, set.seed(6), r = -0.3, p = 0.02
+r2 <- cor(biv2$df$V1, biv2$df$V2)
+```
+
+```{r}
+Y <- biv2$df$V1
+X <- biv2$df$V2
+r2 <- cor(Y, X)
+tc2 <- r/sqrt((1-(r^2))/(na2-2))
+r_test <- cor.test(Y,X)
+p2 <- r_test$p.value
+id <- c(as.character(1:nrow(biv2$df)), "\\(\\sum{}\\)")
+tab2 <- biv2$df %>% 
+  mutate(dif1_sqr = (V1 - mean(V1))^2,
+         dif2_sqr = (V2 - mean(V2))^2,
+         cp = (V1 - mean(V1)) * (V2 - mean(V2))) %>% 
+  add_row(summarise(., across(dif1_sqr:cp, sum))) %>% 
+  mutate(id, .before = "V1") %>% 
+  column_to_rownames(var = "id") %>% 
+  round(2) %>% 
+  mutate(V1 = as.character(V1),
+           V2 = as.character(V2)) %>%
+  mutate(V1 = replace_na(V1, ''),
+         V2 = replace_na(V2, ''))
+
+colnames(tab2) <- c("\\(Y\\)", "\\(X\\)", 
+                    "\\(\\sum{(y_{i} - \\overline{y})^2}\\)", 
+                    "\\(\\sum{(x_{i} - \\overline{x})^2}\\)", 
+                    "\\((y_{i} - \\overline{y})(x_{i} - \\overline{x})\\)")
+
+```
+
+
+.pull-left[
+
+___
+
+Aumentando o tamanho amostral
+
+___
+
+$H_0: \rho = 0$
+
+$H_a: \rho \ne 0$
+
+$\alpha = 0.05$
+
+$n = `r na2`$
+
+$r = `r round(r2,2)`$
+
+___
+
+<p><h4 style="text-align:center">Estatística do teste  - \(t\)</h4></p>
+
+___
+
+$t_{calculado} = \frac{r}{\sqrt{\frac{1-r^2}{n-2}}}$
+
+]
+
+.pull-right[
+
+____
+
+#### Segundo $H_0$
+
+___
+
+```{r fig.align='center', fig.width = 6, fig.height=6}
+p3 <- bivnull$g +
+  geom_point(data = biv2$df, aes(x = V1, y = V2), size = 4)
+
+ggp3 <- ggMarginal(p3, type = "histogram", fill="darkblue")
+ggp3
+```
+
+]
+
+---
+
+class: h1_small, regression
+
+# 6. Teste de hipóteses sobre o $r$ de Pearson
+
+
+.pull-left[
+
+___
+
+<p><h4 style="text-align:center">Teste de hipótese sobre \(\rho\)</h4></p>
+
+___
+
+$\overline{Y} = `r round(mean(Y),2)`$; $\overline{X} = `r round(mean(X),2)`$; $n = `r na2`$
+
+$r = `r round(r2,2)`$
+
+$t_{calculado} = \frac{r}{\sqrt{\frac{1-r^2}{n-2}}} = \frac{`r round(r2,2)`}{\sqrt{\frac{1-(`r round(r2,2)`)^2}{`r na2-2`}}} = `r round(tc2,3)`$
+
+$p = `r round(p2,3)`$
+
+___
+
+Assumindo $\alpha = 0.05$, **Rejeito** $H_0$:
+
+<blockquote><font color="red">Há evidências</font> de correlação entre $Y$ e $X$</blockquote>.
+
+]
+
+.pull-right[
+
+____
+
+#### Segundo $H_0$
+
+___
+
+```{r fig.align='center', fig.width = 6, fig.height=6}
+ggp3
+```
+
+]
+
+---
+
+class: h1_small, regression
+
+# 6. Teste de hipóteses sobre o $r$ de Pearson
+
+
+.pull-left[
+
+___
+
+$r = `r round(r,2)`$; $n = `r na`$
+
+$t_{calculado} = `r round(tc,3)`$; $p = `r round(p,3)`$
+
+___
+
+```{r fig.align='center', fig.width = 5.5, fig.height=5.5}
+ggp2
+```
+
+]
+
+.pull-right[
+
+___
+
+$r = `r round(r2,2)`$; $n = `r na2`$
+
+$t_{calculado} = `r round(tc2,3)`$; $p = `r round(p2,3)`$
+
+___
+
+```{r fig.align='center', fig.width = 5.5, fig.height=5.5}
+ggp3
+```
+
+]
+

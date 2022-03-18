@@ -1,6 +1,6 @@
 ---
-title: "Inferência Estatística e Teste de Hipóteses"
-subtitle: "Análise de Variância (ANOVA) simples"
+title: "Modelos Lineares Clássicos"
+subtitle: "Análise de Variância (ANOVA) de um fator"
 author: "Fabio Cop (fabiocopf@gmail.com)"
 institute: "Instituto do Mar - UNIFESP"
 date: "Última atualização em `r format(Sys.time(), '%d de %B de %Y')`"

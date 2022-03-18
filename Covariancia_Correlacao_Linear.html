@@ -8,6 +8,7 @@
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/metropolis.css" rel="stylesheet" />
     <link href="libs/remark-css/metropolis-fonts.css" rel="stylesheet" />
+    <link href="libs/remark-css/hygge.css" rel="stylesheet" />
     <script src="libs/fabric/fabric.min.js"></script>
     <link href="libs/xaringanExtra-scribble/scribble.css" rel="stylesheet" />
     <script src="libs/xaringanExtra-scribble/scribble.js"></script>
@@ -23,7 +24,7 @@ class: center, middle, inverse, title-slide
 ## Covariância e Correlação Linear
 ### Fabio Cop (<a href="mailto:fabiocopf@gmail.com" class="email">fabiocopf@gmail.com</a>)
 ### Instituto do Mar - UNIFESP
-### Última atualização em 13 de março de 2022
+### Última atualização em 18 de março de 2022
 
 ---
 
@@ -49,10 +50,11 @@ class: center, middle, inverse, title-slide
       width: 27%;
     }
     
-    .golden-jackals {
-      background-image: url('img/Golden_jackals.jpg');
-      background-size: 30%;
-      background-position: left bottom;
+
+    .fundo_capa {
+      background-image: url('img/Correlacao_pearson_capa.jpg');
+      background-size: 100%;
+      background-position: center;
     }
     
     .regression table {
@@ -68,9 +70,15 @@ class: center, middle, inverse, title-slide
 
 ---
 
-class: h1_small
+class: h1_small, fundo_capa
 
 # Conteúdo da aula
+
+&lt;/br&gt;
+
+.pull-right[
+
+.content-box-gray[
 
 ___
 
@@ -88,13 +96,44 @@ ___
 
 ___
 
+]
+
+]
+---
+
+class: h1_small
+
+# O coeficiente de correlação de Pearson
+
+### Um  pouco de história
+
+.pull-left[
+
+___
+
+##### Na década de 1890, Karl Pearson foi apresentado a Francis Galton pelo zoólogo Walter Weldon. Juntos fundaram a revista Biometrika, com o objetivo de desenvolver teoria em estatística. Galton (primo de Charles Darwin) e Pearson trabalharam juntos em vários problemas relacionados à teoria da evolução, genética, biometria e estatística. Galton trouxe as primeiras ideias sobre a medida de associação entre duas variáveis quantitativas no contexto da hereditariedade e propôs o **coeficiente de correlação linear** para medir esta associação. Suas idéias foram estendidas por Karl Pearson e Udny Yule para um contexto estatístico mais geral. Pearson trouxe ainda muitas outras contribuições á estatística como o coeficiente de `\(\chi^2\)` e a ideia de *graus de liberdade*. O termo **distribuição normal** para variáveis com dustribuição Gaussiana também surgiu como fruto e seu trabalho (veja em: &lt;a href="https://en.wikipedia.org/wiki/Karl_Pearson" target="_blank"&gt;Karl Pearson&lt;/a&gt;).    
+
+___
+
+]
+
+.pull-right[
+
+
+&lt;img src="Covariancia_Correlacao_Linear_files/figure-html/unnamed-chunk-2-1.png" width="361" style="display: block; margin: auto;" /&gt;
+
+
+]
+
+
+
 ---
 
 class: h1_small
 
 # 1. Medindo a intensidade de associações lineares
 
-&lt;img src="Covariancia_Correlacao_Linear_files/figure-html/unnamed-chunk-2-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Covariancia_Correlacao_Linear_files/figure-html/unnamed-chunk-3-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -104,22 +143,6 @@ class: h1_small
 
 
 
-
-.pull-left[
-
-&lt;img src="Covariancia_Correlacao_Linear_files/figure-html/unnamed-chunk-4-1.png" style="display: block; margin: auto;" /&gt;
-
-]
-
-.pull-right[
-
-]
-
----
-
-class: h1_small
-
-# 2. Soma dos Quadrados e Variância Amostral
 
 .pull-left[
 
@@ -177,6 +200,22 @@ class: h1_small
 
 .pull-right[
 
+]
+
+---
+
+class: h1_small
+
+# 2. Soma dos Quadrados e Variância Amostral
+
+.pull-left[
+
+&lt;img src="Covariancia_Correlacao_Linear_files/figure-html/unnamed-chunk-9-1.png" style="display: block; margin: auto;" /&gt;
+
+]
+
+.pull-right[
+
 ____
 
 &lt;h3 style="text-align:center"&gt;Soma dos Quadrados de \(Y\)&lt;/h3&gt;
@@ -205,7 +244,7 @@ class: h1_small
 
 .pull-left[
 
-&lt;img src="Covariancia_Correlacao_Linear_files/figure-html/unnamed-chunk-9-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Covariancia_Correlacao_Linear_files/figure-html/unnamed-chunk-10-1.png" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -238,7 +277,7 @@ class: h1_small
 
 .pull-left[
 
-&lt;img src="Covariancia_Correlacao_Linear_files/figure-html/unnamed-chunk-10-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Covariancia_Correlacao_Linear_files/figure-html/unnamed-chunk-11-1.png" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -272,7 +311,7 @@ class: h1_small
 
 .pull-left[
 
-&lt;img src="Covariancia_Correlacao_Linear_files/figure-html/unnamed-chunk-11-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Covariancia_Correlacao_Linear_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -303,7 +342,7 @@ class: h1_small
 
 .pull-left[
 
-&lt;img src="Covariancia_Correlacao_Linear_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Covariancia_Correlacao_Linear_files/figure-html/unnamed-chunk-13-1.png" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -335,7 +374,7 @@ class: h1_small
 
 .pull-left[
 
-&lt;img src="Covariancia_Correlacao_Linear_files/figure-html/unnamed-chunk-13-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Covariancia_Correlacao_Linear_files/figure-html/unnamed-chunk-14-1.png" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -370,6 +409,7 @@ class: h1_small
 
 .pull-left[
 
+&lt;/br&gt;
 ___
 
 &lt;table class=" lightable-classic" style="font-family: Cambria; width: auto !important; margin-left: auto; margin-right: auto;"&gt;
@@ -450,7 +490,7 @@ $$s_{YX} = \frac{12.57}{5-1} = 3.14 $$
 
 ___
 
-&lt;img src="Covariancia_Correlacao_Linear_files/figure-html/unnamed-chunk-17-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Covariancia_Correlacao_Linear_files/figure-html/unnamed-chunk-18-1.png" style="display: block; margin: auto;" /&gt;
 
 
 ]
@@ -467,34 +507,7 @@ ___
 
 ___
 
-&lt;img src="Covariancia_Correlacao_Linear_files/figure-html/unnamed-chunk-18-1.png" style="display: block; margin: auto;" /&gt;
-
----
-
-class: h1_small
-
-# O coeficiente de correlação de Pearson
-
-### Um  pouco de história
-
-.pull-left[
-
-___
-
-##### Na década de 1890, Karl Pearson foi apresentado a Francis Galton pelo zoólogo Walter Weldon. Juntos fundaram a revista Biometrika, com o objetivo de desenvolver teoria em estatística. Galton (primo de Charles Darwin) e Pearson trabalharam juntos em vários problemas relacionados à teoria da evolução, genética, biometria e estatística. Galton trouxe as primeiras ideias sobre a medida de associação entre duas variáveis quantitativas no contexto da hereditariedade e propôs o **coeficiente de correlação linear** para medir esta associação. Suas idéias foram estendidas por Karl Pearson e Udny Yule para um contexto estatístico mais geral. Pearson trouxe ainda muitas outras contribuições á estatística como o coeficiente de `\(\chi^2\)` e a ideia de *graus de liberdade*. O termo **distribuição normal** para variáveis com dustribuição Gaussiana também surgiu como fruto e seu trabalho (veja em: &lt;a href="https://en.wikipedia.org/wiki/Karl_Pearson" target="_blank"&gt;Karl Pearson&lt;/a&gt;).    
-
-___
-
-]
-
-.pull-right[
-
-
-&lt;img src="Covariancia_Correlacao_Linear_files/figure-html/unnamed-chunk-19-1.png" width="361" style="display: block; margin: auto;" /&gt;
-
-
-]
-
+&lt;img src="Covariancia_Correlacao_Linear_files/figure-html/unnamed-chunk-19-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -583,13 +596,7 @@ ____
 
 class: h1_small, regression
 
-# 5. Associações Lineares e Causalidade
-
----
-
-class: h1_small, regression
-
-# 5. Associações Lineares e Causalidade
+# 5. Linearidade e Causalidade
 
 
 .pull-left[
@@ -615,6 +622,397 @@ ___
 &lt;img src="Covariancia_Correlacao_Linear_files/figure-html/unnamed-chunk-23-1.png" style="display: block; margin: auto;" /&gt;
 
 ]
+
+
+---
+
+class: h1_small
+
+# 6. Teste de hipóteses sobre o `\(r\)` de Pearson
+
+___
+
+#### Dada uma **amostra** com `\(n\)` observações para os pares `\(Y\)` e `\(X\)`, a correlação entre `\(Y\)` e `\(X\)` na **população estatística** é diferente de zero?
+
+___
+
+
+
+
+.pull-left[
+
+
+`\(H_0: \rho = 0\)`
+
+`\(H_a: \rho \ne 0\)`
+
+`\(n = 10\)`
+
+
+]
+
+.pull-right[
+
+&lt;img src="Covariancia_Correlacao_Linear_files/figure-html/unnamed-chunk-25-1.png" style="display: block; margin: auto;" /&gt;
+
+]
+
+
+---
+
+class: h1_small
+
+# 6. Teste de hipóteses sobre o `\(r\)` de Pearson
+
+
+
+
+
+
+.pull-left[
+
+
+`\(H_0: \rho = 0\)`
+
+&lt;img src="Covariancia_Correlacao_Linear_files/figure-html/unnamed-chunk-27-1.png" style="display: block; margin: auto auto auto 0;" /&gt;
+
+
+
+`\(H_a: \rho \ne 0\)`
+
+&lt;img src="Covariancia_Correlacao_Linear_files/figure-html/unnamed-chunk-28-1.png" style="display: block; margin: auto auto auto 0;" /&gt;
+
+`\(n = 10\)`
+
+
+]
+
+.pull-right[
+
+____
+
+#### Os dados segundo `\(H_0\)`
+
+___
+
+&lt;img src="Covariancia_Correlacao_Linear_files/figure-html/unnamed-chunk-29-1.png" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+class: h1_small
+
+# 6. Teste de hipóteses sobre o `\(r\)` de Pearson
+
+
+___
+
+Assumimos que distribuição conjunta entre `\(f(Y,X)\)` é Normal.
+
+___
+
+.pull-left[
+
+
+`\(H_0: \rho = 0\)`
+
+`\(H_a: \rho \ne 0\)`
+
+`\(\alpha = 0.05\)`
+
+`\(n = 10\)`
+
+`\(r = -0.32\)`
+
+___
+
+&lt;p&gt;&lt;h4 style="text-align:center"&gt;Estatística do teste  - \(t\)&lt;/h4&gt;&lt;/p&gt;
+
+___
+
+`\(t_{calculado} = \frac{r}{\sqrt{\frac{1-r^2}{n-2}}}\)`
+
+]
+
+.pull-right[
+
+#### Segundo `\(H_0\)`
+
+___
+
+&lt;img src="Covariancia_Correlacao_Linear_files/figure-html/unnamed-chunk-31-1.png" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+class: h1_small, regression
+
+# 6. Teste de hipóteses sobre o `\(r\)` de Pearson
+
+
+.pull-left[
+
+___
+
+&lt;p&gt;&lt;h4 style="text-align:center"&gt;Teste de hipótese sobre \(\rho\)&lt;/h4&gt;&lt;/p&gt;
+
+___
+
+`\(\overline{Y} = 98.85\)`; `\(\overline{X} = 69.94\)`; `\(n = 10\)`
+
+`\(r = -0.32\)`
+
+`\(t_{calculado} = \frac{r}{\sqrt{\frac{1-r^2}{n-2}}} = \frac{-0.32}{\sqrt{\frac{1-(-0.32)^2}{8}}} = -0.965\)`
+
+`\(p = 0.363\)`
+
+___
+
+Assumindo `\(\alpha = 0.05\)`, **Aceito** `\(H_0\)`:
+
+&gt; Não há evidências de correlação entre `\(Y\)` e `\(X\)`.
+
+]
+
+.pull-right[
+
+&lt;table class=" lightable-classic" style="font-family: Cambria; width: auto !important; margin-left: auto; margin-right: auto;"&gt;
+&lt;caption&gt;Cálculo do coeficiente de correlação&lt;/caption&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt;   &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; \(Y\) &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; \(X\) &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; \(\sum{(y_{i} - \overline{y})^2}\) &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; \(\sum{(x_{i} - \overline{x})^2}\) &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; \((y_{i} - \overline{y})(x_{i} - \overline{x})\) &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 95.9 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 69.63 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 8.72 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.10 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.92 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 101.8 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 66.27 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 8.68 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 13.50 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -10.83 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 100.85 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 69.98 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4.01 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.08 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 4 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 99.75 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 73.43 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.81 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 12.13 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3.14 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 5 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 93.88 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 74.63 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 24.69 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 21.95 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -23.28 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 6 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 97.33 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 66.9 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2.30 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 9.27 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4.62 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 7 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 96.68 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 71.19 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4.71 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.55 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -2.70 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 8 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 100.85 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 68.96 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3.99 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.97 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -1.97 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 96.14 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 68.52 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 7.36 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2.03 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3.87 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 10 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 105.32 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 69.93 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 41.87 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.06 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;font-weight: bold;color: white !important;background-color: #23373B !important;"&gt; \(\sum{}\) &lt;/td&gt;
+   &lt;td style="text-align:left;font-weight: bold;color: white !important;background-color: #23373B !important;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:left;font-weight: bold;color: white !important;background-color: #23373B !important;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: white !important;background-color: #23373B !important;"&gt; 107.15 &lt;/td&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: white !important;background-color: #23373B !important;"&gt; 61.52 &lt;/td&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: white !important;background-color: #23373B !important;"&gt; -26.21 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+]
+
+---
+
+class: h1_small
+
+# 6. Teste de hipóteses sobre o `\(r\)` de Pearson
+
+
+
+
+
+
+.pull-left[
+
+___
+
+Aumentando o tamanho amostral
+
+___
+
+`\(H_0: \rho = 0\)`
+
+`\(H_a: \rho \ne 0\)`
+
+`\(\alpha = 0.05\)`
+
+`\(n = 50\)`
+
+`\(r = -0.32\)`
+
+___
+
+&lt;p&gt;&lt;h4 style="text-align:center"&gt;Estatística do teste  - \(t\)&lt;/h4&gt;&lt;/p&gt;
+
+___
+
+`\(t_{calculado} = \frac{r}{\sqrt{\frac{1-r^2}{n-2}}}\)`
+
+]
+
+.pull-right[
+
+____
+
+#### Segundo `\(H_0\)`
+
+___
+
+&lt;img src="Covariancia_Correlacao_Linear_files/figure-html/unnamed-chunk-35-1.png" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+class: h1_small, regression
+
+# 6. Teste de hipóteses sobre o `\(r\)` de Pearson
+
+
+.pull-left[
+
+___
+
+&lt;p&gt;&lt;h4 style="text-align:center"&gt;Teste de hipótese sobre \(\rho\)&lt;/h4&gt;&lt;/p&gt;
+
+___
+
+`\(\overline{Y} = 100.41\)`; `\(\overline{X} = 69.64\)`; `\(n = 50\)`
+
+`\(r = -0.32\)`
+
+`\(t_{calculado} = \frac{r}{\sqrt{\frac{1-r^2}{n-2}}} = \frac{-0.32}{\sqrt{\frac{1-(-0.32)^2}{48}}} = -2.363\)`
+
+`\(p = 0.022\)`
+
+___
+
+Assumindo `\(\alpha = 0.05\)`, **Rejeito** `\(H_0\)`:
+
+&lt;blockquote&gt;&lt;font color="red"&gt;Há evidências&lt;/font&gt; de correlação entre `\(Y\)` e `\(X\)`&lt;/blockquote&gt;.
+
+]
+
+.pull-right[
+
+____
+
+#### Segundo `\(H_0\)`
+
+___
+
+&lt;img src="Covariancia_Correlacao_Linear_files/figure-html/unnamed-chunk-36-1.png" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+class: h1_small, regression
+
+# 6. Teste de hipóteses sobre o `\(r\)` de Pearson
+
+
+.pull-left[
+
+___
+
+`\(r = -0.32\)`; `\(n = 10\)`
+
+`\(t_{calculado} = -0.965\)`; `\(p = 0.363\)`
+
+___
+
+&lt;img src="Covariancia_Correlacao_Linear_files/figure-html/unnamed-chunk-37-1.png" style="display: block; margin: auto;" /&gt;
+
+]
+
+.pull-right[
+
+___
+
+`\(r = -0.32\)`; `\(n = 50\)`
+
+`\(t_{calculado} = -2.363\)`; `\(p = 0.022\)`
+
+___
+
+&lt;img src="Covariancia_Correlacao_Linear_files/figure-html/unnamed-chunk-38-1.png" style="display: block; margin: auto;" /&gt;
+
+]
+
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
