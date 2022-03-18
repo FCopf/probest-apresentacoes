@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Inferência Estatística e Teste de Hipóteses</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Fabio Cop (fabiocopf@gmail.com)" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/metropolis.css" rel="stylesheet" />
+    <link href="libs/remark-css/metropolis-fonts.css" rel="stylesheet" />
+    <link href="libs/remark-css/hygge.css" rel="stylesheet" />
+    <script src="libs/fabric/fabric.min.js"></script>
+    <link href="libs/xaringanExtra-scribble/scribble.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-scribble/scribble.js"></script>
+    <script>document.addEventListener('DOMContentLoaded', function() { window.xeScribble = new Scribble({"pen_color":["#FF0000"],"pen_size":3,"eraser_size":30,"palette":[]}) })</script>
+    <script src="libs/kePrint/kePrint.js"></script>
+    <link href="libs/lightable/lightable.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Inferência Estatística e Teste de Hipóteses
+## Análise de Variância (ANOVA) simples
+### Fabio Cop (<a href="mailto:fabiocopf@gmail.com" class="email">fabiocopf@gmail.com</a>)
+### Instituto do Mar - UNIFESP
+### Última atualização em 17 de março de 2022
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+    .h1_small h1 {
+      font-weight: normal;
+      margin-top: -75px;
+      margin-left: -00px;
+      color: #FAFAFA;
+      font-size: 150%;
+}
+
+    .pull-left-min {
+      float: left;
+      width: 40%;
+    }
+
+    .pull-right-min {
+      float: right;
+      width: 67%;
+    }
+    
+    .golden-jackals {
+      background-image: url('img/Golden_jackals.jpg');
+      background-size: 30%;
+      background-position: left bottom;
+    }
+    
+    .fundo_capa {
+      background-image: url('img/anova.jpg');
+      background-size: 60% 100%;
+      background-position:  center right;
+    }
+
+&lt;/style&gt;
+
+
+---
+
+class: h1_small, fundo_capa
+
+# Conteúdo da aula
+
+.pull-left-min[
+
+___
+
+1. O modelo da ANOVA e as hipóteses estatísticas
+
+1. Partição da Soma dos Quadrados (SQ)
+
+1. Quadrados médios e graus de liberdade
+
+1. Estatística *F* e teste de hipóteses
+
+1. Um exemplo de ANOVA
+
+1. A tabela da ANOVA
+
+1. Testes a *posteriori* de comparação de médias
+
+1. Ajustando a ANOVA no R
+
+___
+
+
+]
+
+---
+
+class: h1_small
+
+# 1. O modelo da ANOVA e as hipóteses estatísticas
+
+.pull-left[
+
+___
+
+`$$Y_{ij} = \mu + A_i + \epsilon_{ij}$$`
+
+
+
+]
+
+
+.pull-right[
+
+___
+
+`\(H_0: \mu_1 = \mu_2 = \mu_3 =.... = \mu_k\)` (HIPÓTESE NULA)
+
+`\(H_a\)`: ao menos um par de médias diferen entre si (HIPÓTESE ALTERNATIVA)
+
+
+]
+
+___
+
+
+
+&lt;img src="Anova_files/figure-html/unnamed-chunk-3-1.png" style="display: block; margin: auto;" /&gt;
+
+___
+
+---
+
+class: h1_small
+
+# 1. O modelo da ANOVA e as hipóteses estatísticas
+
+
+
+
+.pull-left[
+
+&lt;img src="Anova_files/figure-html/unnamed-chunk-5-1.png" style="display: block; margin: auto;" /&gt;
+
+]
+
+.pull-right[
+
+&lt;/br&gt;&lt;/br&gt;
+
+&lt;table class=" lightable-classic" style="font-family: Cambria; width: auto !important; margin-left: auto; margin-right: auto;"&gt;
+&lt;caption&gt;Tratamentos&lt;/caption&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:right;"&gt; A &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; B &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; C &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 16.90 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 23.90 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 19.60 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 20.90 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 30.40 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 13.90 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 15.80 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 31.70 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 8.90 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 28.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 30.90 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.90 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 21.60 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 26.50 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 17.60 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"&gt; 20.64 &lt;/td&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"&gt; 28.68 &lt;/td&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"&gt; 12.18 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+]
+
+
+---
+
+class: h1_small
+
+# 1. O modelo da ANOVA e as hipóteses estatísticas
+
+
+
+
+.pull-left[
+
+![](Anova_files/figure-html/unnamed-chunk-8-1.png)&lt;!-- --&gt;
+
+
+
+]
+
+.pull-right[
+
+&lt;/br&gt;
+
+___
+
++ `\(k = 3\)` grupos: `A`, `B` ou `C`
+
++ `\(n_1 = n_2 = n_3 = n =  5\)` observações por grupo. Denotamos por `\(n_{ij}\)` o número de 
+
++ `\(N = k \times n = n_1 + n_2 + n_3 = 15\)`
+
++ `\(\overline{Y}_A = 20.64\)`; `\(\overline{Y}_B = 28.68\)`, `\(\overline{Y}_D = 12.18\)` - **estimam** `\(\mu_1\)`, `\(\mu_2\)` e `\(\mu_3\)`
+
++ `\(\overline{\overline{Y}}\)`: a **Grande Média** - **estima** `\(\mu\)`.
+
+`\(\overline{\overline{Y}} = \sum_{j = 1}^{k}\sum_{i = 1}^{n}\frac{Y_{ij}}{N} = \frac{\overline{Y_1} + \overline{Y_2} + \overline{Y_3}}{3} = 20.5\)`
+
+___
+
+]
+
+---
+
+class: h1_small
+
+# 2. Partição da Soma dos Quadrados (SQ)
+
+___
+
+i. **Soma dos Quadrados Totais** - `\(SQ_{Total}\)`
+
+`$$SQ_{Total} = \sum_{j = 1}^{k}\sum_{i = 1}^{n}(Y_{ij} - \overline{\overline{Y}})^2$$`
+
+___
+
+
+ii. **Soma dos Quadrados dos Tratamentos** - `\(SQ_{Trat}\)`:
+
+`$$SQ_{Trat} = \sum_{j = 1}^{k}\sum_{i = 1}^{n_{j}}(\overline{Y}_{j} - \overline{\overline{Y}})^2 = \sum_{j = 1}^{k}n_{j}(\overline{Y}_{j} - \overline{\overline{Y}})^2$$`
+
+___
+
+iii. **Soma dos Quadrados dos Resíduos** - `\(SQ_{Res}\)`
+
+`$$SQ_{Res} = \sum_{j = 1}^{k}\sum_{i = 1}^{n_{j}}(Y_{ij} - \overline{Y}_{j})^2$$`
+
+___
+
+---
+
+class: h1_small
+
+# 2. Partição da Soma dos Quadrados (SQ)
+
+
+
+
+
+&lt;img src="Anova_files/figure-html/unnamed-chunk-11-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: h1_small
+
+# 2. Partição da Soma dos Quadrados (SQ)
+
+.pull-left[
+
+![](Anova_files/figure-html/unnamed-chunk-12-1.png)&lt;!-- --&gt;
+
+]
+
+.pull-right[
+
+![](Anova_files/figure-html/unnamed-chunk-13-1.png)&lt;!-- --&gt;
+
+]
+
+---
+
+class: h1_small
+
+# 3. Quadrados médios e graus de liberdade
+
+.pull-left[
+___
+
+i. **Quadrado médio total** - `\(QM_{Total}\)`
+
+`$$QM_{Total} = \frac{SQ_{Total}}{gl_{Total}}$$`
+
+___
+
+ii. **Quadrado médio entre tratamentos** - `\(QM_{Trat}\)`
+
+`$$QM_{Trat} = \frac{SQ_{Trat}}{gl_{Trat}}$$`
+
+
+___
+
+iii. **Quadrado médio dentro dos tratamentos** - `\(QM_{Res}\)`
+
+`$$QM_{Res} = \frac{SQ_{Res}}{gl_{Res}}$$`
+
+]
+
+.pull-right[
+
+___
+
+`\(gl_{Total} = N - 1\)`
+
+`\(gl_{Trat} = k - 1\)`
+
+`\(gl_{Res} = N-k\)`
+
+___
+
+&lt;/br&gt;&lt;/br&gt;
+
+___
+
+`$$gl_{Total} = gl_{Trat} + gl_{Res} = (k - 1) + (N - K) = N - 1$$`
+
+___
+
+]
+---
+
+class: h1_small
+
+# 4. Estatística *F* e teste de hipóteses
+
+.pull-left[
+___
+
+`$$F_{calculado} = \frac{QM_{Trat}}{QM_{Res}}$$`
+
+`\(F_{calculado}\)` é comparado ao nível de significância `\(\alpha\)`
+
+___
+
+]
+
+.pull-right[
+
+___
+
+
+&gt; Se `\(p &gt; \alpha\)` --&gt; **ACEITAMOS `\(H_0\)`**
+
+&gt; Se `\(p \le \alpha\)` --&gt; **REJEITAMOS `\(H_0\)`** (e assumimos `\(H_a\)` como verdadeira)
+
+___
+
+]
+
+&lt;img src="Anova_files/figure-html/unnamed-chunk-14-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: h1_small
+
+# 5. Um exemplo de ANOVA
+
+.pull-left[
+
+___
+
+
+`\(H_0: \mu_1 = \mu_2 = \mu_3\)`
+
+`\(H_a\)`: ao menos um `\(\mu\)` é diferente
+
+`\(\alpha = 0.05\)`
+
+___
+
+
+&lt;table class=" lightable-classic" style="font-family: Cambria; width: auto !important; margin-left: auto; margin-right: auto;"&gt;
+&lt;caption&gt;Tratamentos&lt;/caption&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:right;"&gt; A &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; B &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; C &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 16.90 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 23.90 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 19.60 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 20.90 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 30.40 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 13.90 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 15.80 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 31.70 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 8.90 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 28.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 30.90 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.90 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 21.60 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 26.50 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 17.60 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"&gt; 20.64 &lt;/td&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"&gt; 28.68 &lt;/td&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"&gt; 12.18 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+
+]
+
+.pull-right[
+
+
+&lt;img src="Anova_files/figure-html/unnamed-chunk-16-1.png" style="display: block; margin: auto;" /&gt;
+
+
+]
+
+---
+
+class: h1_small
+
+# 5. Um exemplo de ANOVA
+
+
+
+.pull-left[
+
+___
+
+**1. Somatórios dos quadrados**
+
+`\(SQ_{Trat} = \sum_{j = 1}^{k}\sum_{i = 1}^{n_{j}}(\overline{Y}_{j} - \overline{\overline{Y}})^2 = 680.772\)`
+
+`\(SQ_{Res} = \sum_{j = 1}^{k}\sum_{i = 1}^{n_{j}}(Y_{ij} - \overline{Y}_{j})^2 = 362.568\)`
+
+___
+
+**2. Graus de liberdade**
+
+`\(gl_{Trat} = k - 1 = 2\)`
+
+`\(gl_{Res} = N-k = 12\)`
+
+
+___
+
+
+]
+
+.pull-right[
+
+___
+
+**3. Quadrados médios**
+
+`\(QM_{Trat} = \frac{SQ_{Trat}}{gl_{Trat}} = 340.386\)`
+
+
+`\(QM_{Res} = \frac{SQ_{Res}}{gl_{Res}} = 30.214\)`
+
+___
+
+**4. Estatística `\(F\)`**
+
+`\(F_{calculado} = \frac{QM_{Trat}}{QM_{Res}} = 11.266\)`
+
+___
+
+]
+
+---
+
+class: h1_small
+
+# 6. A tabela da ANOVA
+
+___
+
+.pull-left[
+
+&lt;/br&gt;
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt;   &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Df &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Sum Sq &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Mean Sq &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; F value &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Pr(&amp;gt;F) &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; X &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 680.772 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 340.386 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 11.26584 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0017611 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Residuals &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 12 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 362.568 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 30.214 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+`Df`: graus de liberdade
+
+`Sum Sq`: soma dos quadrados
+
+`Mean Sq`: quadrados médios
+
+`F value`: valor de `\(F_{calculado}\)`
+
+`Pr(&gt;F)`: valor de p
+
+
+]
+
+.pull-right[
+
+&lt;/br&gt;
+
+&lt;img src="Anova_files/figure-html/unnamed-chunk-19-1.png" style="display: block; margin: auto;" /&gt;
+
+]
+
+___
+
+
+---
+
+class: h1_small
+
+# 7. Testes a *posteriori* de comparação de médias
+
+___
+
+`$$DHS_{12} = q\sqrt{\left(\frac{1}{n_1} + \frac{1}{n_2}\right)QM_{Res}}$$`
+
+___
+
+`\(DHS_{12}\)`: *Diferença Honesta Significativa* entre s médias `\(1\)` e `\(2\)`. Computadopara cada par de médias.
+
+
+`\(q\)`: **tabela da distribuição de amplitude normalizada** (*studentized range q table*).
+
+`\(QM_{Res}\)`: é quadrado médio do resíduo obtido na ANOVA.
+
+___
+
+---
+
+class: h1_small
+
+
+# 7. Testes a *posteriori* de comparação de médias
+
+
+
+___
+
+`$$DHS =  3.773\sqrt{\left(\frac{1}{5} + \frac{1}{5}\right)30.214} = 13.116$$`
+
+___
+
+.pull-left[
+
+
+&lt;img src="Anova_files/figure-html/unnamed-chunk-21-1.png" style="display: block; margin: auto;" /&gt;
+
+]
+
+.pull-right[
+
+&lt;/br&gt;
+
+&lt;table class=" lightable-classic" style="font-family: Cambria; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt;   &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; A &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; B &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; C &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; A &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; B &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 8.04 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; C &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 8.46 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 16.5 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;/br&gt;
+
+]
+___
+
+---
+
+class: h1_small, code70
+
+# 8. Ajustando a ANOVA no R
+
+&lt;/br&gt;
+
+___
+
+.pull-left[
+
+
+```r
+ajuste = aov(Y ~ X, data  = Tab)
+anova(ajuste)
+```
+
+```
+## Analysis of Variance Table
+## 
+## Response: Y
+##           Df Sum Sq Mean Sq F value   Pr(&gt;F)   
+## X          2 680.77  340.39  11.266 0.001761 **
+## Residuals 12 362.57   30.21                    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+]
+
+.pull-right[
+
+
+```r
+alfa = 0.05
+TukeyHSD(ajuste, conf.level = 1-alfa)
+```
+
+```
+##   Tukey multiple comparisons of means
+##     95% family-wise confidence level
+## 
+## Fit: aov(formula = Y ~ X, data = Tab)
+## 
+## $X
+##       diff        lwr        upr     p adj
+## B-A   8.04  -1.234654 17.3146545 0.0923564
+## C-A  -8.46 -17.734654  0.8146545 0.0751622
+## C-B -16.50 -25.774654 -7.2253455 0.0012751
+```
+
+]
+
+___
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "arta",
+"highligthLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

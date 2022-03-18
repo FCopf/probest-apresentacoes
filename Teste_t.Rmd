@@ -6,7 +6,7 @@ institute: "Instituto do Mar - UNIFESP"
 date: "Última atualização em `r format(Sys.time(), '%d de %B de %Y')`"
 output:
   xaringan::moon_reader:
-    css: [default, metropolis, metropolis-fonts]
+    css: [default, metropolis, metropolis-fonts, hygge]
     lib_dir: libs
     nature:
       highlightStyle: arta
@@ -59,6 +59,12 @@ source('r_functions/auxiliary_fun.r', encoding = "UTF-8")
       background-size: 30%;
       background-position: left bottom;
     }
+    
+    .fundo_capa {
+      background-image: url('img/fundo_teste_t.jpg');
+      background-size: 100%;
+      background-position: center;
+    }
 
 ```
 
@@ -67,10 +73,13 @@ xaringanExtra::use_scribble()
 ```
 ---
 
-class: h1_small
+class: h1_small, fundo_capa
 
 # Conteúdo da aula
 
+.pull-left[
+
+.content-box-gray[
 ___
 
 1. Distribuição $t$ de *Student*
@@ -90,6 +99,10 @@ ___
 1. Teste $t$ pareado para duas médias dependentes
 
 ___
+
+]
+
+]
 
 ---
 
@@ -139,9 +152,15 @@ class: center, h1_small
 
 # Distribuição *t* de Student: Biometrika. 1908, vol. 6, 1-15
 
+</br></br>
+
+___
+
 ```{r, out.width="90%", fig.align = 'center'}
 knitr::include_graphics("img/Z_vs_T_distribution.png")
 ```
+
+___
 
 ---
 

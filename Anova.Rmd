@@ -1,0 +1,883 @@
+---
+title: "Inferência Estatística e Teste de Hipóteses"
+subtitle: "Análise de Variância (ANOVA) simples"
+author: "Fabio Cop (fabiocopf@gmail.com)"
+institute: "Instituto do Mar - UNIFESP"
+date: "Última atualização em `r format(Sys.time(), '%d de %B de %Y')`"
+output:
+  xaringan::moon_reader:
+    css: [default, metropolis, metropolis-fonts, hygge]
+    lib_dir: libs
+    nature:
+      highlightStyle: arta
+      highligthLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+---
+
+```{r setup-chunk, include=FALSE, message = FALSE, echo = FALSE, warning = FALSE}
+options(
+  htmltools.dir.version = FALSE,
+  html.preserve.raw = FALSE # needed for windows
+)
+
+# chunk options
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+
+# Packages
+suppressMessages(library(tidyverse))
+suppressMessages(library(patchwork))
+suppressMessages(library(kableExtra))
+suppressMessages(library(DT))
+suppressMessages(library(gridExtra))
+
+# Functions
+source('r_functions/anova_sim.r')
+
+```
+
+``` {css, echo =F} 
+    .h1_small h1 {
+      font-weight: normal;
+      margin-top: -75px;
+      margin-left: -00px;
+      color: #FAFAFA;
+      font-size: 150%;
+}
+
+    .pull-left-min {
+      float: left;
+      width: 40%;
+    }
+
+    .pull-right-min {
+      float: right;
+      width: 67%;
+    }
+    
+    .golden-jackals {
+      background-image: url('img/Golden_jackals.jpg');
+      background-size: 30%;
+      background-position: left bottom;
+    }
+    
+    .fundo_capa {
+      background-image: url('img/anova.jpg');
+      background-size: 60% 100%;
+      background-position:  center right;
+    }
+
+```
+
+```{r xaringan-scribble, echo=FALSE}
+xaringanExtra::use_scribble()
+```
+---
+
+class: h1_small, fundo_capa
+
+# Conteúdo da aula
+
+.pull-left-min[
+
+___
+
+1. O modelo da ANOVA e as hipóteses estatísticas
+
+1. Partição da Soma dos Quadrados (SQ)
+
+1. Quadrados médios e graus de liberdade
+
+1. Estatística *F* e teste de hipóteses
+
+1. Um exemplo de ANOVA
+
+1. A tabela da ANOVA
+
+1. Testes a *posteriori* de comparação de médias
+
+1. Ajustando a ANOVA no R
+
+___
+
+
+]
+
+---
+
+class: h1_small
+
+# 1. O modelo da ANOVA e as hipóteses estatísticas
+
+.pull-left[
+
+___
+
+$$Y_{ij} = \mu + A_i + \epsilon_{ij}$$
+
+
+
+]
+
+
+.pull-right[
+
+___
+
+$H_0: \mu_1 = \mu_2 = \mu_3 =.... = \mu_k$ (HIPÓTESE NULA)
+
+$H_a$: ao menos um par de médias diferen entre si (HIPÓTESE ALTERNATIVA)
+
+
+]
+
+___
+
+```{r}
+df1 = anova_sim()
+df2 = anova_sim(B = c(b0 = 50, b1 = 0, b2 = 20, b3 = 0, b4 = 0))
+df3 = anova_sim(B = c(b0 = 50, b1 = 0, b2 = 20, b3 = -10, b4 = 10))
+
+```
+
+```{r, fig.align='center', fig.width=15, fig.height=5}
+plt_df1 = ggplot(df1, aes(x = X, y = Y)) +
+  geom_boxplot() +
+  labs(title = 'I') +
+  theme_classic(base_size = 15) +
+  theme(axis.text.y = element_blank())
+
+plt_df2 = ggplot(df2, aes(x = X, y = Y)) +
+  geom_boxplot() +
+  labs(title = 'II') +
+  theme_classic(base_size = 15) +
+  theme(axis.text.y = element_blank())
+
+plt_df3 = ggplot(df3, aes(x = X, y = Y)) +
+  geom_boxplot() +
+  labs(title = 'III') +
+  theme_classic(base_size = 15) +
+  theme(axis.text.y = element_blank())
+
+plt_df1 | plt_df2 | plt_df3
+
+```
+
+___
+
+---
+
+class: h1_small
+
+# 1. O modelo da ANOVA e as hipóteses estatísticas
+
+
+```{r}
+n = 5
+B = c(b0 = 20, b1 = 0, b2 = 8, b3 = -8)
+k = length(B) - 1
+N = k * n 
+dfe = anova_sim(B = B, seed = 1,
+                 k = n) %>%
+  mutate(Y = round(Y, 1),
+         i = rep(1:n, times = k),
+         j = rep(1:k, each = n)) %>% 
+  mutate(ij = paste(i,j,sep = ''))
+
+Ymeans = dfe %>% 
+  group_by(X) %>% 
+  summarise(medias = mean(Y))
+
+Yg = mean(Ymeans$medias)
+
+
+plt_dfe = ggplot(dfe, aes(x = X, y = Y)) +
+  geom_point(size = 7, color = 'black') +
+  labs(x = 'Tratamentos') +
+  scale_y_continuous(breaks = seq(0, 40, by = 5)) +
+  theme_classic(base_size = 25)
+
+tab_larga = data_frame(A = dfe$Y[dfe$X == 'A'],
+           B = dfe$Y[dfe$X == 'B'],
+           C = dfe$Y[dfe$X == 'C']) %>%
+  rbind(tapply(dfe$Y, dfe$X, mean)) %>% 
+  kbl(caption = "Tratamentos") %>%
+  kable_classic(full_width = F, html_font = "Cambria") %>% 
+  row_spec(6, bold = T, color = "white", background = "#D7261E")
+
+```
+
+.pull-left[
+
+```{r, fig.align='center', fig.width=8, fig.height=8}
+plt_dfe
+```
+
+]
+
+.pull-right[
+
+</br></br>
+
+```{r}
+tab_larga
+```
+
+]
+
+
+---
+
+class: h1_small
+
+# 1. O modelo da ANOVA e as hipóteses estatísticas
+
+
+```{r}
+n = 5
+B = c(b0 = 20, b1 = 0, b2 = 8, b3 = -8)
+k = length(B) - 1
+N = k * n 
+dfe = anova_sim(B = B, seed = 1,
+                 k = n) %>%
+  #arrange(X, desc(Y)) %>% 
+  mutate(Y = round(Y, 1),
+         i = rep(1:n, times = k),
+         j = rep(1:k, each = n)) %>% 
+  mutate(ij = paste(i,j,sep = ''))
+
+Ymeans = dfe %>% 
+  group_by(X) %>% 
+  summarise(medias = mean(Y))
+
+Yg = mean(Ymeans$medias)
+
+
+```
+
+.pull-left[
+
+```{r}
+Y1 = Ymeans$medias[1]
+Y2 = Ymeans$medias[2]
+Y3 = Ymeans$medias[3]
+plt_notacoes = plt_dfe +
+  theme(legend.position='none') +
+  geom_hline(yintercept = Yg, alpha = 0.3, size = 2) +
+  annotate('text', x = 3.2, 
+           y = Yg + 1.5, 
+           label = bquote(bar(bar(Y)) == .(Yg)),
+           color = 'black', size = 5) +  
+  annotate('text', x = as.numeric(dfe$X) + 0.2, 
+           y = dfe$Y, label = paste('n',dfe$ij, sep = '_'),
+           size = 5) +
+  geom_point(data = Ymeans, 
+            aes(x = X, y = medias, color = X),
+            size = 5, alpha = 0.5) +
+  annotate('text', x = as.numeric(Ymeans$X)[1] - 0.2, 
+           y = Ymeans$medias[1] - 1.2, 
+           label = bquote(bar(Y)[1] == .(Y1)),
+           color = 'red', size = 5) +
+  annotate('text', x = as.numeric(Ymeans$X)[2] - 0.35, 
+           y = Ymeans$medias[2], 
+           label = bquote(bar(Y)[2] == .(Y2)),
+           color = 'green', size = 5) +
+  annotate('text', x = as.numeric(Ymeans$X)[3] - 0.35, 
+           y = Ymeans$medias[3], 
+           label = bquote(bar(Y)[3] == .(Y3)),
+           color = 'blue', size = 5)
+
+plt_notacoes
+```
+
+
+
+]
+
+.pull-right[
+
+</br>
+
+___
+
++ $k = `r k`$ grupos: `A`, `B` ou `C`
+
++ $n_1 = n_2 = n_3 = n =  `r n`$ observações por grupo. Denotamos por $n_{ij}$ o número de 
+
++ $N = k \times n = n_1 + n_2 + n_3 = `r N`$
+
++ $\overline{Y}_A = `r Ymeans[1,2]`$; $\overline{Y}_B = `r Ymeans[2,2]`$, $\overline{Y}_D = `r Ymeans[3,2]`$ - **estimam** $\mu_1$, $\mu_2$ e $\mu_3$
+
++ $\overline{\overline{Y}}$: a **Grande Média** - **estima** $\mu$.
+
+$\overline{\overline{Y}} = \sum_{j = 1}^{k}\sum_{i = 1}^{n}\frac{Y_{ij}}{N} = \frac{\overline{Y_1} + \overline{Y_2} + \overline{Y_3}}{3} = `r Yg`$
+
+___
+
+]
+
+---
+
+class: h1_small
+
+# 2. Partição da Soma dos Quadrados (SQ)
+
+___
+
+i. **Soma dos Quadrados Totais** - $SQ_{Total}$
+
+$$SQ_{Total} = \sum_{j = 1}^{k}\sum_{i = 1}^{n}(Y_{ij} - \overline{\overline{Y}})^2$$
+
+___
+
+
+ii. **Soma dos Quadrados dos Tratamentos** - $SQ_{Trat}$:
+
+$$SQ_{Trat} = \sum_{j = 1}^{k}\sum_{i = 1}^{n_{j}}(\overline{Y}_{j} - \overline{\overline{Y}})^2 = \sum_{j = 1}^{k}n_{j}(\overline{Y}_{j} - \overline{\overline{Y}})^2$$
+
+___
+
+iii. **Soma dos Quadrados dos Resíduos** - $SQ_{Res}$
+
+$$SQ_{Res} = \sum_{j = 1}^{k}\sum_{i = 1}^{n_{j}}(Y_{ij} - \overline{Y}_{j})^2$$
+
+___
+
+---
+
+class: h1_small
+
+# 2. Partição da Soma dos Quadrados (SQ)
+
+```{r}
+n = 5
+Bi = c(b0 = 20, b1 = 0, b2 = 1, b3 = -1)
+k = length(B) - 1
+N = k * n 
+dfi = anova_sim(B = Bi, seed = 1,
+                 k = n) %>%
+  arrange(X, desc(Y)) %>% 
+  mutate(Y = round(Y, 1),
+         i = rep(1:n, times = k),
+         j = rep(1:k, each = n)) %>% 
+  mutate(ij = paste(i,j,sep = ''))
+
+Ymeansi = dfi %>% 
+  group_by(X) %>% 
+  summarise(mediasi = mean(Y))
+
+Ygi = mean(Ymeansi$mediasi)
+
+plt_dfi = ggplot(dfi, aes(x = X, y = Y)) +
+  geom_point(size = 7, color = 'black') +
+  labs(x = 'Tratamentos') +
+  scale_y_continuous(breaks = seq(0, 40, by = 5)) +
+  theme_classic(base_size = 25)
+
+```
+
+```{r, fig.align='center', fig.height=6, fig.width=9}
+anova_dfe = anova(aov(Y ~ X, data = dfe))
+SQ_Trat_dfe = round(anova_dfe$`Sum Sq`[1],1)
+SQ_Res_dfe = round(anova_dfe$`Sum Sq`[2],1)
+SQ_Total_dfe = SQ_Trat_dfe + SQ_Res_dfe
+
+plt_diff = plt_dfe +
+  geom_hline(yintercept = Yg, alpha = 0.3, size = 2) +
+  annotate('text', x = 0.5, 
+           y = 22, 
+           label = bquote(bar(bar(Y)) == .(Yg)),
+           color = 'black', size = 5) +
+  geom_point(data = Ymeans, 
+            aes(x = X, y = medias, color = X),
+            size = 5, alpha = 0.5) +
+  annotate('text', x = as.numeric(Ymeans$X)[1] - 0.2, 
+           y = Ymeans$medias[1] - 1.3, 
+           label = bquote(bar(Y)[1] == .(Y1)),
+           color = 'red', size = 7) +
+  annotate('text', x = as.numeric(Ymeans$X)[2] - 0.25, 
+           y = Ymeans$medias[2], 
+           label = bquote(bar(Y)[2] == .(Y2)),
+           color = 'green', size = 7) +
+  annotate('text', x = as.numeric(Ymeans$X)[3] - 0.25, 
+           y = Ymeans$medias[3], 
+           label = bquote(bar(Y)[3] == .(Y3)),
+           color = 'blue', size = 7) +
+  coord_cartesian(ylim = c(0,35)) +
+  labs(title = expression(SQ[Total] == SQ[Trat] + SQ[Res]),
+       subtitle = bquote(.(SQ_Total_dfe) == .(SQ_Trat_dfe) + .(SQ_Res_dfe))) +
+  theme(legend.position='none',
+        plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5))
+
+anova_dfi = anova(aov(Y ~ X, data = dfi))
+SQ_Trat_dfi = round(anova_dfi$`Sum Sq`[1],1)
+SQ_Res_dfi = round(anova_dfi$`Sum Sq`[2],1)
+SQ_Total_dfi = SQ_Trat_dfi + SQ_Res_dfi
+
+Y1i = Ymeansi$mediasi[1]
+Y2i = Ymeansi$mediasi[2]
+Y3i = Ymeansi$mediasi[3]
+plt_igu = plt_dfi +
+  geom_hline(yintercept = Ygi, alpha = 0.3, size = 2) +
+  annotate('text', x = 1, 
+           y = 8, 
+           label = bquote(bar(bar(Y)) == .(Ygi)),
+           color = 'black', size = 5) +
+  geom_point(data = Ymeansi, 
+            aes(x = X, y = mediasi, color = X),
+            size = 5, alpha = 0.5) +
+  annotate('text', x = as.numeric(Ymeansi$X)[1] - 0.2, 
+           y = Ymeansi$mediasi[1] - 1.2, 
+           label = bquote(bar(Y)[1] == .(Y1i)),
+           color = 'red', size = 5) +
+  annotate('text', x = as.numeric(Ymeansi$X)[2] - 0.25, 
+           y = Ymeansi$mediasi[2], 
+           label = bquote(bar(Y)[2] == .(Y2i)),
+           color = 'green', size = 5) +
+  annotate('text', x = as.numeric(Ymeansi$X)[3] - 0.25, 
+           y = Ymeansi$mediasi[3], 
+           label = bquote(bar(Y)[3] == .(Y3i)),
+           color = 'blue', size = 5) +
+  coord_cartesian(ylim = c(0,35)) +
+  labs(title = expression(SQ[Total] == SQ[Trat] + SQ[Res]),
+       subtitle = bquote(.(SQ_Total_dfi) == .(SQ_Trat_dfi) + .(SQ_Res_dfi))) +
+  theme(legend.position='none',
+        plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5))
+```
+
+```{r, fig.align='center', fig.height=8, fig.width=15}
+plt_diff +
+  geom_segment(data = data.frame(x1 = 2.1, x2 = 2.1,
+                                 y1 = Ymeans$medias[2], y2 = Yg),
+               aes(x = x1, y = y1, xend = x2, yend = y2),
+               color = 'darkgreen', size = 3, linetype = 1) +
+  geom_segment(data = data.frame(x1 = 2.1, x2 = 2.1,
+                                 y1 = Ymeans$medias[2], y2 = max(dfe$Y)),
+               aes(x = x1, y = y1, xend = x2, yend = y2),
+               color = 'red', size = 3, linetype = 1) +
+  annotate(geom = 'text', x = 2.3, y = 25, label = expression('SQ'['Trat']), 
+           size = 10, color = 'darkgreen') +
+  annotate(geom = 'text', x = 2.25, y = 30, label = expression('SQ'['Res']), 
+           size = 7, color = 'red')
+
+```
+
+---
+
+class: h1_small
+
+# 2. Partição da Soma dos Quadrados (SQ)
+
+.pull-left[
+
+```{r}
+plt_igu
+```
+
+]
+
+.pull-right[
+
+```{r}
+plt_diff
+```
+
+]
+
+---
+
+class: h1_small
+
+# 3. Quadrados médios e graus de liberdade
+
+.pull-left[
+___
+
+i. **Quadrado médio total** - $QM_{Total}$
+
+$$QM_{Total} = \frac{SQ_{Total}}{gl_{Total}}$$
+
+___
+
+ii. **Quadrado médio entre tratamentos** - $QM_{Trat}$
+
+$$QM_{Trat} = \frac{SQ_{Trat}}{gl_{Trat}}$$
+
+
+___
+
+iii. **Quadrado médio dentro dos tratamentos** - $QM_{Res}$
+
+$$QM_{Res} = \frac{SQ_{Res}}{gl_{Res}}$$
+
+]
+
+.pull-right[
+
+___
+
+$gl_{Total} = N - 1$
+
+$gl_{Trat} = k - 1$
+
+$gl_{Res} = N-k$
+
+___
+
+</br></br>
+
+___
+
+$$gl_{Total} = gl_{Trat} + gl_{Res} = (k - 1) + (N - K) = N - 1$$
+
+___
+
+]
+---
+
+class: h1_small
+
+# 4. Estatística *F* e teste de hipóteses
+
+.pull-left[
+___
+
+$$F_{calculado} = \frac{QM_{Trat}}{QM_{Res}}$$
+
+$F_{calculado}$ é comparado ao nível de significância $\alpha$
+
+___
+
+]
+
+.pull-right[
+
+___
+
+
+> Se $p > \alpha$ --> **ACEITAMOS $H_0$**
+
+> Se $p \le \alpha$ --> **REJEITAMOS $H_0$** (e assumimos $H_a$ como verdadeira)
+
+___
+
+]
+
+```{r, fig.align='center', fig.height=5.5, fig.width=15}
+glnon <- 5
+glden <- 50
+
+params = list(df1 = glnon, df2 = glden)
+ylim = c(0,10)
+pF = 0.90
+lim <- qf(pF, df1 = glnon, df2 = glden)
+dfF <- data.frame(x = seq(0.1,4, l = 100)) %>% 
+  mutate(df = stats::df(x, df1 = glnon, df2 = glden))
+Fcurve = ggplot(data = dfF, mapping = aes(x = x)) +
+  stat_function(fun = stats::df, args = list(df1 = glnon, df2 = glden)) +
+  geom_area(stat = "function", fun = stats::df, color = 1,
+            args = params,
+            fill = '#d14143',
+            xlim = c(lim, ylim[2])) +
+  theme_classic(base_size = 15) +
+  xlab('X') + #ylab('Densidade de probabilidade') +
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5, color = 'black')) +
+  scale_x_continuous(name = 'F',
+                     limits = range(dfF$x), labels = NULL, breaks = NULL) +
+  scale_y_continuous(name = 'Densidade de probabilidade',
+                     limits = c(0,0.8), labels = NULL, breaks = NULL) +
+  annotate(geom = 'segment', x = lim - 0.0, xend = lim - 0.0,
+           y = 0.5, yend = 0.2, color = 'gray', size = 2,
+           arrow = arrow(length = unit(2, "mm"))) +
+  annotate(geom = 'text', x = lim - 0.0, y = 0.55, size = 8,
+           color = 'gray', label = bquote("F"["calculado"])) +
+  annotate(geom = 'text', x = lim + 0.7, y = 0.15, size = 8,
+           color = '#d14143', label = "Valor de p")
+
+Fcurve
+```
+
+---
+
+class: h1_small
+
+# 5. Um exemplo de ANOVA
+
+.pull-left[
+
+___
+
+
+$H_0: \mu_1 = \mu_2 = \mu_3$
+
+$H_a$: ao menos um $\mu$ é diferente
+
+$\alpha = 0.05$
+
+___
+
+
+```{r}
+tab_larga
+```
+
+
+]
+
+.pull-right[
+
+
+```{r, fig.align='center', fig.width=8, fig.height=8}
+plt_dfe
+```
+
+
+]
+
+---
+
+class: h1_small
+
+# 5. Um exemplo de ANOVA
+
+```{r}
+Tab = data.frame(dfe[,1:2])
+anova_ex = anova(aov(Y ~ X, data = Tab))
+```
+
+.pull-left[
+
+___
+
+**1. Somatórios dos quadrados**
+
+$SQ_{Trat} = \sum_{j = 1}^{k}\sum_{i = 1}^{n_{j}}(\overline{Y}_{j} - \overline{\overline{Y}})^2 = `r anova_ex[[2]][1]`$
+
+$SQ_{Res} = \sum_{j = 1}^{k}\sum_{i = 1}^{n_{j}}(Y_{ij} - \overline{Y}_{j})^2 = `r anova_ex[[2]][2]`$
+
+___
+
+**2. Graus de liberdade**
+
+$gl_{Trat} = k - 1 = `r anova_ex[[1]][1]`$
+
+$gl_{Res} = N-k = `r anova_ex[[1]][2]`$
+
+
+___
+
+
+]
+
+.pull-right[
+
+___
+
+**3. Quadrados médios**
+
+$QM_{Trat} = \frac{SQ_{Trat}}{gl_{Trat}} = `r anova_ex[[3]][1]`$
+
+
+$QM_{Res} = \frac{SQ_{Res}}{gl_{Res}} = `r anova_ex[[3]][2]`$
+
+___
+
+**4. Estatística $F$**
+
+$F_{calculado} = \frac{QM_{Trat}}{QM_{Res}} = `r round(anova_ex[[4]][1],3)`$
+
+___
+
+]
+
+---
+
+class: h1_small
+
+# 6. A tabela da ANOVA
+
+___
+
+.pull-left[
+
+</br>
+
+```{r}
+kableExtra::kable(anova_ex)
+```
+
+`Df`: graus de liberdade
+
+`Sum Sq`: soma dos quadrados
+
+`Mean Sq`: quadrados médios
+
+`F value`: valor de $F_{calculado}$
+
+`Pr(>F)`: valor de p
+
+
+]
+
+.pull-right[
+
+</br>
+
+```{r, fig.align='center', fig.height=6, fig.width=8}
+glnon <- anova_ex[[1]][1]
+glden <- anova_ex[[1]][2]
+
+params = list(df1 = glnon, df2 = glden)
+ylim = c(0,10)
+pF = 1 - anova_ex[[5]][1]
+lim <- qf(pF, df1 = glnon, df2 = glden)
+dfF <- data.frame(x = seq(0.1,13, l = 100)) %>% 
+  mutate(df = stats::df(x, df1 = glnon, df2 = glden))
+Fcurve = ggplot(data = dfF, mapping = aes(x = x)) +
+  stat_function(fun = stats::df, args = list(df1 = glnon, df2 = glden)) +
+  geom_area(stat = "function", fun = stats::df, color = 1,
+            args = params,
+            fill = '#d14143',
+            xlim = c(lim, ylim[2])) +
+  theme_classic(base_size = 15) +
+  xlab('X') + #ylab('Densidade de probabilidade') +
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5, color = 'black')) +
+  scale_x_continuous(name = 'F',
+                      breaks = seq(0,13, by = 1)) +
+  scale_y_continuous(name = 'Densidade de probabilidade',
+                     breaks = seq(0,1, by = 0.1)) +
+  annotate(geom = 'segment', x = anova_ex[[4]][1], xend = anova_ex[[4]][1],
+           y = 0.5, yend = 0.02, color = 'gray', size = 2,
+           arrow = arrow(length = unit(2, "mm"))) +
+  annotate(geom = 'text', x = anova_ex[[4]][1], y = 0.55, size = 8,
+           color = 'gray', label = bquote("F"["calculado"])) +
+  annotate(geom = 'text', x = lim + 1.2, y = 0.03, size = 6,
+           color = '#d14143', label = "Valor de p")
+
+Fcurve
+```
+
+]
+
+___
+
+
+---
+
+class: h1_small
+
+# 7. Testes a *posteriori* de comparação de médias
+
+___
+
+$$DHS_{12} = q\sqrt{\left(\frac{1}{n_1} + \frac{1}{n_2}\right)QM_{Res}}$$
+
+___
+
+$DHS_{12}$: *Diferença Honesta Significativa* entre s médias $1$ e $2$. Computadopara cada par de médias.
+
+
+$q$: **tabela da distribuição de amplitude normalizada** (*studentized range q table*).
+
+$QM_{Res}$: é quadrado médio do resíduo obtido na ANOVA.
+
+___
+
+---
+
+class: h1_small
+
+
+# 7. Testes a *posteriori* de comparação de médias
+
+
+```{r}
+q =  qtukey(p = 0.95, nmeans = 3, df = anova_ex[[1]][2])
+DHS = q * sqrt((1/n + 1/n)*anova_ex[[3]][2])
+```
+___
+
+$$DHS =  `r round(q,3)`\sqrt{\left(\frac{1}{`r n`} + \frac{1}{`r n`}\right)`r anova_ex[[3]][2]`} = `r round(DHS, 3)`$$
+
+___
+
+.pull-left[
+
+
+```{r, fig.align='center', fig.width=7, fig.height=6}
+plt_dfe +
+  theme(legend.position='none') +
+  geom_hline(yintercept = Yg, alpha = 0.3, size = 2) +
+  annotate('text', x = 3.2, 
+           y = Yg + 1.5, 
+           label = bquote(bar(bar(Y)) == .(Yg)),
+           color = 'black', size = 5) +  
+  geom_point(data = Ymeans, 
+            aes(x = X, y = medias, color = X),
+            size = 5, alpha = 0.5) +
+  annotate('text', x = as.numeric(Ymeans$X)[1] - 0.2, 
+           y = Ymeans$medias[1] - 1.2, 
+           label = bquote(bar(Y)[1] == .(Y1)),
+           color = 'red', size = 5) +
+  annotate('text', x = as.numeric(Ymeans$X)[2] - 0.35, 
+           y = Ymeans$medias[2], 
+           label = bquote(bar(Y)[2] == .(Y2)),
+           color = 'green', size = 5) +
+  annotate('text', x = as.numeric(Ymeans$X)[3] - 0.35, 
+           y = Ymeans$medias[3], 
+           label = bquote(bar(Y)[3] == .(Y3)),
+           color = 'blue', size = 5)
+```
+
+]
+
+.pull-right[
+
+</br>
+
+```{r}
+Ymean = tapply(Tab$Y, Tab$X, mean)
+Ymean_D = as.matrix(dist(Ymean))
+Ymean_D[upper.tri(Ymean_D)] = NA
+kableExtra::kable(Ymean_D) %>% 
+  kable_classic(full_width = T, html_font = "Cambria")
+```
+
+</br>
+
+]
+___
+
+---
+
+class: h1_small, code70
+
+# 8. Ajustando a ANOVA no R
+
+</br>
+
+___
+
+.pull-left[
+
+```{r, echo = TRUE}
+ajuste = aov(Y ~ X, data  = Tab)
+anova(ajuste)
+```
+
+]
+
+.pull-right[
+
+```{r, echo = TRUE}
+alfa = 0.05
+TukeyHSD(ajuste, conf.level = 1-alfa)
+```
+
+]
+
+___

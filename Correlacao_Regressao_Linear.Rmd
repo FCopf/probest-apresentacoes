@@ -3211,8 +3211,8 @@ pF = 0.80
 lim <- qf(pF, df1 = glnon, df2 = glden)
 dfF <- data.frame(x = c(0.1,4))
 Fcurve <- ggplot(data = dfF, mapping = aes(x = x)) +
-  stat_function(fun = df, args = params) +
-  geom_area(stat = "function", fun = df, color = 1,
+  stat_function(fun = stats::df, args = params) +
+  geom_area(stat = "function", fun = stats::df, color = 1,
                 args = params,
                 fill = '#d14143',
                 xlim = c(lim, ylim[2])) +
@@ -3297,8 +3297,8 @@ pF = 0.80
 lim <- qf(pF, df1 = glnon, df2 = glden)
 
 Fcurve <- ggplot(data = data.frame(x = c(0,4)), mapping = aes(x = x)) +
-  stat_function(fun = df, args = params) +
-  geom_area(stat = "function", fun = df, color = 1,
+  stat_function(fun = stats::df, args = params) +
+  geom_area(stat = "function", fun = stats::df, color = 1,
                 args = params,
                 fill = '#d14143',
                 xlim = c(lim, ylim[2])) +
