@@ -179,7 +179,7 @@ class: h1_small
 .pull-left-min[
 
 
-.content-box-gray[<h4><b>Comprimento de <i>Oligoplites saliens</i></b></h4>
+.content-box-red[<h4><b>Comprimento de <i>Oligoplites saliens</i></b></h4>
 
 ]
 
@@ -202,7 +202,7 @@ class: h1_small, fundo_oligoplites
 
 .pull-left-min[
 
-.content-box-gray[<h4><b>Comprimento de <i>Oligoplites saliens</i></b></h4>
+.content-box-red[<h4><b>Comprimento de <i>Oligoplites saliens</i></b></h4>
 
 ]
 
@@ -222,11 +222,11 @@ class: h1_small, fundo_oligoplites_populacao
 .pull-left-min[
 
 
-.content-box-gray[<h4><b>Comprimento de <i>Oligoplites saliens</i></b></h4>
+.content-box-red[<h4><b>Comprimento de <i>Oligoplites saliens</i></b></h4>
 
 ]
 
-.content-box-gray[<b>População estatística</b>: os comprimentos medidos em <i>cada um</i> dos indivíduos da espécie.
+.content-box-red[<b>População estatística</b>: os comprimentos medidos em <i>cada um</i> dos indivíduos da espécie.
 
 <b>Tamanho populacional (N)</b>: o número de elementos da população estatística.
 ] 
@@ -246,11 +246,11 @@ class: h1_small, fundo_oligoplites_populacao
 .pull-left-min[
 
 
-.content-box-gray[<h4><b>Comprimento de <i>Oligoplites saliens</i></b></h4>
+.content-box-red[<h4><b>Comprimento de <i>Oligoplites saliens</i></b></h4>
 
 ]
 
-.content-box-gray[<b>Censo</b>: a medida de <i>TODOS</i> os comprimentos da população estatística.
+.content-box-red[<b>Censo</b>: a medida de <i>TODOS</i> os comprimentos da população estatística.
 ] 
 
 
@@ -276,11 +276,11 @@ class: h1_small, fundo_oligoplites_unidade_amostral
 .pull-left-min[
 
 
-.content-box-gray[<h4><b>Comprimento de <i>Oligoplites saliens</i></b></h4>
+.content-box-red[<h4><b>Comprimento de <i>Oligoplites saliens</i></b></h4>
 
 ]
 
-.content-box-gray[<b>Unidade amostral</b>: o comprimentos medido em <i>um único</i> indivíduo.
+.content-box-red[<b>Unidade amostral</b>: o comprimentos medido em <i>um único</i> indivíduo.
 
 ] 
 
@@ -300,11 +300,11 @@ class: h1_small, fundo_oligoplites_amostra
 .pull-left-min[
 
 
-.content-box-gray[<h4><b>Comprimento de <i>Oligoplites saliens</i></b></h4>
+.content-box-red[<h4><b>Comprimento de <i>Oligoplites saliens</i></b></h4>
 
 ]
 
-.content-box-gray[<b>Amostra</b>: os comprimentos medidos em <i>um subgrupo</i> de <i>n</i> indivíduos da espécie.
+.content-box-red[<b>Amostra</b>: os comprimentos medidos em <i>um subgrupo</i> de <i>n</i> indivíduos da espécie.
 
 <b>Tamanho amostral (n)</b>: o número de elementos da amostra.
 ] 
@@ -326,7 +326,7 @@ class: h1_small, fundo_oligoplites_populacao
 .pull-left-min[
 
 <br/>
-.content-box-gray[Os valores em uma população estatística não são idênticos, existe uma **distribuição de frequências**
+.content-box-red[Os valores em uma população estatística não são idênticos, existe uma **distribuição de frequências**
 
 ]
 
@@ -468,7 +468,7 @@ ___
 <br/>
 
 
-.content-box-gray[<h5>Média populacional</h5> 
+.content-box-red[<h5>Média populacional</h5> 
 
 $\mu = \frac{\sum_{i = 1}^{N}{X_i}}{N}$
 
@@ -508,7 +508,7 @@ ___
 <br/>
 
 
-.content-box-gray[<h5>Média amostral</h5> 
+.content-box-red[<h5>Média amostral</h5> 
 
 $\overline{X} = \frac{\sum_{i = 1}^{n}{X_i}}{n}$
 

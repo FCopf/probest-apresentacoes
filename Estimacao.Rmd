@@ -104,7 +104,7 @@ class: h1_small, fundo_capa
 
 .pull-right[
 
-.content-box-gray[
+.content-box-green[
 
 ___
 
@@ -114,7 +114,7 @@ ___
 
 1. A distribuição $t$ de Student: IC para $\mu$ e $\sigma$ desconhecidos
 
-1. Introdução à suficiência amostral: margen de erro e nível de confiança 
+1. Introdução à suficiência amostral: margem de erro e nível de confiança 
 
 ___
 
@@ -280,14 +280,14 @@ ___
 
 class: h1_small
 
-# 4. Introdução à suficiência amostral: margen de Erro e nível de confiança
+# 4. Introdução à suficiência amostral: margem de erro e nível de confiança
 
 </br>
 ___
 
 .pull-left[
 
-A precisão de um experimento é medida pelo erro pádrão da média $\sigma_{\overline{X}}$ que por sua vez, depende do tamanho amostral $n$.
+A precisão de um experimento é medida pelo erro padrão da média $\sigma_{\overline{X}}$ que por sua vez, depende do tamanho amostral $n$.
 
 $$\sigma_{\overline{X}} = \frac{\sigma}{\sqrt{n}}$$
 
@@ -323,7 +323,7 @@ ___
 
 class: h1_small
 
-# 4. Introdução à suficiência amostral: margen de Erro e nível de confiança
+# 4. Introdução à suficiência amostral: margem de erro e nível de confiança
 
 </br>
 ___
@@ -381,20 +381,20 @@ ___
 
 class: h1_small
 
-# 4. Introdução à suficiência amostral: margen de erro e nível de confiança
+# 4. Introdução à suficiência amostral: margem de erro e nível de confiança
 
 </br>
 ___
 
 .pull-left[
 
-A pergunta:
+1 - A pergunta...
 
 > "Qual tamanho amostral aplicar em meu estudo?"
 
 ___
 
-Pode ser reformulada por:
+2 - Pode ser reformulada por...
 
 > Qual tamanho amostral $n$ garante uma margem de erro $E$ e o nível de confiança $1 - \alpha$ desejados
 
@@ -402,13 +402,13 @@ Pode ser reformulada por:
 
 .pull-right[
 
-E para respondê-la, partimos da equação do **erro amostral**
+3 - Para respondê-la, partimos da equação do **erro amostral**...
 
 $$E = z_{\alpha/2} \times \frac{\sigma}{\sqrt{n}}$$
 
 ___
 
-e isolamos a variável $n$ para obter:
+4 - e isolamos a variável $n$ para obter:
 
 $$n = (\frac{ z_{\alpha/2} \times \sigma}{E})^2$$
 
@@ -416,8 +416,8 @@ $$n = (\frac{ z_{\alpha/2} \times \sigma}{E})^2$$
 
 </br>
 
-___
+.content-box-green[
 
-> Uma vez que não conhecemos o desvio padrão populacional $\sigma$ podemos substituí-lo pelo desvio padrão $s$ de um experimento piloto ou estimá-lo a partir da literatura. 
+**Uma vez que não conhecemos o desvio padrão populacional $\sigma$, substituimos pelo desvio padrão $s$ de um _experimento piloto_ ou estimamos a partir da literatura.**
 
-___
+]

@@ -131,7 +131,7 @@ class: h1_small
 # 1. Amostragem e distribuição das médias amostrais: retomando ideias
 
 ```{r}
-amostr1 <- image_read("img/amostragem_inferencia.png") %>% 
+amostr1 <- image_read("img/Amostragem_inferencia_estimadores.png") %>% 
   image_scale("700x")
 amostr1
 ```
