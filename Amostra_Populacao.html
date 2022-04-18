@@ -24,7 +24,7 @@ class: center, middle, inverse, title-slide
 ## Amostrando uma população estatística
 ### Fabio Cop (<a href="mailto:fabiocopf@gmail.com" class="email">fabiocopf@gmail.com</a>)
 ### Instituto do Mar - UNIFESP
-### Última atualização em 17 de abril de 2022
+### Última atualização em 18 de abril de 2022
 
 ---
 
@@ -103,6 +103,10 @@ ___
 
 1. Erro amostral, acurácia e precisão
 
+1. Efeitos dos tipos de amostragem sobre as estimativas
+
+1. Implicações sobre o processo de amostragem e inferência
+
 ___
 
 ]
@@ -119,7 +123,16 @@ class: h1_small
 
 # O processo de amostragem e inferência sobre uma população estatística
 
-&lt;img src="Amostra_Populacao_files/figure-html/unnamed-chunk-2-1.png" width="981" style="display: block; margin: auto;" /&gt;
+&lt;img src="Amostra_Populacao_files/figure-html/unnamed-chunk-2-1.png" width="972" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+class: h1_small
+
+# O processo de amostragem e inferência sobre uma população estatística
+
+&lt;img src="Amostra_Populacao_files/figure-html/unnamed-chunk-3-1.png" width="981" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -132,6 +145,40 @@ class: h1_small, fundo_capa
 .content-box-red[
 
 Na amostragem aleatória simples, cada elemento da população tem a **mesma probabilidade** de compor uma amostra. Se a população tem `\(N\)` elementos, cada um tem probabilidade `\(\frac{1}{N}\)` de ser selecionado.
+
+]
+
+---
+
+class: h1_small
+
+# 1.  Amostragem aleatória simples
+
+
+
+.pull-left[
+
+&lt;h5 style="text-align:center"&gt;População estatística&lt;/h5&gt;
+
+&lt;img src="Amostra_Populacao_files/figure-html/unnamed-chunk-5-1.png" style="display: block; margin: auto;" /&gt;
+
+
+]
+
+.pull-right[
+
+
+
+
+&lt;h5 style="text-align:center"&gt;Amostra&lt;/h5&gt;
+
+&lt;img src="Amostra_Populacao_files/figure-html/unnamed-chunk-7-1.png" style="display: block; margin: auto;" /&gt;
+
+]
+
+.content-box-red[
+
+Se não sabemos nada sobre a distribuição de frequências da população estatística, a amostra aleatória simples é a melhor forma de **aproximar** esta distribuição. 
 
 ]
 
@@ -429,18 +476,18 @@ class: h1_small
 
 ___
 
-Implicações da amostragem sistemática na estimativa dos parâmetros populacionais.
+&lt;h4 style="text-align:center"&gt;POPULAÇÃO ESTATÍSTICA&lt;/h4&gt;
+
 ___
 
-&lt;h4 style="text-align:center"&gt;POPULAÇÃO&lt;/h4&gt;
 &lt;/br&gt;
 
-&lt;img src="Amostra_Populacao_files/figure-html/unnamed-chunk-9-1.png" width="1177" style="display: block; margin: auto;" /&gt;
+&lt;img src="Amostra_Populacao_files/figure-html/unnamed-chunk-14-1.png" width="1177" style="display: block; margin: auto;" /&gt;
 
 &lt;/br&gt;
 
 .content-box-green[
-&lt;h4 style="text-align:center"&gt;Quando a variável de interesse &lt;b&gt;não tem relação&lt;/b&gt; com a sequência escolhida, a amostragem sistemática tende a gerar &lt;b&gt;os mesmos&lt;/b&gt; resultados da amostragem aleatória.&lt;/h4&gt;
+&lt;h4 style="text-align:center"&gt;A amostragem sistemática tende a gerar &lt;b&gt;os mesmos&lt;/b&gt; resultados da amostragem aleatória, exceto em situações muito particulares.&lt;/h4&gt;
 
 ]
 
@@ -454,44 +501,22 @@ class: h1_small
 
 ___
 
-Implicações da amostragem sistemática na estimativa dos parâmetros populacionais.
+&lt;h4 style="text-align:center"&gt;POPULAÇÃO ESTATÍSTICA&lt;/h4&gt;
+
 ___
 
-&lt;h4 style="text-align:center"&gt;POPULAÇÃO&lt;/h4&gt;
 &lt;/br&gt;
 
-&lt;img src="Amostra_Populacao_files/figure-html/unnamed-chunk-11-1.png" width="1177" style="display: block; margin: auto;" /&gt;
+&lt;img src="Amostra_Populacao_files/figure-html/unnamed-chunk-16-1.png" width="2191" style="display: block; margin: auto;" /&gt;
 
 &lt;/br&gt;
 
 .content-box-green[
-&lt;h4 style="text-align:center"&gt;Se houver um gradiente justamente na direção do transecto, a variância amostral \(s^{2}\) irá &lt;b&gt;superestimar&lt;/b&gt; a variância populacional \(\sigma^2\).&lt;/h4&gt;
+&lt;h4 style="text-align:center"&gt;Se houver uma periodicidade que coincida com o intervalo escolhido, a média amostral &lt;b&gt;não será&lt;/b&gt; igual à média populacional e a variância amostral \(s^{2}\) irá &lt;b&gt;subsetimar&lt;/b&gt; a variância populacional \(\sigma^2\).&lt;/h4&gt;
 
 ]
----
-
-class: h1_small
-
-# 3.  Amostragem sistemática
 
 
-
-___
-
-Implicações da amostragem sistemática na estimativa dos parâmetros populacionais.
-___
-
-&lt;h4 style="text-align:center"&gt;POPULAÇÃO&lt;/h4&gt;
-&lt;/br&gt;
-
-&lt;img src="Amostra_Populacao_files/figure-html/unnamed-chunk-13-1.png" width="2191" style="display: block; margin: auto;" /&gt;
-
-&lt;/br&gt;
-
-.content-box-green[
-&lt;h4 style="text-align:center"&gt;Se houver uma periodicidade que coincida com o intervalo escolhido, a variância amostral \(s^{2}\) irá &lt;b&gt;subsetimar&lt;/b&gt; a variância populacional \(\sigma^2\).&lt;/h4&gt;
-
-]
 
 ---
 
@@ -508,7 +533,7 @@ ___
 + **Acurácia**: se refere à proximidade entre o parâmetro e o estimador. Um estimador acurado é, em média, igual ao parâmetro populacional. 
 
 
-`$$\mu_{\overline{X}} - \mu$$`
+`$$\mu_{\overline{X}} - \mu = 0$$`
 
 + **Precisão**: tem relação com a variabilidade do estimador. Estimadores que geram estimativas similares entre si são mais precisos. A precisão é medida pelo **erro padrão da média**.
 
@@ -587,7 +612,7 @@ Existem:
 
 `$${{10}\choose{5}} = \frac{10!}{(10-5)! \times 5!} = 252$$`
 
-formas diferentes de tomarmos uma amostra de tamanho `\(n = 5\)` de nossa população de tamanho `\(N = 10\)`.
+formas diferentes de tomarmos uma amostra de tamanho `\(n = 5\)` **sem reposição** de nossa população de tamanho `\(N = 10\)`.
 
 ___
 
@@ -979,7 +1004,7 @@ Que descrevem o seguinte padrão:
 
 &lt;/br&gt;
 
-&lt;img src="Amostra_Populacao_files/figure-html/unnamed-chunk-19-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Amostra_Populacao_files/figure-html/unnamed-chunk-22-1.png" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -991,7 +1016,7 @@ Que descrevem o seguinte padrão:
 
 + Média das `\(N = 252\)` médias amostrais com `\(n = 5\)`
 
-`$$\mu_{\overline{X}} = \sum_{i = 1}^{N}\frac{\overline{X}_i}{252} = 25.6$$`
+`$$\mu_{\overline{X}} = \sum_{i = 1}^{252}\frac{\overline{X}_i}{252} = 25.6$$`
 
 .content-box-green[
 
@@ -1022,7 +1047,7 @@ Existem ao todo:
 
 `$${{10}\choose{7}} = \frac{10!}{(10-7)! \times 7!} = 120$$`
 
-amostras diferentes de tamanho `\(n = 7\)` que podem ser retiradas de uma população de tamanho  `\(N = 10\)`. 
+amostras diferentes de tamanho `\(n = 7\)` que podem ser retiradas **sem reposição** de uma população de tamanho  `\(N = 10\)`. 
 
 ___
 
@@ -1189,7 +1214,7 @@ class: h1_small
 
 &lt;/br&gt;
 
-&lt;img src="Amostra_Populacao_files/figure-html/unnamed-chunk-22-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Amostra_Populacao_files/figure-html/unnamed-chunk-25-1.png" style="display: block; margin: auto;" /&gt;
 
 
 ]
@@ -1202,7 +1227,7 @@ class: h1_small
 
 + Média das `\(120\)` médias amostrais com `\(n = 7\)`
 
-`$$\mu_{\overline{X}} = \sum_{i = 1}^{N}\frac{\overline{X}_i}{120} = 25.6$$`
+`$$\mu_{\overline{X}} = \sum_{i = 1}^{120}\frac{\overline{X}_i}{120} = 25.6$$`
 
 .content-box-green[
 
@@ -1228,7 +1253,7 @@ class: h1_small
 
 &lt;h5 style="text-align:center"&gt;Distribuição das médias amostrais para n = 5&lt;/h5&gt;
 
-&lt;img src="Amostra_Populacao_files/figure-html/unnamed-chunk-24-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Amostra_Populacao_files/figure-html/unnamed-chunk-27-1.png" style="display: block; margin: auto;" /&gt;
 
 ___
 
@@ -1242,7 +1267,7 @@ ___
 
 &lt;h5 style="text-align:center"&gt;Distribuição das médias amostrais para n = 7&lt;/h5&gt;
 
-&lt;img src="Amostra_Populacao_files/figure-html/unnamed-chunk-25-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Amostra_Populacao_files/figure-html/unnamed-chunk-28-1.png" style="display: block; margin: auto;" /&gt;
 
 ___
 
@@ -1269,6 +1294,209 @@ Na prática científica não conhecemos o desvio padrão populacional `\(\sigma\
 em que `\(s_{\overline{X}}\)` é denominado de **erro padrão amostral**
 
 ]
+
+---
+
+class: h1_small, font_small
+
+# 5. Efeitos dos tipos de amostragem sobre as estimativas
+
+
+
+
+.pull-left[
+
+
+&lt;table class=" lightable-paper lightable-striped" style='font-family: "Arial Narrow", arial, helvetica, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;'&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:right;"&gt; X &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Estrato &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"&gt; 7.3 &lt;/td&gt;
+   &lt;td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"&gt; A &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"&gt; 10.6 &lt;/td&gt;
+   &lt;td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"&gt; A &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"&gt; 14.8 &lt;/td&gt;
+   &lt;td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"&gt; A &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"&gt; 6.6 &lt;/td&gt;
+   &lt;td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"&gt; A &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"&gt; 9.8 &lt;/td&gt;
+   &lt;td style="text-align:left;font-weight: bold;color: white !important;background-color: #D7261E !important;"&gt; A &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: white !important;background-color: gray !important;"&gt; 14.4 &lt;/td&gt;
+   &lt;td style="text-align:left;font-weight: bold;color: white !important;background-color: gray !important;"&gt; B &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: white !important;background-color: gray !important;"&gt; 16.1 &lt;/td&gt;
+   &lt;td style="text-align:left;font-weight: bold;color: white !important;background-color: gray !important;"&gt; B &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: white !important;background-color: gray !important;"&gt; 13.3 &lt;/td&gt;
+   &lt;td style="text-align:left;font-weight: bold;color: white !important;background-color: gray !important;"&gt; B &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: white !important;background-color: gray !important;"&gt; 20.0 &lt;/td&gt;
+   &lt;td style="text-align:left;font-weight: bold;color: white !important;background-color: gray !important;"&gt; B &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: white !important;background-color: gray !important;"&gt; 13.6 &lt;/td&gt;
+   &lt;td style="text-align:left;font-weight: bold;color: white !important;background-color: gray !important;"&gt; B &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+.content-box-green[
+
+Se o es estratos são identificados corretamente, a amostragem estratifica irá gerar estimativas **mais precisas**, uma vez que evitra casos extremos como por exemplo, a seleção &lt;u&gt;puramente ao acaso&lt;/u&gt; de um único estrato.
+
+]
+
+]
+
+.pull-right[
+
+
+
+
+
+
+
+
+#### Amostragem Aleatória Estratificada: n = 4
+
+___
+
+&lt;table class=" lightable-paper lightable-striped" style='font-family: "Arial Narrow", arial, helvetica, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;'&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:right;"&gt; Amostra_1 &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Amostra_2 &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Amostra_3 &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Amostra_4 &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"&gt; 14.8 &lt;/td&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"&gt; 7.3 &lt;/td&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"&gt; 7.3 &lt;/td&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"&gt; 14.8 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"&gt; 9.8 &lt;/td&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"&gt; 6.6 &lt;/td&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"&gt; 10.6 &lt;/td&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: white !important;background-color: #D7261E !important;"&gt; 7.3 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: white !important;background-color: gray !important;"&gt; 14.4 &lt;/td&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: white !important;background-color: gray !important;"&gt; 20.0 &lt;/td&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: white !important;background-color: gray !important;"&gt; 13.6 &lt;/td&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: white !important;background-color: gray !important;"&gt; 13.6 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: white !important;background-color: gray !important;"&gt; 16.1 &lt;/td&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: white !important;background-color: gray !important;"&gt; 13.3 &lt;/td&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: white !important;background-color: gray !important;"&gt; 16.1 &lt;/td&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: white !important;background-color: gray !important;"&gt; 14.4 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+___
+
+#### Amostragem Aleatória Simples: n = 4
+
+___
+
+&lt;table class=" lightable-paper lightable-striped" style='font-family: "Arial Narrow", arial, helvetica, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;'&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Amostra_1 &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Amostra_2 &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Amostra_3 &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Amostra_4 &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style=" font-weight: bold;    color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: gray !important;"&gt;14.4&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style=" font-weight: bold;    color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #D7261E !important;"&gt;14.8&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style=" font-weight: bold;    color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: gray !important;"&gt;16.1&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style=" font-weight: bold;    color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #D7261E !important;"&gt;7.3&lt;/span&gt; &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style=" font-weight: bold;    color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #D7261E !important;"&gt;10.6&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style=" font-weight: bold;    color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #D7261E !important;"&gt;6.6&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style=" font-weight: bold;    color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: gray !important;"&gt;20&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style=" font-weight: bold;    color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #D7261E !important;"&gt;10.6&lt;/span&gt; &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style=" font-weight: bold;    color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: gray !important;"&gt;16.1&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style=" font-weight: bold;    color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: gray !important;"&gt;13.6&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style=" font-weight: bold;    color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #D7261E !important;"&gt;9.8&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style=" font-weight: bold;    color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: gray !important;"&gt;13.3&lt;/span&gt; &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style=" font-weight: bold;    color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: gray !important;"&gt;20&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style=" font-weight: bold;    color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #D7261E !important;"&gt;7.3&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style=" font-weight: bold;    color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: gray !important;"&gt;13.6&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style=" font-weight: bold;    color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #D7261E !important;"&gt;6.6&lt;/span&gt; &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+
+]
+
+
+---
+
+class: h1_small
+
+# 5. Efeitos dos tipos de amostragem sobre as estimativas
+
+
+
+___
+
+Implicações &lt;u&gt;improváveis&lt;/u&gt; da amostragem sistemática na estimativa dos parâmetros populacionais.
+___
+
+&lt;h4 style="text-align:center"&gt;POPULAÇÃO&lt;/h4&gt;
+&lt;/br&gt;
+
+&lt;img src="Amostra_Populacao_files/figure-html/unnamed-chunk-36-1.png" width="1177" style="display: block; margin: auto;" /&gt;
+
+&lt;/br&gt;
+
+.content-box-green[
+&lt;h4 style="text-align:center"&gt;Quando a variável de interesse &lt;b&gt;não tem relação&lt;/b&gt; com a sequência escolhida, a amostragem sistemática tende a gerar &lt;b&gt;os mesmos&lt;/b&gt; resultados da amostragem aleatória.&lt;/h4&gt;
+
+]
+
+
+---
+
+class: h1_small
+
+# 6. Implicações sobre o processo de amostragem e inferência
+
+&lt;img src="Amostra_Populacao_files/figure-html/unnamed-chunk-37-1.png" width="972" style="display: block; margin: auto;" /&gt;
+
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
