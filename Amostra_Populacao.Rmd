@@ -123,14 +123,28 @@ ___
 
 ---
 
-class: h1_small, fundo_capa
+class: h1_small
 
 # O processo de amostragem e inferência sobre uma população estatística
 
 ```{r}
 image_read("img/amostragem_inferencia_2.png") %>% 
-  image_resize("x400")
+  image_resize("x450")
 ```
+
+---
+
+class: h1_small, fundo_capa
+
+# 1.  Amostragem aleatória simples
+
+</br></br></br></br></br></br></br></br></br></br></br></br>
+
+.content-box-red[
+
+Na amostragem aleatória simples, cada elemento da população tem a **mesma probabilidade** de compor uma amostra. Se a população tem $N$ elementos, cada um tem probabilidade $\frac{1}{N}$ de ser selecionado.
+
+]
 
 ---
 
