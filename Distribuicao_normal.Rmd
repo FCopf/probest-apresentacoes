@@ -97,7 +97,7 @@ xaringanExtra::use_scribble()
 
 class: h1_small, fundo_capa
 
-# Conteúdo da aula
+# O modelo da distribuição normal
 
 .pull-left[
 

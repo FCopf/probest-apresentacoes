@@ -75,7 +75,7 @@ xaringanExtra::use_scribble()
 
 class: h1_small, fundo_capa
 
-# Conteúdo da aula
+# O teste t de *Student*
 
 .pull-left[
 

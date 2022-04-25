@@ -94,7 +94,7 @@ xaringanExtra::use_scribble()
 
 class: h1_small
 
-# Conteúdo da aula
+# Introdução ao teste de hipóteses
 
 ___
 

@@ -95,7 +95,7 @@ xaringanExtra::use_scribble()
 
 class: h1_small, fundo_capa
 
-# Conteúdo da aula
+# Estimando a média populacional
 
 .pull-left[
 

@@ -95,11 +95,13 @@ xaringanExtra::use_scribble()
 
 class: h1_small, fundo_capa
 
-# Conteúdo da aula
+# Regressão Linear Simples
 
 .pull-left[
 
 .content-box-blue[
+
+___
 
 1. Medindo a intensidade de relações lineares
 
@@ -119,6 +121,7 @@ class: h1_small, fundo_capa
 
 1. Transformações lineares
 
+___
 
 ]
 

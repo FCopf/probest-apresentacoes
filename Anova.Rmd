@@ -76,7 +76,7 @@ xaringanExtra::use_scribble()
 
 class: h1_small, fundo_capa
 
-# Conteúdo da aula
+# Análise de Variância (ANOVA) de um fator
 
 .pull-left-min[
 
