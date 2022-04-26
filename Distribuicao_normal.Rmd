@@ -202,7 +202,7 @@ class: h1_small
 .pull-left[
 
 
-#### <a href="https://en.wikipedia.org/wiki/Pierre-Simon_Laplace target="_blank">Pierre-Simon Laplace</a> fez contribuições importantes ao modelo e aplicação da distribuição normal. Calcular a integral \(\int e^{-t^{2}} = \sqrt{\pi}\) em 1782, o que permitiu a <b>padronização de uma distribuição normal</b> e, em 1810, apresentou o <a href="https://en.wikipedia.org/wiki/Central_limit_theorem target="_blank">Teorema Central do Limite</a> no contexto da agregação de várias observações independentes, o que foi fundamental para o desenvolvimento da estatística experimental ao longo do século $XX$.
+#### <a href="https://en.wikipedia.org/wiki/Pierre-Simon_Laplace target="_blank">Pierre-Simon Laplace</a> fez contribuições importantes ao modelo e aplicação da distribuição normal. Em 1782 calculou a integral \(\int e^{-t^{2}} = \sqrt{\pi}\) e, em 1810 apresentou o <a href="https://en.wikipedia.org/wiki/Central_limit_theorem target="_blank">Teorema Central do Limite</a> no contexto da agregação de várias observações independentes, contribuições fundamentais para o desenvolvimento da estatística experimental ao longo do século $XX$.
 
 ]
 
@@ -535,6 +535,7 @@ ggplot() +
 
 ]
 
+
 ---
 
 class: h1_small
@@ -544,7 +545,7 @@ class: h1_small
 
 ___
 
-Calculando de $f(x)$ no R: a função `dnorm()`
+Calculo de $f(x)$ no R: a função `dnorm()`
 
 Seja $\mu = 1.7$ e $\sigma = 0.11$
 ___
@@ -554,10 +555,18 @@ ___
 Para $x = 1.5$ fazemos:
 
 ```{r, include = TRUE, echo = TRUE}
-mu <- 1.7
-dp <- 0.11
-dnorm(1.5, mean = mu, sd = dp)
+mu = 1.7
+dp = 0.11
+x = 1.5
+fx = dnorm(x, mean = mu, sd = dp)
+fx
 ```
+
+___
+
+$$f(x) = \frac{1}{\sqrt(2\pi`r dp`^2)}e^{-\frac{1}{2}(\frac{`r x`-`r mu`}{`r dp`})^2} = `r round(fx,2)`$$
+
+___
 
 ]
 
@@ -566,8 +575,11 @@ dnorm(1.5, mean = mu, sd = dp)
 E para múltiplos valores de $x$:
 
 ```{r echo = TRUE}
-x <- c(1.4, 1.5, 1.6, 1.7)
-dnorm(x, mean = mu, sd = dp)
+mu = 1.7
+dp = 0.11
+x = c(1.4, 1.5, 1.6, 1.7)
+fx = dnorm(x, mean = mu, sd = dp)
+fx
 ```
 
 ]
@@ -579,11 +591,17 @@ class: h1_small
 
 # 5. Cálculo de probabilidade com a função normal de densidade
 
+___
+
 A distribuição normal é uma função de **densidade de probabilidade**.
 
 ___
 
 .pull-left-min[
+
+$$f(x) = \frac{1}{\sqrt(2\pi\sigma^2)}e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2}$$
+
+___
 
 </br>
 
@@ -618,14 +636,16 @@ gc1 <- ggplot(dfc, mapping = aes(y = dx, x = X)) +
 gc1   
 ```
 
-]
 
+]
 
 ---
 
 class: h1_small
 
 # 5. Cálculo de probabilidade com a função normal de densidade
+
+___
 
 A distribuição normal é uma função de **densidade de probabilidade**.
 
@@ -679,7 +699,7 @@ class: h1_small
 
 ___
 
-Calculando de $P(X)$ no R: a função `dnorm()`
+Calculando de $P(X)$ no R: a função `pnorm()`
 
 Seja $\mu = 1.7$ e $\sigma = 0.11$
 ___
@@ -689,8 +709,8 @@ ___
 $P(X <1.5$):
 
 ```{r, include = TRUE, echo = TRUE}
-mu <- 1.7
-dp <- 0.11
+mu = 1.7
+dp = 0.11
 pnorm(q = 1.5, mean = mu, sd = dp, lower.tail = TRUE)
 ```
 
@@ -699,58 +719,8 @@ ___
 $P(X > 1.5)$ --> `lower.tail == FALSE`: 
 
 ```{r, include = TRUE, echo = TRUE}
-mu <- 1.7
-dp <- 0.11
-pnorm(q = 1.5, mean = mu, sd = dp, lower.tail = FALSE)
-```
-
-]
-
-.pull-right[
-
-Os argumentos da função `pnorm` (veja o menu de ajuda digitando `?pnorm` no Console do R):
-
-> **q**: o valor de $x$
-
-> **mean**: média $\mu$ da função normal
-
-> **sd**: desvio padrão $\sigma$ da função normal
-
-> **lower.tail**: se a função irá retornar a probabilidade abaixo (TRUE) ou acima (FALSE) de q
-
-]
-
----
-
-class: h1_small
-
-
-# 5. Cálculo de probabilidade com a função normal de densidade
-
-___
-
-Calculando de $P(X)$ no R: a função `dnorm()`
-
-Seja $\mu = 1.7$ e $\sigma = 0.11$
-___
-
-.pull-left[
-
-$P(X <1.5$):
-
-```{r, include = TRUE, echo = TRUE}
-mu <- 1.7
-dp <- 0.11
-pnorm(q = 1.5, mean = mu, sd = dp, lower.tail = TRUE)
-```
-
-___
-
-$P(X > 1.5)$ --> `lower.tail == FALSE`: 
-
-```{r, include = TRUE, echo = TRUE}
-mu <- 1.7
-dp <- 0.11
+mu = 1.7
+dp = 0.11
 pnorm(q = 1.5, mean = mu, sd = dp, lower.tail = FALSE)
 ```
 
@@ -811,7 +781,7 @@ class: h1_small
 
 ___
 
-Calculando de $P(X)$ no R: a função `dnorm()`
+Calculando de $P(X)$ no R: a função `pnorm()`
 
 Seja $\mu = 1.7$ e $\sigma = 0.11$
 ___
@@ -831,11 +801,10 @@ pfinal <- diff(pnorm(q = c(1.5, 1.7),
 
 
 ```{r echo = TRUE}
-diff(pnorm(q = c(1.5, 1.7),
-           mean = mu,
-           sd = dp,
-           lower.tail = TRUE)
-     )
+P1 = pnorm(q = 1.5, mean = mu, sd = dp)
+P2 = pnorm(q = 1.7, mean = mu, sd = dp)
+Pintervalo = P2 - P1
+Pintervalo
 ```
 
 ]
@@ -876,11 +845,16 @@ class: h1_small
 
 # 6. A distribuição normal padronizada
 
+
+___
+
+Historicamente, o cáuculo da área na distribuição normal foi conduzido com o uso da distribuição normal **padronizada**.
+
 ___
 
 .pull-left[
 
-</br>
+
 $$f(x) = \frac{1}{\sqrt(2\pi)}e^{-\frac{1}{2}x^2}$$
 
 ]
@@ -895,11 +869,11 @@ $X$ é uma variável aleatória com distribuição normal **padronizada** se, m�
 
 ___
 
-```{r , fig.width=10, fig.height=5}
+```{r , fig.width=10, fig.height=4.5}
 df_normp <- data.frame(X = seq(-4, 4, length = 100)) %>% 
   mutate(dx1 = dnorm(X))
          
-ggplot(df_normp, aes(x = X)) +
+norm_st = ggplot(df_normp, aes(x = X)) +
   stat_function(fun = dnorm,
                 color = 'black', size = 2) +
   annotate(geom ='text', x = 0,
@@ -919,9 +893,95 @@ ggplot(df_normp, aes(x = X)) +
   scale_x_continuous(breaks = NULL) +
   scale_y_continuous(breaks = NULL) +
   labs(y = 'f(x)', x = 'x') +
-  theme_classic(base_size = 15)
+  theme_classic(base_size = 25)
+
+norm_st
 ```
 
+---
+
+class: h1_small
+
+
+# 6. A distribuição normal padronizada: a tabela Z
+
+
+.pull-left[
+
+</br></br></br></br>
+
+```{r , fig.width=10, fig.height=4.5}
+norm_st + xlab('z') + ylab('f(z)')
+```
+
+]
+
+.pull-right[
+
+```{r}
+image_read("img/Tabelz_Z_imagem.png") %>% 
+  image_resize("x450")
+
+```
+
+]
+
+---
+
+class: h1_small
+
+
+# 6. A distribuição normal padronizada: a transformação Z
+
+
+___
+
+
+$$z_i = \frac{x_i - \mu}{\sigma}$$
+
+___
+
+.pull-left[
+
+```{r , fig.width=7, fig.height=6}
+mu = 50
+sigma = 5
+df_normp <- data.frame(X = seq(mu -4*sigma, mu + 4*sigma, length = 100)) %>% 
+  mutate(dx1 = dnorm(X, mean = mu, sd = sigma))
+         
+norm_nst = ggplot(df_normp, aes(x = X)) +
+  stat_function(fun = dnorm, args = list(mean = mu, sd = sigma),
+                color = 'black', size = 2) +
+  annotate(geom ='text', x = mu,
+           y = dnorm(mu, mean = mu, sd = sigma) * 1.05, 
+           label = bquote(mu == ~ 'média =' ~ .(mu)), 
+           size = 5) +
+  annotate("segment", x = mu, xend = mu, 
+           y = 0.07, yend = 0, 
+           colour = "black", size=2, alpha=0.4, arrow=arrow()) +
+  annotate(geom ='text', x = mu,
+           y = 0.02, 
+           label = bquote(sigma == 'desvio padrão =' ~ .(sigma)), 
+           size = 5, color = 'red') +
+  annotate("segment", x = 40, xend = 60, 
+           y = 0.01, yend = 0.01, 
+           colour = "red", size=1, linetype = 2, alpha=0.4, arrow=arrow(ends = 'both')) +
+  scale_x_continuous(breaks = seq(-4*sigma, 4*sigma, l = 10)) +
+  labs(y = 'f(x)', x = 'x') +
+  theme_classic(base_size = 25)
+
+norm_nst
+```
+
+]
+
+.pull-right[
+
+```{r , fig.width=7, fig.height=6}
+norm_st + xlab('z') + ylab('f(z)')
+```
+
+]
 
 ---
 
@@ -968,7 +1028,7 @@ Em uma distribuição normal com $\mu = `r mu`$ e $\sigma = `r sd`$, a observaç
 ```{r}
 mu = 1.7
 sd = 0.11
-x = 2.2
+x = 1.9
 z = (x - mu)/sd
 ```
 
@@ -1008,7 +1068,8 @@ altz_plt <- ggplot(ie, aes(x = Altura_z)) +
    geom_histogram(aes(y =..density..), 
                   fill = 'dodgerblue4', color = 'black', bins = 12) +
    stat_function(fun = dnorm, args = list(mean = mean(ie$Altura_z, na.rm = T),
-                                          sd = sd(ie$Altura_z, na.rm = T))) +
+                                          sd = sd(ie$Altura_z, na.rm = T)), 
+                 size = 3) +
    labs(x = "Distribuição Z",
         y = "Frequencia relativa") +
    theme_classic(base_size = 15)
@@ -1017,7 +1078,8 @@ tempz_plt <- ggplot(temp, aes(x = tm_z)) +
    geom_histogram(aes(y =..density..),
                   fill = 'dodgerblue4', color = 'black', bins = 10) +
    stat_function(fun = dnorm, args = list(mean = mean(temp$tm_z, na.rm = T),
-                                          sd = sd(temp$tm_z, na.rm = T))) +
+                                          sd = sd(temp$tm_z, na.rm = T)),
+                 size = 3) +
    labs(x = "Distribuição Z",
         y = "Frequencia relativa") +
    theme_classic(base_size = 15)
@@ -1039,7 +1101,7 @@ Limites conhecidos de probabilidade
 
 ___
 
-``` {r fig.width=12, fig.height=7, fig.align = "center", echo=FALSE}
+``` {r fig.width=12, fig.height=6.5, fig.align = "center", echo=FALSE}
 qr = qnorm(p = c(1-c(0.995, 0.975, 0.95),0.5,c(0.95, 0.975, 0.995)))
 dqr = dnorm(x = qr)
 

@@ -22,7 +22,7 @@ class: center, middle, inverse, title-slide
 ## O modelo da distribuição normal
 ### Fabio Cop (<a href="mailto:fabiocopf@gmail.com" class="email">fabiocopf@gmail.com</a>)
 ### Instituto do Mar - UNIFESP
-### Última atualização em 25 de abril de 2022
+### Última atualização em 26 de abril de 2022
 
 ---
 
@@ -176,7 +176,7 @@ class: h1_small
 .pull-left[
 
 
-#### &lt;a href="https://en.wikipedia.org/wiki/Pierre-Simon_Laplace target="_blank"&gt;Pierre-Simon Laplace&lt;/a&gt; fez contribuições importantes ao modelo e aplicação da distribuição normal. Calcular a integral \(\int e^{-t^{2}} = \sqrt{\pi}\) em 1782, o que permitiu a &lt;b&gt;padronização de uma distribuição normal&lt;/b&gt; e, em 1810, apresentou o &lt;a href="https://en.wikipedia.org/wiki/Central_limit_theorem target="_blank"&gt;Teorema Central do Limite&lt;/a&gt; no contexto da agregação de várias observações independentes, o que foi fundamental para o desenvolvimento da estatística experimental ao longo do século `\(XX\)`.
+#### &lt;a href="https://en.wikipedia.org/wiki/Pierre-Simon_Laplace target="_blank"&gt;Pierre-Simon Laplace&lt;/a&gt; fez contribuições importantes ao modelo e aplicação da distribuição normal. Em 1782 calculou a integral \(\int e^{-t^{2}} = \sqrt{\pi}\) e, em 1810 apresentou o &lt;a href="https://en.wikipedia.org/wiki/Central_limit_theorem target="_blank"&gt;Teorema Central do Limite&lt;/a&gt; no contexto da agregação de várias observações independentes, contribuições fundamentais para o desenvolvimento da estatística experimental ao longo do século `\(XX\)`.
 
 ]
 
@@ -357,6 +357,7 @@ O ponto `\(x = 1.6\)` tem:
 
 ]
 
+
 ---
 
 class: h1_small
@@ -366,7 +367,7 @@ class: h1_small
 
 ___
 
-Calculando de `\(f(x)\)` no R: a função `dnorm()`
+Calculo de `\(f(x)\)` no R: a função `dnorm()`
 
 Seja `\(\mu = 1.7\)` e `\(\sigma = 0.11\)`
 ___
@@ -377,14 +378,22 @@ Para `\(x = 1.5\)` fazemos:
 
 
 ```r
-mu &lt;- 1.7
-dp &lt;- 0.11
-dnorm(1.5, mean = mu, sd = dp)
+mu = 1.7
+dp = 0.11
+x = 1.5
+fx = dnorm(x, mean = mu, sd = dp)
+fx
 ```
 
 ```
 ## [1] 0.6945048
 ```
+
+___
+
+`$$f(x) = \frac{1}{\sqrt(2\pi0.11^2)}e^{-\frac{1}{2}(\frac{1.5-1.7}{0.11})^2} = 0.69$$`
+
+___
 
 ]
 
@@ -394,8 +403,11 @@ E para múltiplos valores de `\(x\)`:
 
 
 ```r
-x &lt;- c(1.4, 1.5, 1.6, 1.7)
-dnorm(x, mean = mu, sd = dp)
+mu = 1.7
+dp = 0.11
+x = c(1.4, 1.5, 1.6, 1.7)
+fx = dnorm(x, mean = mu, sd = dp)
+fx
 ```
 
 ```
@@ -411,11 +423,17 @@ class: h1_small
 
 # 5. Cálculo de probabilidade com a função normal de densidade
 
+___
+
 A distribuição normal é uma função de **densidade de probabilidade**.
 
 ___
 
 .pull-left-min[
+
+`$$f(x) = \frac{1}{\sqrt(2\pi\sigma^2)}e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2}$$`
+
+___
 
 &lt;/br&gt;
 
@@ -434,14 +452,16 @@ A **área** abaixo de `\(f(x)\)` entre `\(-\infty\)` e `\(+\infty\)` é igual a 
 
 &lt;img src="Distribuicao_normal_files/figure-html/unnamed-chunk-15-1.png" style="display: block; margin: auto;" /&gt;
 
-]
 
+]
 
 ---
 
 class: h1_small
 
 # 5. Cálculo de probabilidade com a função normal de densidade
+
+___
 
 A distribuição normal é uma função de **densidade de probabilidade**.
 
@@ -479,7 +499,7 @@ class: h1_small
 
 ___
 
-Calculando de `\(P(X)\)` no R: a função `dnorm()`
+Calculando de `\(P(X)\)` no R: a função `pnorm()`
 
 Seja `\(\mu = 1.7\)` e `\(\sigma = 0.11\)`
 ___
@@ -490,8 +510,8 @@ ___
 
 
 ```r
-mu &lt;- 1.7
-dp &lt;- 0.11
+mu = 1.7
+dp = 0.11
 pnorm(q = 1.5, mean = mu, sd = dp, lower.tail = TRUE)
 ```
 
@@ -505,68 +525,8 @@ ___
 
 
 ```r
-mu &lt;- 1.7
-dp &lt;- 0.11
-pnorm(q = 1.5, mean = mu, sd = dp, lower.tail = FALSE)
-```
-
-```
-## [1] 0.9654818
-```
-
-]
-
-.pull-right[
-
-Os argumentos da função `pnorm` (veja o menu de ajuda digitando `?pnorm` no Console do R):
-
-&gt; **q**: o valor de `\(x\)`
-
-&gt; **mean**: média `\(\mu\)` da função normal
-
-&gt; **sd**: desvio padrão `\(\sigma\)` da função normal
-
-&gt; **lower.tail**: se a função irá retornar a probabilidade abaixo (TRUE) ou acima (FALSE) de q
-
-]
-
----
-
-class: h1_small
-
-
-# 5. Cálculo de probabilidade com a função normal de densidade
-
-___
-
-Calculando de `\(P(X)\)` no R: a função `dnorm()`
-
-Seja `\(\mu = 1.7\)` e `\(\sigma = 0.11\)`
-___
-
-.pull-left[
-
-`\(P(X &lt;1.5\)`):
-
-
-```r
-mu &lt;- 1.7
-dp &lt;- 0.11
-pnorm(q = 1.5, mean = mu, sd = dp, lower.tail = TRUE)
-```
-
-```
-## [1] 0.03451817
-```
-
-___
-
-`\(P(X &gt; 1.5)\)` --&gt; `lower.tail == FALSE`: 
-
-
-```r
-mu &lt;- 1.7
-dp &lt;- 0.11
+mu = 1.7
+dp = 0.11
 pnorm(q = 1.5, mean = mu, sd = dp, lower.tail = FALSE)
 ```
 
@@ -579,7 +539,7 @@ pnorm(q = 1.5, mean = mu, sd = dp, lower.tail = FALSE)
 .pull-right[
 
 
-&lt;img src="Distribuicao_normal_files/figure-html/unnamed-chunk-21-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Distribuicao_normal_files/figure-html/unnamed-chunk-19-1.png" style="display: block; margin: auto;" /&gt;
 
 
 
@@ -595,7 +555,7 @@ class: h1_small
 
 ___
 
-Calculando de `\(P(X)\)` no R: a função `dnorm()`
+Calculando de `\(P(X)\)` no R: a função `pnorm()`
 
 Seja `\(\mu = 1.7\)` e `\(\sigma = 0.11\)`
 ___
@@ -610,11 +570,10 @@ ___
 
 
 ```r
-diff(pnorm(q = c(1.5, 1.7),
-           mean = mu,
-           sd = dp,
-           lower.tail = TRUE)
-     )
+P1 = pnorm(q = 1.5, mean = mu, sd = dp)
+P2 = pnorm(q = 1.7, mean = mu, sd = dp)
+Pintervalo = P2 - P1
+Pintervalo
 ```
 
 ```
@@ -626,7 +585,7 @@ diff(pnorm(q = c(1.5, 1.7),
 .pull-right[
 
 
-&lt;img src="Distribuicao_normal_files/figure-html/unnamed-chunk-24-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Distribuicao_normal_files/figure-html/unnamed-chunk-22-1.png" style="display: block; margin: auto;" /&gt;
 
 
 
@@ -640,11 +599,16 @@ class: h1_small
 
 # 6. A distribuição normal padronizada
 
+
+___
+
+Historicamente, o cáuculo da área na distribuição normal foi conduzido com o uso da distribuição normal **padronizada**.
+
 ___
 
 .pull-left[
 
-&lt;/br&gt;
+
 `$$f(x) = \frac{1}{\sqrt(2\pi)}e^{-\frac{1}{2}x^2}$$`
 
 ]
@@ -659,8 +623,56 @@ ___
 
 ___
 
-&lt;img src="Distribuicao_normal_files/figure-html/unnamed-chunk-25-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Distribuicao_normal_files/figure-html/unnamed-chunk-23-1.png" style="display: block; margin: auto;" /&gt;
 
+---
+
+class: h1_small
+
+
+# 6. A distribuição normal padronizada: a tabela Z
+
+
+.pull-left[
+
+&lt;/br&gt;&lt;/br&gt;&lt;/br&gt;&lt;/br&gt;
+
+&lt;img src="Distribuicao_normal_files/figure-html/unnamed-chunk-24-1.png" style="display: block; margin: auto;" /&gt;
+
+]
+
+.pull-right[
+
+&lt;img src="Distribuicao_normal_files/figure-html/unnamed-chunk-25-1.png" width="621" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+class: h1_small
+
+
+# 6. A distribuição normal padronizada: a transformação Z
+
+
+___
+
+
+`$$z_i = \frac{x_i - \mu}{\sigma}$$`
+
+___
+
+.pull-left[
+
+&lt;img src="Distribuicao_normal_files/figure-html/unnamed-chunk-26-1.png" style="display: block; margin: auto;" /&gt;
+
+]
+
+.pull-right[
+
+&lt;img src="Distribuicao_normal_files/figure-html/unnamed-chunk-27-1.png" style="display: block; margin: auto;" /&gt;
+
+]
 
 ---
 
@@ -704,13 +716,13 @@ Em uma distribuição normal com `\(\mu = 1.7\)` e `\(\sigma = 0.11\)`, a observ
 
 Seja `\(\mu = 1.7\)` e `\(\sigma = 0.11\)`
 
-A observação `\(x = 2.2\)` corresponte a:
+A observação `\(x = 1.9\)` corresponte a:
 
-`$$z_i = \frac{x_i - \mu}{\sigma} = \frac{2.2 - 1.7}{0.11} = 4.55$$`
+`$$z_i = \frac{x_i - \mu}{\sigma} = \frac{1.9 - 1.7}{0.11} = 1.82$$`
 
 .content-box-green[
 
-Em uma distribuição normal com `\(\mu = 1.7\)` e `\(\sigma = 0.11\)`, a observação `\(x = 2.2\)` está `\(4.55\)` desvios padrões acima da média.
+Em uma distribuição normal com `\(\mu = 1.7\)` e `\(\sigma = 0.11\)`, a observação `\(x = 1.9\)` está `\(1.82\)` desvios padrões acima da média.
 
 ]
 
@@ -727,7 +739,7 @@ class: h1_small
 
 Após a transformação `\(Z\)` nos exemplos sobre altura dos alunos e chuva mensal temos: 
 
-&lt;img src="Distribuicao_normal_files/figure-html/unnamed-chunk-28-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Distribuicao_normal_files/figure-html/unnamed-chunk-30-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -741,7 +753,7 @@ Limites conhecidos de probabilidade
 
 ___
 
-&lt;img src="Distribuicao_normal_files/figure-html/unnamed-chunk-29-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Distribuicao_normal_files/figure-html/unnamed-chunk-31-1.png" style="display: block; margin: auto;" /&gt;
 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
