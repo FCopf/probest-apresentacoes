@@ -18,11 +18,21 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
+.title[
 # Inferência Estatística e Teste de Hipóteses
+]
+.subtitle[
 ## O modelo da distribuição normal
+]
+.author[
 ### Fabio Cop (<a href="mailto:fabiocopf@gmail.com" class="email">fabiocopf@gmail.com</a>)
+]
+.institute[
 ### Instituto do Mar - UNIFESP
-### Última atualização em 26 de abril de 2022
+]
+.date[
+### Última atualização em 11 de maio de 2022
+]
 
 ---
 
@@ -130,7 +140,7 @@ class: h1_small
 
 #### Alguns atribuem a proposição deste modelo a &lt;a href="https://en.wikipedia.org/wiki/Abraham_de_Moivre" target="_blank"&gt;Abraham de Moivre&lt;/a&gt;, um matemático Francês que chegou a a distribuição normal como uma aproximação a &lt;a href="https://en.wikipedia.org/wiki/Binomial_distribution" target="_blank"&gt;distribuição binomial&lt;/a&gt; em seu livro &lt;a href="https://en.wikipedia.org/wiki/The_Doctrine_of_Chances" target="_blank"&gt;The Doctrine of Chances&lt;/a&gt; em `\(1718\)`.
 
-&lt;img src="Distribuicao_normal_files/figure-html/unnamed-chunk-2-1.png" width="419" style="display: block; margin: auto;" /&gt;
+&lt;img src="Distribuicao_normal_files/figure-html/unnamed-chunk-2-1.png" style="display: block; margin: auto;" /&gt;
 
 &lt;center&gt; Abraham de Moivre (1667 - 1754)&lt;/center&gt;
 
@@ -162,7 +172,7 @@ class: h1_small
 
 &lt;/br&gt;
 
-&lt;img src="Distribuicao_normal_files/figure-html/unnamed-chunk-3-1.png" width="857" style="display: block; margin: auto;" /&gt;
+&lt;img src="Distribuicao_normal_files/figure-html/unnamed-chunk-3-1.png" style="display: block; margin: auto;" /&gt;
 
 
 ]
@@ -184,7 +194,7 @@ class: h1_small
 
 &lt;/br&gt;
 
-&lt;img src="Distribuicao_normal_files/figure-html/unnamed-chunk-4-1.png" width="364" style="display: block; margin: auto;" /&gt;
+&lt;img src="Distribuicao_normal_files/figure-html/unnamed-chunk-4-1.png" style="display: block; margin: auto;" /&gt;
 
 &lt;center&gt;Pierre-Simon Laplace (1748 - 1827)&lt;/center&gt;
 
@@ -199,7 +209,7 @@ class: h1_small
 .pull-left[
 
 
-#### Até o final do início do século \(XX\) acurva era conhecida pelo termo &lt;b&gt;modelo de Gauss-Lalpace&lt;/b&gt;, quando começou a ser referida como &lt;b&gt;distribuição normal&lt;/b&gt; por &lt;a href="https://en.wikipedia.org/wiki/Karl_Pearson target="_blank"&gt;Karl Pearson&lt;/a&gt; é vários outros autores. Pearson foi também o primeiro a escrever o modelo em termos de seu &lt;b&gt;desvio padrão&lt;/b&gt; \(\sigma\). Logo em seguida, em 1915 &lt;a href="https://en.wikipedia.org/wiki/Ronald_Fisher target="_blank"&gt;Ronald Fisher&lt;/a&gt; adicionou o parâmetro de posição \(m\), isto é a média, expressando o modelo como fazemos atualmente.
+#### Até o final do início do século \(XX\) a curva era conhecida pelo termo &lt;b&gt;modelo de Gauss-Lalpace&lt;/b&gt;, quando começou a ser referida como &lt;b&gt;distribuição normal&lt;/b&gt; por &lt;a href="https://en.wikipedia.org/wiki/Karl_Pearson target="_blank"&gt;Karl Pearson&lt;/a&gt; é vários outros autores. Pearson foi também o primeiro a escrever o modelo em termos de seu &lt;b&gt;desvio padrão&lt;/b&gt; \(\sigma\). Logo em seguida, em 1915 &lt;a href="https://en.wikipedia.org/wiki/Ronald_Fisher target="_blank"&gt;Ronald Fisher&lt;/a&gt; adicionou o parâmetro de posição \(m\), isto é a média, expressando o modelo como fazemos atualmente.
 
 `$$df = \frac{1}{\sqrt{2 \sigma^2 \pi}}e^{-\frac{(x-m)^2}{2 \sigma}} dx$$`
 
@@ -212,7 +222,7 @@ Finalmente, a &lt;b&gt;distribuição normal padrão&lt;/b&gt;, com média \(0\)
 
 &lt;/br&gt;
 
-&lt;img src="Distribuicao_normal_files/figure-html/unnamed-chunk-5-1.png" width="925" style="display: block; margin: auto;" /&gt;
+&lt;img src="Distribuicao_normal_files/figure-html/unnamed-chunk-5-1.png" style="display: block; margin: auto;" /&gt;
 
 &lt;center&gt;&lt;img src="img/Galtonboard.gif" width="300"/&gt;&lt;/center&gt;
 
@@ -256,7 +266,7 @@ class: h1_small
 + O modelo normal com resultado do processo de amostragem
 ___
 
-&lt;img src="Distribuicao_normal_files/figure-html/unnamed-chunk-8-1.png" width="727" style="display: block; margin: auto;" /&gt;
+&lt;img src="Distribuicao_normal_files/figure-html/unnamed-chunk-8-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -425,7 +435,7 @@ class: h1_small
 
 ___
 
-A distribuição normal é uma função de **densidade de probabilidade**.
+A distribuição normal é uma função de densidade de **probabilidade**.
 
 ___
 
@@ -463,7 +473,7 @@ class: h1_small
 
 ___
 
-A distribuição normal é uma função de **densidade de probabilidade**.
+A distribuição normal é uma função de densidade de **probabilidade**.
 
 ___
 
@@ -499,14 +509,14 @@ class: h1_small
 
 ___
 
-Calculando de `\(P(X)\)` no R: a função `pnorm()`
+Cálculo de `\(P(X)\)` no R: a função `pnorm()`
 
 Seja `\(\mu = 1.7\)` e `\(\sigma = 0.11\)`
 ___
 
 .pull-left[
 
-`\(P(X &lt;1.5\)`):
+`\(P(X \le 1.5\)`):
 
 
 ```r
@@ -521,7 +531,7 @@ pnorm(q = 1.5, mean = mu, sd = dp, lower.tail = TRUE)
 
 ___
 
-`\(P(X &gt; 1.5)\)` --&gt; `lower.tail == FALSE`: 
+`\(P(X \ge 1.5)\)` --&gt; `lower.tail == FALSE`: 
 
 
 ```r
@@ -555,7 +565,7 @@ class: h1_small
 
 ___
 
-Calculando de `\(P(X)\)` no R: a função `pnorm()`
+Cálculo de `\(P(X)\)` no R: a função `pnorm()`
 
 Seja `\(\mu = 1.7\)` e `\(\sigma = 0.11\)`
 ___
@@ -602,7 +612,7 @@ class: h1_small
 
 ___
 
-Historicamente, o cáuculo da área na distribuição normal foi conduzido com o uso da distribuição normal **padronizada**.
+Historicamente, o cálculo da área na distribuição normal foi conduzido com o uso da distribuição normal **padronizada**.
 
 ___
 
@@ -643,7 +653,7 @@ class: h1_small
 
 .pull-right[
 
-&lt;img src="Distribuicao_normal_files/figure-html/unnamed-chunk-25-1.png" width="621" style="display: block; margin: auto;" /&gt;
+&lt;img src="Distribuicao_normal_files/figure-html/unnamed-chunk-25-1.png" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -755,6 +765,20 @@ ___
 
 &lt;img src="Distribuicao_normal_files/figure-html/unnamed-chunk-31-1.png" style="display: block; margin: auto;" /&gt;
 
+
+---
+
+class: h1_small
+
+# 6. Probabilidades em uma distribuição normal padronizada
+
+___
+
+Limites conhecidos de probabilidade
+
+___
+
+&lt;img src="Distribuicao_normal_files/figure-html/unnamed-chunk-32-1.png" style="display: block; margin: auto;" /&gt;
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
@@ -803,6 +827,19 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
     deleted = true;
   });
 })();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
 (function() {
   "use strict"
   // Replace <script> tags in slides area to make them executable

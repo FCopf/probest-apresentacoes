@@ -229,7 +229,7 @@ class: h1_small
 .pull-left[
 
 
-#### Até o final do início do século \(XX\) acurva era conhecida pelo termo <b>modelo de Gauss-Lalpace</b>, quando começou a ser referida como <b>distribuição normal</b> por <a href="https://en.wikipedia.org/wiki/Karl_Pearson target="_blank">Karl Pearson</a> é vários outros autores. Pearson foi também o primeiro a escrever o modelo em termos de seu <b>desvio padrão</b> \(\sigma\). Logo em seguida, em 1915 <a href="https://en.wikipedia.org/wiki/Ronald_Fisher target="_blank">Ronald Fisher</a> adicionou o parâmetro de posição \(m\), isto é a média, expressando o modelo como fazemos atualmente.
+#### Até o final do início do século \(XX\) a curva era conhecida pelo termo <b>modelo de Gauss-Lalpace</b>, quando começou a ser referida como <b>distribuição normal</b> por <a href="https://en.wikipedia.org/wiki/Karl_Pearson target="_blank">Karl Pearson</a> é vários outros autores. Pearson foi também o primeiro a escrever o modelo em termos de seu <b>desvio padrão</b> \(\sigma\). Logo em seguida, em 1915 <a href="https://en.wikipedia.org/wiki/Ronald_Fisher target="_blank">Ronald Fisher</a> adicionou o parâmetro de posição \(m\), isto é a média, expressando o modelo como fazemos atualmente.
 
 $$df = \frac{1}{\sqrt{2 \sigma^2 \pi}}e^{-\frac{(x-m)^2}{2 \sigma}} dx$$
 
@@ -330,7 +330,7 @@ ___
 
 ```{r, fig.align = "center", fig.height = 6, fig.width = 12}
 image_read('img/amostragem_inferencia_3.png') %>% 
-  image_scale('x350')
+  image_scale('x450')
 
 ```
 
@@ -593,7 +593,7 @@ class: h1_small
 
 ___
 
-A distribuição normal é uma função de **densidade de probabilidade**.
+A distribuição normal é uma função de densidade de **probabilidade**.
 
 ___
 
@@ -647,7 +647,7 @@ class: h1_small
 
 ___
 
-A distribuição normal é uma função de **densidade de probabilidade**.
+A distribuição normal é uma função de densidade de **probabilidade**.
 
 ___
 
@@ -699,14 +699,14 @@ class: h1_small
 
 ___
 
-Calculando de $P(X)$ no R: a função `pnorm()`
+Cálculo de $P(X)$ no R: a função `pnorm()`
 
 Seja $\mu = 1.7$ e $\sigma = 0.11$
 ___
 
 .pull-left[
 
-$P(X <1.5$):
+$P(X \le 1.5$):
 
 ```{r, include = TRUE, echo = TRUE}
 mu = 1.7
@@ -716,7 +716,7 @@ pnorm(q = 1.5, mean = mu, sd = dp, lower.tail = TRUE)
 
 ___
 
-$P(X > 1.5)$ --> `lower.tail == FALSE`: 
+$P(X \ge 1.5)$ --> `lower.tail == FALSE`: 
 
 ```{r, include = TRUE, echo = TRUE}
 mu = 1.7
@@ -781,7 +781,7 @@ class: h1_small
 
 ___
 
-Calculando de $P(X)$ no R: a função `pnorm()`
+Cálculo de $P(X)$ no R: a função `pnorm()`
 
 Seja $\mu = 1.7$ e $\sigma = 0.11$
 ___
@@ -848,7 +848,7 @@ class: h1_small
 
 ___
 
-Historicamente, o cáuculo da área na distribuição normal foi conduzido com o uso da distribuição normal **padronizada**.
+Historicamente, o cálculo da área na distribuição normal foi conduzido com o uso da distribuição normal **padronizada**.
 
 ___
 
@@ -1135,3 +1135,21 @@ text(x = 0, y = 0.57, labels = bquote(.(round(diff(pnorm(q = c(qr[2],qr[6]))*100
 text(x = 0, y = 0.47, labels = bquote(.(round(diff(pnorm(q = c(qr[3],qr[5]))*100),0)) ~ "% entre " ~ .(round(qr[3],2)) ~ " e " ~ .(round(qr[5],2))), cex = 1.2)    
 ```
 
+
+---
+
+class: h1_small
+
+# 6. Probabilidades em uma distribuição normal padronizada
+
+___
+
+Limites conhecidos de probabilidade
+
+___
+
+```{r, fig.align = "center", fig.height = 6, fig.width = 12}
+image_read('img/amostragem_inferencia_3.png') %>% 
+  image_scale('x425')
+
+```
