@@ -18,11 +18,21 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
+.title[
 # Inferência Estatística e Teste de Hipóteses
+]
+.subtitle[
 ## Estimando a média populacional
+]
+.author[
 ### Fabio Cop (<a href="mailto:fabiocopf@gmail.com" class="email">fabiocopf@gmail.com</a>)
+]
+.institute[
 ### Instituto do Mar - UNIFESP
-### Última atualização em 25 de abril de 2022
+]
+.date[
+### Última atualização em 09 de junho de 2022
+]
 
 ---
 
@@ -100,11 +110,13 @@ ___
 
 1. Relembrando o Teorema Central do Limite
 
+1. Margem de erro e nível de confiança
+
 1. Estimação pontual e estimação intervalar: o intervalo de confiança
 
-1. A distribuição `\(t\)` de Student: IC para `\(\mu\)` e `\(\sigma\)` desconhecidos
+1. Interpretação do intervalo de confiança
 
-1. Introdução à suficiência amostral: margem de erro e nível de confiança 
+1. Introdução à suficiência amostral: pré-determinando a margem de erro 
 
 ___
 
@@ -150,21 +162,26 @@ O **erro padrão**
 
 class: h1_small
 
-# 2. Estimação pontual e estimação intervalar: o intervalo de confiança
+# 2. Margem de erro e nível de confiança
 
-&lt;/br&gt;&lt;/br&gt;
+&lt;h4 style="text-align:center"&gt;Pergunta: quão distante de \(\mu\) uma média \(\overline{X}\) poderá estar?&lt;/h4&gt;
+ 
+____
 
 .pull-left[
 
-.content-box-green[
+EXEMPLO: 
+____
 
-&lt;h4 style="text-align:center"&gt;O intervalo de confiança da média - \(IC_{1-\alpha}\)&lt;/h4&gt;
+Suponha que `\(\mu = 170\)`, `\(\sigma_{\overline{X}} = 10\)`. 
 
-É o intervalo de valores associado a um determinado nível de significância `\(\alpha\)`. Quando dizemos que um intervalo foi calculado a um nível de confiança de `\(95\%\)`, isto é,  `\(1 - \alpha\)`, estamos dizendo que a probabilidade do IC conter o valor da média populacional `\(\mu\)` é de `\(95\%\)`.
++ `\(\overline{X} = 180\)` estará a `\(1\)` desvio padrão de `\(\mu\)`, isto é 
 
-`$$IC_{1-\alpha} = \mu \pm z_{\alpha/2} \times \frac{\sigma}{\sqrt{n}}$$`
+`\(E = \mu - \overline{X} = 10 = 1 \times \sigma_{\overline{X}}\)`.
 
-]
++ `\(\overline{X} = 190\)` estará a `\(2\)` desvio padrão de `\(\mu\)`, isto é 
+
+`\(E = \mu - \overline{X} = 20 = 2 \times \sigma_{\overline{X}}\)`.
 
 ]
 
@@ -173,85 +190,45 @@ class: h1_small
 &lt;img src="Estimacao_files/figure-html/unnamed-chunk-3-1.png" style="display: block; margin: auto;" /&gt;
 
 ]
-
----
-
-class: h1_small
-
-# 3. A distribuição `\(t\)` de Student: IC para `\(\mu\)` e `\(\sigma\)` desconhecidos
-
-&lt;/br&gt;
-___
-
-.pull-left[
-
-Para `\(\mu\)` e `\(\sigma\)` e/ou as amostras são pequenas (ex. `\(n&lt;30\)`), a dsitribuição normal não é a melhor aproximação para o comportamento das médias amostrais. Nestes casos, substituímos a distribuição de `\(z\)` pela **Distribuição `\(t\)` de Student**, sendo o intervalo de confiança obtido por:
-
-___
-
-`$$IC_{1-\alpha} = \overline{X} \pm t_{\alpha/2, gl} \times \frac{s}{\sqrt{n}}$$`
-
-___
-
-sendo `\(gl\)` denominado de **graus de liberdade**
-
-`$$gl = n-1$$`
-]
-
-.pull-right[
-
-
-
-&lt;img src="Estimacao_files/figure-html/unnamed-chunk-4-1.png" style="display: block; margin: auto;" /&gt;
-
-
-]
-
 ___
 
 ---
 
 class: h1_small
 
-# 4. Introdução à suficiência amostral: margem de erro e nível de confiança
+# 2. Margem de erro e nível de confiança
 
-&lt;/br&gt;
-___
+&lt;h4 style="text-align:center"&gt;&lt;it&gt;Reformulando&lt;/it&gt;: Qual a probabilidade de que \(\overline{X}\) esteja a uma determinada distância \(E\) de \(\mu\)?&lt;/h4&gt;
+ 
+____
 
 .pull-left[
 
-A precisão de um experimento é medida pelo erro padrão da média `\(\sigma_{\overline{X}}\)` que por sua vez, depende do tamanho amostral `\(n\)`.
+GENERALIZANDO: 
+____
 
-`$$\sigma_{\overline{X}} = \frac{\sigma}{\sqrt{n}}$$`
 
-___
 
-Pergunta-se:
+Assumindo uma distribuição normal, sabemos que existe uma probabilidade igual `\(0.95\)` de que uma determinada média `\(\overline{X}\)` esteja entre `\(-1.96\)` e `\(+1.96\)` desvios padrões. Isto é, existe uma probabilidade `\(1 - \alpha\)` de que `\(\overline{X}\)` esteja a uma distância entre `\(-z_{\alpha/2} \times \sigma_{\overline{X}}\)` e `\(+z_{\alpha/2} \times \sigma_{\overline{X}}\)` de `\(\mu\)`.
 
-&gt; **"Qual tamanho amostral aplicar em meu estudo?"**
+Isto pode ser escrito como: 
 
-___
-
+`\(P(\mu - z_{\alpha/2} \times - \sigma_{\overline{X}} \le \overline{X} \le \mu + z_{\alpha/2} \times - \sigma_{\overline{X}})\)`
 
 ]
 
 .pull-right[
-
-
 
 &lt;img src="Estimacao_files/figure-html/unnamed-chunk-5-1.png" style="display: block; margin: auto;" /&gt;
 
-
 ]
-
 ___
-
 
 ---
 
 class: h1_small
 
-# 4. Introdução à suficiência amostral: margem de erro e nível de confiança
+# 2. Margem de erro e nível de confiança
 
 &lt;/br&gt;
 ___
@@ -281,11 +258,151 @@ ___
 ___
 
 
+
 ---
 
 class: h1_small
 
-# 4. Introdução à suficiência amostral: margem de erro e nível de confiança
+# 3. Estimação pontual e estimação intervalar: o intervalo de confiança
+
+&lt;/br&gt;&lt;/br&gt;
+
+.pull-left[
+
+.content-box-green[
+
+&lt;h4 style="text-align:center"&gt;O intervalo de confiança da média - \(IC_{1-\alpha}\)&lt;/h4&gt;
+
+É o intervalo de valores associado a um determinado nível de significância `\(\alpha\)`. Quando dizemos que um intervalo foi calculado a um nível de confiança de `\(95\%\)`, isto é,  `\(1 - \alpha\)`, estamos dizendo que a probabilidade do IC conter o valor da média populacional `\(\mu\)` é de `\(95\%\)`.
+
+`$$IC_{1-\alpha} = \overline{X} \pm z_{\alpha/2} \times \frac{\sigma}{\sqrt{n}}$$`
+
+]
+
+]
+
+.pull-right[
+
+&lt;img src="Estimacao_files/figure-html/unnamed-chunk-7-1.png" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+class: h1_small
+
+# 3. Exemplo
+
+
+
+#### A distribuição de alturas de adultos em um determinado país é normalmente distribuída com desvio padrão `\(\sigma = 10\)` cm. Você toma uma amostra de `\(50\)` pessoas e encontra uma média amostra `\(\overline{X} = 175\)` cm. O que é possível dizer a respeito da média populacional `\(\mu\)`?
+
+
+.pull-left[
+
+___
+
+
+De acordo com o TCL, a distribuição das médias amostrais terá desvio padrão:
+
+`\(\sigma_{\overline{X}} = \frac{\sigma}{\sqrt{n}} = \frac{10}{\sqrt{50}} = 1.41\)` cm.
+
+___
+
+Se decidirmos fazer uma inferência para que a margem de erro `\(E\)` esteja associada a um nível `\(1 - \alpha = 0.95\%\)`, o intervalo de confiança fica:
+
+`\(IC_{1-\alpha} = \overline{X} \pm z_{\alpha/2} \times \sigma_{\overline{X}}\)`
+
+`\(IC_{1-\alpha} = 175 \pm 1.96 \times 1.41 = 175 \pm 3\)`
+
+`\(IC_{inferior} = 172\)` cm; `\(IC_{superior} = 178\)` cm
+
+___
+
+]
+
+.pull-right[
+
+___
+
+
+Este resultado nos diz que, estamos certos com nível de confiança de `\(0.95\%\)` de que o intervalo entre `\(172\)` cm e `\(178\)` cm contém a média populacional `\(\mu\)`.
+
+___
+
+]
+
+
+---
+
+class: h1_small
+
+# 4. Interpretação do intervalo de confiança
+
+&lt;/br&gt;&lt;/br&gt;
+
+.pull-left[
+
+.content-box-green[
+
+Se amostrarmos repetidas vezes uma população estatística e, para cada repetição calcularmos o intervalo de confiança a `\(95\%\)`, esperamos que `\(5\%\)` dos intervalos calculados **não irão** conter a média populacional `\(\mu\)`.
+
+
+]
+
+]
+
+.pull-right[
+
+&lt;img src="Estimacao_files/figure-html/unnamed-chunk-9-1.png" style="display: block; margin: auto;" /&gt;
+
+]
+
+
+---
+
+class: h1_small
+
+# 5. Introdução à suficiência amostral: pré-determinando a margem de erro
+
+&lt;/br&gt;
+___
+
+.pull-left[
+
+A precisão de um experimento é medida pelo erro padrão da média `\(\sigma_{\overline{X}}\)` que por sua vez, depende do tamanho amostral `\(n\)`.
+
+`$$\sigma_{\overline{X}} = \frac{\sigma}{\sqrt{n}}$$`
+
+___
+
+Pergunta-se:
+
+&gt; **"Qual tamanho amostral aplicar em meu estudo?"**
+
+___
+
+
+]
+
+.pull-right[
+
+
+
+&lt;img src="Estimacao_files/figure-html/unnamed-chunk-10-1.png" style="display: block; margin: auto;" /&gt;
+
+
+]
+
+___
+
+
+
+---
+
+class: h1_small
+
+# 5. Introdução à suficiência amostral: pré-determinando a margem de erro
 
 &lt;/br&gt;
 ___
@@ -373,6 +490,19 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
     deleted = true;
   });
 })();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
 (function() {
   "use strict"
   // Replace <script> tags in slides area to make them executable

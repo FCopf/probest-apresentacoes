@@ -20,11 +20,21 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
+.title[
 # Estatística descritiva
+]
+.subtitle[
 ## Covariância e Correlação Linear
+]
+.author[
 ### Fabio Cop (<a href="mailto:fabiocopf@gmail.com" class="email">fabiocopf@gmail.com</a>)
+]
+.institute[
 ### Instituto do Mar - UNIFESP
-### Última atualização em 25 de abril de 2022
+]
+.date[
+### Última atualização em 09 de junho de 2022
+]
 
 ---
 
@@ -1061,6 +1071,19 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
     deleted = true;
   });
 })();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
 (function() {
   "use strict"
   // Replace <script> tags in slides area to make them executable

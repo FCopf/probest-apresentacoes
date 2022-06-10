@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Inferência Estatística e Teste de Hipóteses</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Fabio Cop (fabiocopf@gmail.com)" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/metropolis.css" rel="stylesheet" />
+    <link href="libs/remark-css/metropolis-fonts.css" rel="stylesheet" />
+    <link href="libs/remark-css/hygge.css" rel="stylesheet" />
+    <script src="libs/fabric/fabric.min.js"></script>
+    <link href="libs/xaringanExtra-scribble/scribble.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-scribble/scribble.js"></script>
+    <script>document.addEventListener('DOMContentLoaded', function() { window.xeScribble = new Scribble({"pen_color":["#FF0000"],"pen_size":3,"eraser_size":30,"palette":[]}) })</script>
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Inferência Estatística e Teste de Hipóteses
+]
+.subtitle[
+## Estimando a média populacional - Distribuição <span class="math inline"><em>t</em></span> de <em>Student</em>
+]
+.author[
+### Fabio Cop (<a href="mailto:fabiocopf@gmail.com" class="email">fabiocopf@gmail.com</a>)
+]
+.institute[
+### Instituto do Mar - UNIFESP
+]
+.date[
+### Última atualização em 09 de junho de 2022
+]
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+    .h1_small h1 {
+      font-weight: normal;
+      margin-top: -75px;
+      margin-left: -00px;
+      color: #FAFAFA;
+      font-size: 150%;
+    }
+
+    .pull-left-min {
+      float: left;
+      width: 70%;
+    }
+
+    .pull-right-min {
+      float: right;
+      width: 27%;
+    }
+    
+    .fundo_capa {
+      background-image: url('img/TCL_art.png');
+      background-size: 140%;
+      background-position: center;
+    }
+    
+    .fundo_marble {
+      background-image: url('img/marble.jpg');
+      background-size: 140%;
+      background-position: center;
+    }
+    
+    .fundo_sistematica {
+      background-image: url('img/fundo-checkered-na-perspectiva.jpg');
+      background-size: 140%;
+      background-position: center;
+    }
+    
+    .regression table {
+      font-size: 16px;
+    }
+
+    .regression_small table {
+      font-size: 13px;
+    }
+    
+    .font_small table {
+      font-size: 0.9rem;
+    }
+&lt;/style&gt;
+
+
+
+---
+
+class: h1_small, fundo_capa
+
+# Estimando a média populacional: distribuição `\(t\)` de *Student*
+
+.pull-left[
+
+
+]
+
+.pull-right[
+
+.content-box-green[
+
+___
+
+1. Distribuição `\(t\)` de *Student*
+
+1. Estatística `\(t\)` *versus* Estatística `\(z\)`
+
+1. O intervalo de confiança para `\(\sigma\)` desconhecidos
+
+___
+
+]
+
+
+]
+
+
+---
+
+class: h1_small
+
+# 1. Distribuição `\(t\)` de Student: Biometrika. 1908, vol. 6, 1-15
+
+.pull-left-min[
+
+&lt;img src="img/Student_1908_first_paragf.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+]
+
+.pull-right-min[
+
+&lt;div class="figure" style="text-align: rigth"&gt;
+&lt;img src="img/William_Sealy_Gosset.jpg" alt="William Sealy Gosset (1876 - 1937)" width="70%" /&gt;
+&lt;p class="caption"&gt;William Sealy Gosset (1876 - 1937)&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+---
+
+class: h1_small
+
+# 1. Distribuição `\(t\)` de Student: Biometrika. 1908, vol. 6, 1-15
+
+___
+
+&gt; O Teorema Central do Limite garante que a distribuição de `\(\overline{X}\)` tende à normalidade à medida que `\(n\)` aumenta.
+
+&gt; No entanto, para amostras pequenas a distribuição `\(t\)` de Student fornece uma aproximação melhor para a distribuição das médias amostrais.
+
+___
+
+&lt;/br&gt;
+
+&lt;img src="img/Stutents_t_distribution.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: h1_small
+
+# 2. Estatística `\(t\)` *versus* Estatística `\(z\)`
+
+&lt;/br&gt;&lt;/br&gt;
+
+___
+
+&lt;img src="img/Z_vs_T_distribution.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+___
+
+---
+
+class: h1_small
+
+# 2. Estatística `\(t\)` *versus* Estatística `\(z\)`
+
+
+.pull-left[
+
+*Distribuição t*
+
+&lt;img src="Estimacao_distribuição_t_files/figure-html/unnamed-chunk-6-1.png" style="display: block; margin: auto;" /&gt;
+
+
+]
+
+.pull-right[
+
+*Distribuição Normal Padronizada*
+
+&lt;img src="Estimacao_distribuição_t_files/figure-html/unnamed-chunk-7-1.png" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+class: h1_small
+
+# 2. Estatística `\(t\)` *versus* Estatística `\(z\)`
+
+
+.pull-left[
+
+*Distribuição t*
+
+&lt;img src="Estimacao_distribuição_t_files/figure-html/unnamed-chunk-8-1.png" style="display: block; margin: auto;" /&gt;
+
+
+]
+
+.pull-right[
+
+*Distribuição Normal Padronizada*
+
+&lt;img src="Estimacao_distribuição_t_files/figure-html/unnamed-chunk-9-1.png" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+class: h1_small
+
+# 2. Estatística `\(t\)` *versus* Estatística `\(z\)`
+
+
+.pull-left[
+
+*Distribuição t*
+
+&lt;img src="Estimacao_distribuição_t_files/figure-html/unnamed-chunk-10-1.png" style="display: block; margin: auto;" /&gt;
+
+
+]
+
+.pull-right[
+
+*Distribuição Normal Padronizada*
+
+&lt;img src="Estimacao_distribuição_t_files/figure-html/unnamed-chunk-11-1.png" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+class: h1_small
+
+# 3. O intervalo de confiança para `\(\sigma\)` desconhecidos
+
+___
+
+&lt;/br&gt;
+
+.pull-left[
+
+.content-box-green[
+
+&lt;h4 style="text-align:center"&gt;O intervalo de confiança da média - \(IC_{1-\alpha}\)&lt;/h4&gt;
+
+É o intervalo de valores associado a um determinado nível de significância `\(\alpha\)`. Quando dizemos que um intervalo foi calculado a um nível de confiança de `\(95\%\)`, isto é,  `\(1 - \alpha\)`, estamos dizendo que a probabilidade do IC conter o valor da média populacional `\(\mu\)` é de `\(95\%\)`.
+
+`$$IC_{1-\alpha} = \overline{X} \pm z_{\alpha/2} \times \frac{\sigma}{\sqrt{n}}$$`
+
+]
+
+]
+
+.pull-right[
+
+&lt;img src="Estimacao_distribuição_t_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" /&gt;
+
+]
+
+___
+
+---
+
+class: h1_small
+
+# 3. O intervalo de confiança para `\(\sigma\)` desconhecidos
+
+&lt;/br&gt;
+___
+
+.pull-left[
+
+Se `\(\sigma\)` é desconhecido ou se as amostra é pequena (ex. `\(n&lt;30\)`), a dsitribuição normal não é a melhor aproximação para o comportamento das médias amostrais. Nestes casos, substituímos a distribuição de `\(z\)` pela **Distribuição `\(t\)` de Student**, sendo o intervalo de confiança obtido por:
+
+___
+
+`$$IC_{1-\alpha} = \overline{X} \pm t_{\alpha/2, gl} \times \frac{s}{\sqrt{n}}$$`
+
+___
+
+sendo `\(gl\)` denominado de **graus de liberdade**
+
+`$$gl = n-1$$`
+]
+
+.pull-right[
+
+
+
+&lt;img src="Estimacao_distribuição_t_files/figure-html/unnamed-chunk-13-1.png" style="display: block; margin: auto;" /&gt;
+
+
+]
+
+___
+
+---
+
+class: h1_small
+
+# 3. O intervalo de confiança para `\(\sigma\)` desconhecidos
+
+&lt;/br&gt;
+___
+
+.pull-left[
+
+Se `\(\sigma\)` é desconhecido ou se as amostra é pequena (ex. `\(n&lt;30\)`), a dsitribuição normal não é a melhor aproximação para o comportamento das médias amostrais. Nestes casos, substituímos a distribuição de `\(z\)` pela **Distribuição `\(t\)` de Student**, sendo o intervalo de confiança obtido por:
+
+___
+
+`$$IC_{1-\alpha} = \overline{X} \pm t_{\alpha/2, gl} \times \frac{s}{\sqrt{n}}$$`
+
+___
+
+sendo `\(gl\)` denominado de **graus de liberdade**
+
+`$$gl = n-1$$`
+]
+
+.pull-right[
+
+
+
+&lt;img src="Estimacao_distribuição_t_files/figure-html/unnamed-chunk-14-1.png" style="display: block; margin: auto;" /&gt;
+
+
+]
+
+___
+
+---
+
+class: h1_small
+
+# 4. Exemplo
+
+
+
+As alturas em cm de `\(10\)` adultos selecionados ao acaso foram: `\(X = 165.28, 175.66, 162.6, 193.74, 177.53, 162.8, 179.55, 182.76, 180.68, 169.39\)`
+
+A média `\(\overline{X}\)` e desvio padrão `\(s\)` amostral foram calculados em `\(\overline{X} = 175\)` cm; `\(s = 10\)` cm. O que é possível dizer a respeito da média populacional `\(\mu\)`?
+
+
+.pull-left[
+
+___
+
+
+De acordo com o TCL, a distribuição das médias amostrais terá desvio padrão:
+
+`\(\sigma_{\overline{X}} = \frac{\sigma}{\sqrt{n}} = \frac{10}{\sqrt{10}} = 3.16\)` cm.
+
+
+
+
+]
+
+.pull-right[
+
+___
+
+Se decidirmos fazer uma inferência para que a margem de erro `\(E\)` esteja associada a um nível `\(1 - \alpha = 0.95\%\)`, o intervalo de confiança fica:
+
+`\(IC_{1-\alpha} = \overline{X} \pm t_{\alpha/2, gl} \times \sigma_{\overline{X}}\)`
+
+`\(IC_{1-\alpha} = 175 \pm 2.26 \times 3.16 = 175 \pm 7\)`
+
+`\(IC_{inferior} = 168\)` cm; `\(IC_{superior} = 182\)` cm
+
+
+]
+
+___
+
+Este resultado nos diz que, estamos certos com nível de confiança de `\(0.95\%\)` de que o intervalo entre `\(168\)` cm e `\(182\)` cm contém a média populacional `\(\mu\)`.
+
+___
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "arta",
+"highligthLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

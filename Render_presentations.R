@@ -14,6 +14,8 @@ rmarkdown::render(input = "Distribuicao_medias_tcl.Rmd")
 
 rmarkdown::render(input = "Estimacao.Rmd")
 
+rmarkdown::render(input = "Estimacao_distribuição_t.Rmd")
+
 rmarkdown::render(input = "Teste_Hipoteses.Rmd")
 
 rmarkdown::render(input = "Teste_t.Rmd")
@@ -48,6 +50,9 @@ pagedown::chrome_print(input = "Distribuicao_medias_tcl.Rmd",
 
 pagedown::chrome_print(input = "Estimacao.Rmd",
                        output = "pdf_presentations/Estimacao.pdf")
+
+pagedown::chrome_print(input = "Estimacao_distribuição_t.Rmd",
+                       output = "pdf_presentations/Estimacao_distribuição_t.pdf")
 
 pagedown::chrome_print(input = "Teste_Hipoteses.Rmd", 
                        output = "pdf_presentations/Teste_Hipoteses.pdf")
