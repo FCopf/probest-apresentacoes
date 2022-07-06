@@ -31,7 +31,7 @@ class: center, middle, inverse, title-slide
 ### Instituto do Mar - UNIFESP
 ]
 .date[
-### Última atualização em 09 de junho de 2022
+### Última atualização em 11 de junho de 2022
 ]
 
 ---
@@ -70,9 +70,9 @@ class: center, middle, inverse, title-slide
       background-position: center;
     }
     
-    .fundo_sistematica {
-      background-image: url('img/fundo-checkered-na-perspectiva.jpg');
-      background-size: 140%;
+    .fundo_capa {
+      background-image: url('img/Hyphotesis_test_fundo.jpeg');
+      background-size: 100%;
       background-position: center;
     }
     
@@ -92,13 +92,18 @@ class: center, middle, inverse, title-slide
 
 ---
 
-class: h1_small
+class: fundo_capa, h1_small
 
 # Introdução ao teste de hipóteses
 
+.pull-left[
+
+.content-box-blue[
+
 ___
 
-1. Introdução ao teste de hipóteses: o teste `\(z\)`
+
+1. Introdução aos testes de hipóteses: o teste `\(z\)`
 
  1.1. Hipótese nula e alternativa
  
@@ -107,18 +112,26 @@ ___
  1.3. Método do valor crítico: área de rejeição
  
  1.4. Método do valor de p
+ 
+ 1.5. Valor crítico `\(vs\)` valor de p
   
 2. Testes bilaterais e unilaterais
 
 3. Considerações sobre o nível de significância: erros de decisão
 
+
 ___
+
+]
+
+]
+
 
 ---
 
 class: h1_small
 
-# 1. Introdução ao teste de hipóteses: o teste `\(z\)`
+# 1. Introdução aos testes de hipóteses: o teste `\(z\)`
 
 ___
 
@@ -133,7 +146,7 @@ ___
 
 `\(H_a: \mu \ne 65\)` batimentos por minuto (Hipótese Alternativa - teste BILATERAL)
 
-`\(\alpha = 0,05\)` nível de significância
+`\(\alpha = 0.05\)` nível de significância
 
 ___
 
@@ -170,13 +183,13 @@ ___
 
 `\(H_a: \mu \ne 65\)` batimentos por minuto (Hipótese Alternativa - teste BILATERAL)
 
-`\(\alpha = 0,05\)` nível de significância
+`\(\alpha = 0.05\)` nível de significância
 
 ____
 
 Determinar `\(\overline{X}\)` para que:
 
-`\(P(|E| \ge |\overline{X} - \mu|) = 0,05\)`
+`\(P(|E| \ge |\overline{X} - \mu|) = 0.05\)`
 
 ]
 
@@ -204,7 +217,7 @@ ___
 
 .pull-left[
 
-`\(P(|E| \ge |\overline{X} - \mu|) = 0,05\)`
+`\(P(|E| \ge |\overline{X} - \mu|) = 0.05\)`
 
 ___
 
@@ -216,7 +229,7 @@ ___
 
 .pull-right[
 
-`\(P(|Z| \ge |\frac{\overline{X} - \mu}{\sigma_{\mu}}|) = 0,05\)`
+`\(P(|Z| \ge |\frac{\overline{X} - \mu}{\sigma_{\overline{X}}}|) = 0.05\)`
 
 ___
 
@@ -257,7 +270,7 @@ ___
 
 sendo:
 
-`\(Z_{calculado} = \frac{\overline{X} - \mu}{\sigma_{\mu}}\)`
+`\(Z_{calculado} = \frac{\overline{X} - \mu}{\sigma_{\overline{X}}}\)`
 
 ]
 
@@ -279,7 +292,7 @@ ___
 
 e um erro padrão de:
 
-`\(\sigma_{\mu} = \frac{\sigma}{\sqrt{n}} = \frac{9}{3.87} = 2.32\)`
+`\(\sigma_{\overline{X}} = \frac{\sigma}{\sqrt{n}} = \frac{9}{3.87} = 2.32\)`
 
 ]
 
@@ -299,13 +312,13 @@ ___
 
 Com estes resultados encontramos:
 
-`\(z_{calculado} = \frac{\overline{X} - \mu}{\sigma_{\mu}} = \frac{66.73 - 65}{2.32} = 0.75\)`
+`\(z_{calculado} = \frac{\overline{X} - \mu}{\sigma_{\overline{X}}} = \frac{66.73 - 65}{2.32} = 0.75\)`
 
 ___
 
 Como:
 
-`\(|Z_{calculado}| &lt; |Z_{crítico}|\)` pois `\(|0.75| &lt; |1,96|\)`
+`\(|Z_{calculado}| &lt; |Z_{crítico}|\)` pois `\(|0.75| &lt; |1.96|\)`
 
 ___
 
@@ -357,7 +370,7 @@ ___
 
 sendo:
 
-`\(Z_{calculado} = \frac{\overline{X} - \mu}{\sigma_{\mu}}\)`
+`\(Z_{calculado} = \frac{\overline{X} - \mu}{\sigma_{\overline{X}}}\)`
 
 ]
 
@@ -379,7 +392,7 @@ ___
 
 e um erro padrão de:
 
-`\(\sigma_{\mu} = \frac{\sigma}{\sqrt{n}} = \frac{9}{3.87} = 2.32\)`
+`\(\sigma_{\overline{X}} = \frac{\sigma}{\sqrt{n}} = \frac{9}{3.87} = 2.32\)`
 
 ]
 
@@ -400,7 +413,7 @@ ___
 
 Com estes resultados encontramos:
 
-`\(z_{calculado} = \frac{\overline{X} - \mu}{\sigma_{\mu}} = \frac{66.73 - 65}{2.32} = 0.75\)`
+`\(z_{calculado} = \frac{\overline{X} - \mu}{\sigma_{\overline{X}}} = \frac{66.73 - 65}{2.32} = 0.75\)`
 
 ___
 
@@ -412,7 +425,7 @@ ___
 
 Portanto:
 
-Valor de p = `\(0.456\)` que é `\(&gt; 0,05\)`. 
+Valor de p = `\(0.456\)` que é `\(&gt; 0.05\)`. 
 
 
 
@@ -434,6 +447,39 @@ ___
 
 class: h1_small
 
+# 1. Valor crítico `\(vs\)` valor de p
+
+
+.pull-left[
+
+___
+
+&lt;h4 style="text-align:center"&gt;Nível crítico&lt;/h4&gt;
+
+___
+
+&lt;img src="Teste_Hipoteses_files/figure-html/unnamed-chunk-10-1.png" style="display: block; margin: auto;" /&gt;
+
+]
+
+.pull-right[
+
+___
+
+&lt;h4 style="text-align:center"&gt;Valor de p&lt;/h4&gt;
+___
+
+
+&lt;img src="Teste_Hipoteses_files/figure-html/unnamed-chunk-11-1.png" style="display: block; margin: auto;" /&gt;
+
+]
+
+___
+
+---
+
+class: h1_small
+
 # 2. Exemplo de um teste unilateral
 
 ___
@@ -450,7 +496,7 @@ As hipóteses estatísticas ficam:
 
 `\(H_a: \mu &gt; 65\)` batimentos por minuto (Teste UNILATERAL)
 
-`\(\alpha = 0,05\)` nível de significância
+`\(\alpha = 0.05\)` nível de significância
 
 ___
 
@@ -471,18 +517,18 @@ ___
 
 .pull-left[
 
-##### Nos testes unilaterais, toda a área de rejeição deve estar à direita ou à esquerda, a depender da hipótese alternativa. No caso de um `\(\alpha = 0,05\)` o nível crítico de `\(Z = 1,64\)`.
+##### Nos testes unilaterais, toda a área de rejeição deve estar à direita ou à esquerda, a depender da hipótese alternativa. No caso de um `\(\alpha = 0.05\)` o nível crítico de `\(Z = 1.64\)`.
 
-&lt;img src="Teste_Hipoteses_files/figure-html/unnamed-chunk-10-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Teste_Hipoteses_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" /&gt;
 
 ]
 
 
 .pull-right[
 
-##### Da mesma forma, quando utilizamos o valor de p, consideramos **somente** um dos lados da curva. Neste exemplo, o valor de p seria `\(p = 0.228\)`, que é metade do que obtivemos no teste bilateral, porém **ainda** `\(\ge 0,05\)`.
+##### Da mesma forma, quando utilizamos o valor de p, consideramos **somente** um dos lados da curva. Neste exemplo, o valor de p seria `\(p = 0.228\)`, que é metade do que obtivemos no teste bilateral, porém **ainda** `\(\ge 0.05\)`.
 
-&lt;img src="Teste_Hipoteses_files/figure-html/unnamed-chunk-11-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Teste_Hipoteses_files/figure-html/unnamed-chunk-13-1.png" style="display: block; margin: auto;" /&gt;
 
 
 ]
@@ -495,7 +541,7 @@ class: h1_small
 
 ___
 
-A interpretação da probabilidade final esta associada à situação em que `\(H_0\)` seja verdadeira. Neste caso, **o que esperar caso `\(H_0\)` seja falsa**?
+A interpretação da probabilidade final está associada à situação em que `\(H_0\)` seja verdadeira. Neste caso, **o que esperar caso `\(H_0\)` seja falsa**?
 
 ___
 
@@ -513,7 +559,44 @@ ___
 
 .pull-right[
 
-&lt;img src="Teste_Hipoteses_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Teste_Hipoteses_files/figure-html/unnamed-chunk-14-1.png" style="display: block; margin: auto;" /&gt;
+
+]
+
+___
+
+---
+
+class: h1_small
+
+# 3. Considerações sobre o nível de significância: erros de decisão
+
+___
+
+A interpretação da probabilidade final está associada à situação em que `\(H_0\)` seja verdadeira. Neste caso, **o que esperar caso `\(H_0\)` seja falsa**?
+
+___
+
+
+.pull-left[
+
+&lt;/br&gt;
+
+|                   | `\(H_0\)` Verdadeira           | `\(H_0\)` Falsa
+| :---              | :------:                   | :------:
+| `\(H_0\)` é rejeitada | `\(\alpha\)` (**Erro Tipo I**) | `\(1 - \beta\)` (Decisão correta)
+| `\(H_0\)` é aceita    | `\(1 - \alpha\)` (Decisão correta) | `\(\beta\)` (**Erro Tipo II**)
+
+___
+
+Estabelecer `\(\beta\)` *a priori* depende de definirmos uma expectativa para a hipótese alternativa, isto é, para o tamanho do efeito que desejamos captar.
+
+
+]
+
+.pull-right[
+
+&lt;img src="Teste_Hipoteses_files/figure-html/unnamed-chunk-15-1.png" style="display: block; margin: auto;" /&gt;
 
 ]
 

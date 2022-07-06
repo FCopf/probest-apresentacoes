@@ -177,15 +177,28 @@ ____
 EXEMPLO: 
 ____
 
-Suponha que $\mu = 170$, $\sigma_{\overline{X}} = 10$. 
+``` {r fig.width=8, fig.height=6, fig.align = "center", echo=FALSE}
+mu = 170
+sg = 100
+n = 100
+ep = sg/sqrt(n)
+Xb1 = 180
+Xb2 = 160
+E1 = Xb1 - mu
+E2 = Xb2 - mu
 
-+ $\overline{X} = 180$ estará a $1$ desvio padrão de $\mu$, isto é 
+```
 
-$E = \mu - \overline{X} = 10 = 1 \times \sigma_{\overline{X}}$.
 
-+ $\overline{X} = 190$ estará a $2$ desvio padrão de $\mu$, isto é 
+Suponha que $\mu = `r mu`$ cm, $\sigma = `r sg`$ cm, $n = `r n`$. 
 
-$E = \mu - \overline{X} = 20 = 2 \times \sigma_{\overline{X}}$.
++ $\overline{X} = `r Xb1`$ cm estará a $`r E1/ep`$ erro padrão de $\mu$, isto é 
+
+$E = \overline{X} - \mu = `r Xb1` - `r mu` = `r E1` = `r E1/ep` \times \sigma_{\overline{X}}$.
+
++ $\overline{X} = `r Xb2`$ cm estará a $`r E2/ep`$ erro padrão de $\mu$, isto é 
+
+$E = \overline{X} - \mu = `r Xb2` - `r mu` = `r E2` = `r E2/ep` \times \sigma_{\overline{X}}$.
 
 ]
 

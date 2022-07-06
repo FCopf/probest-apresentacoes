@@ -68,9 +68,9 @@ suppressMessages(library(kableExtra))
       background-position: center;
     }
     
-    .fundo_sistematica {
-      background-image: url('img/fundo-checkered-na-perspectiva.jpg');
-      background-size: 140%;
+    .fundo_capa {
+      background-image: url('img/Hyphotesis_test_fundo.jpeg');
+      background-size: 100%;
       background-position: center;
     }
     
@@ -92,13 +92,18 @@ xaringanExtra::use_scribble()
 ```
 ---
 
-class: h1_small
+class: fundo_capa, h1_small
 
 # Introdução ao teste de hipóteses
 
+.pull-left[
+
+.content-box-blue[
+
 ___
 
-1. Introdução ao teste de hipóteses: o teste $z$
+
+1. Introdução aos testes de hipóteses: o teste $z$
 
  1.1. Hipótese nula e alternativa
  
@@ -107,18 +112,26 @@ ___
  1.3. Método do valor crítico: área de rejeição
  
  1.4. Método do valor de p
+ 
+ 1.5. Valor crítico $vs$ valor de p
   
 2. Testes bilaterais e unilaterais
 
 3. Considerações sobre o nível de significância: erros de decisão
 
+
 ___
+
+]
+
+]
+
 
 ---
 
 class: h1_small
 
-# 1. Introdução ao teste de hipóteses: o teste $z$
+# 1. Introdução aos testes de hipóteses: o teste $z$
 
 ___
 
@@ -133,7 +146,7 @@ $H_0: \mu = 65$ batimentos por minuto (Hipótese Nula)
 
 $H_a: \mu \ne 65$ batimentos por minuto (Hipótese Alternativa - teste BILATERAL)
 
-$\alpha = 0,05$ nível de significância
+$\alpha = 0.05$ nível de significância
 
 ___
 
@@ -190,13 +203,13 @@ $H_0: \mu = 65$ batimentos por minuto (Hipótese Nula)
 
 $H_a: \mu \ne 65$ batimentos por minuto (Hipótese Alternativa - teste BILATERAL)
 
-$\alpha = 0,05$ nível de significância
+$\alpha = 0.05$ nível de significância
 
 ____
 
 Determinar $\overline{X}$ para que:
 
-$P(|E| \ge |\overline{X} - \mu|) = 0,05$
+$P(|E| \ge |\overline{X} - \mu|) = 0.05$
 
 ]
 
@@ -256,7 +269,7 @@ ___
 
 .pull-left[
 
-$P(|E| \ge |\overline{X} - \mu|) = 0,05$
+$P(|E| \ge |\overline{X} - \mu|) = 0.05$
 
 ___
 
@@ -270,7 +283,7 @@ pH02
 
 .pull-right[
 
-$P(|Z| \ge |\frac{\overline{X} - \mu}{\sigma_{\mu}}|) = 0,05$
+$P(|Z| \ge |\frac{\overline{X} - \mu}{\sigma_{\overline{X}}}|) = 0.05$
 
 ___
 
@@ -336,7 +349,7 @@ ___
 
 sendo:
 
-$Z_{calculado} = \frac{\overline{X} - \mu}{\sigma_{\mu}}$
+$Z_{calculado} = \frac{\overline{X} - \mu}{\sigma_{\overline{X}}}$
 
 ]
 
@@ -366,7 +379,7 @@ ___
 
 e um erro padrão de:
 
-$\sigma_{\mu} = \frac{\sigma}{\sqrt{n}} = \frac{`r dp`}{`r round(sqrt(n),2)`} = `r round(ep,2)`$
+$\sigma_{\overline{X}} = \frac{\sigma}{\sqrt{n}} = \frac{`r dp`}{`r round(sqrt(n),2)`} = `r round(ep,2)`$
 
 ]
 
@@ -386,13 +399,13 @@ ___
 
 Com estes resultados encontramos:
 
-$z_{calculado} = \frac{\overline{X} - \mu}{\sigma_{\mu}} = \frac{`r round(mean(BM),2)` - `r mu`}{`r round(ep,2)`} = `r round(z,2)`$
+$z_{calculado} = \frac{\overline{X} - \mu}{\sigma_{\overline{X}}} = \frac{`r round(mean(BM),2)` - `r mu`}{`r round(ep,2)`} = `r round(z,2)`$
 
 ___
 
 Como:
 
-$|Z_{calculado}| < |Z_{crítico}|$ pois $|`r round(z,2)`| < |1,96|$
+$|Z_{calculado}| < |Z_{crítico}|$ pois $|`r round(z,2)`| < |1.96|$
 
 ___
 
@@ -411,7 +424,7 @@ ___
 ```{r, fig.height=5.5}
 df_Zc <- data.frame(x0 = z, x1 = z, y0 = 0.1, y1 = 0.01)
 zcl <- round(z,2)
-pZ +
+mvc_plot = pZ +
   geom_segment(data = df_Zc, mapping = aes(x = x0, y = y0,
                                            xend = x1, yend = y1),
                color = 'red', arrow =  arrow(length = unit(0.3, "inches"))) +
@@ -419,7 +432,8 @@ pZ +
            y = 0.12, 
            label = bquote("Z"[calculado]  ~ '='~  .(zcl)), 
            size = 8)
-  
+
+mvc_plot  
 ```
 
 ]
@@ -456,7 +470,7 @@ ___
 
 sendo:
 
-$Z_{calculado} = \frac{\overline{X} - \mu}{\sigma_{\mu}}$
+$Z_{calculado} = \frac{\overline{X} - \mu}{\sigma_{\overline{X}}}$
 
 ]
 
@@ -487,7 +501,7 @@ ___
 
 e um erro padrão de:
 
-$\sigma_{\mu} = \frac{\sigma}{\sqrt{n}} = \frac{`r dp`}{`r round(sqrt(n),2)`} = `r round(ep,2)`$
+$\sigma_{\overline{X}} = \frac{\sigma}{\sqrt{n}} = \frac{`r dp`}{`r round(sqrt(n),2)`} = `r round(ep,2)`$
 
 ]
 
@@ -508,7 +522,7 @@ ___
 
 Com estes resultados encontramos:
 
-$z_{calculado} = \frac{\overline{X} - \mu}{\sigma_{\mu}} = \frac{`r round(mean(BM),2)` - `r mu`}{`r round(ep,2)`} = `r round(z,2)`$
+$z_{calculado} = \frac{\overline{X} - \mu}{\sigma_{\overline{X}}} = \frac{`r round(mean(BM),2)` - `r mu`}{`r round(ep,2)`} = `r round(z,2)`$
 
 ___
 
@@ -520,7 +534,7 @@ ___
 
 Portanto:
 
-Valor de p = $`r pz * 2`$ que é $> 0,05$. 
+Valor de p = $`r pz * 2`$ que é $> 0.05$. 
 
 
 
@@ -538,7 +552,7 @@ ___
 df_Zc <- data.frame(x0 = z, x1 = z, y0 = 0.1, y1 = 0.01)
 zcl <- round(z,2)
 
-ggplot(data = df_z,
+vp_plot = ggplot(data = df_z,
               mapping = aes(x = x)) +
   stat_function(fun = dnorm) +
   labs(x = "Z", y = "") +
@@ -556,11 +570,49 @@ ggplot(data = df_z,
            label = c(pz, pz), 
            size = 8, color = cor_rej) +
   theme_classic(base_size = 22)
-  
+
+vp_plot  
   
 ```
 
 ]
+
+---
+
+class: h1_small
+
+# 1. Valor crítico $vs$ valor de p
+
+
+.pull-left[
+
+___
+
+<h4 style="text-align:center">Nível crítico</h4>
+
+___
+
+```{r}
+mvc_plot
+```
+
+]
+
+.pull-right[
+
+___
+
+<h4 style="text-align:center">Valor de p</h4>
+___
+
+
+```{r}
+vp_plot
+```
+
+]
+
+___
 
 ---
 
@@ -582,7 +634,7 @@ $H_0: \mu = 65$ batimentos por minuto
 
 $H_a: \mu > 65$ batimentos por minuto (Teste UNILATERAL)
 
-$\alpha = 0,05$ nível de significância
+$\alpha = 0.05$ nível de significância
 
 ___
 
@@ -603,7 +655,7 @@ ___
 
 .pull-left[
 
-##### Nos testes unilaterais, toda a área de rejeição deve estar à direita ou à esquerda, a depender da hipótese alternativa. No caso de um $\alpha = 0,05$ o nível crítico de $Z = 1,64$.
+##### Nos testes unilaterais, toda a área de rejeição deve estar à direita ou à esquerda, a depender da hipótese alternativa. No caso de um $\alpha = 0.05$ o nível crítico de $Z = 1.64$.
 
 ```{r, fig.height=5.0}
 alfa <- 0.05
@@ -634,7 +686,7 @@ pZ
 
 .pull-right[
 
-##### Da mesma forma, quando utilizamos o valor de p, consideramos **somente** um dos lados da curva. Neste exemplo, o valor de p seria $p = `r pz`$, que é metade do que obtivemos no teste bilateral, porém **ainda** $\ge 0,05$.
+##### Da mesma forma, quando utilizamos o valor de p, consideramos **somente** um dos lados da curva. Neste exemplo, o valor de p seria $p = `r pz`$, que é metade do que obtivemos no teste bilateral, porém **ainda** $\ge 0.05$.
 
 ```{r, fig.height=5.0}
 df_Zc <- data.frame(x0 = z, x1 = z, y0 = 0.1, y1 = 0.01)
@@ -670,7 +722,7 @@ class: h1_small
 
 ___
 
-A interpretação da probabilidade final esta associada à situação em que $H_0$ seja verdadeira. Neste caso, **o que esperar caso $H_0$ seja falsa**?
+A interpretação da probabilidade final está associada à situação em que $H_0$ seja verdadeira. Neste caso, **o que esperar caso $H_0$ seja falsa**?
 
 ___
 
@@ -739,6 +791,97 @@ polygon(x = qrc1_b, y = dqrc1_b, col = rgb(red = 0.9, 0,0, alpha = 0.3))
 polygon(x = qrc2_b, y = dqrc2_b, col = rgb(red = 0.9, 0,0, alpha = 0.3))  
 segments(x0 = qr_b[1], x1 = qr_b[7], y0 = 0.65, y1 = 0.65, lwd = 2)
 text(y = c(0.1), x = c(0.5), labels = bquote(beta), font = 3)
+#text(y = c(0.1), x = c(2.7), labels = bquote(P(Z >= +z)))
+abline(v = qr_b[1], lty = 2)
+text(y = 0.35, x = -4.8, label = "B")
+```
+
+]
+
+___
+
+---
+
+class: h1_small
+
+# 3. Considerações sobre o nível de significância: erros de decisão
+
+___
+
+A interpretação da probabilidade final está associada à situação em que $H_0$ seja verdadeira. Neste caso, **o que esperar caso $H_0$ seja falsa**?
+
+___
+
+
+.pull-left[
+
+</br>
+
+|                   | $H_0$ Verdadeira           | $H_0$ Falsa
+| :---              | :------:                   | :------:
+| $H_0$ é rejeitada | $\alpha$ (**Erro Tipo I**) | $1 - \beta$ (Decisão correta)
+| $H_0$ é aceita    | $1 - \alpha$ (Decisão correta) | $\beta$ (**Erro Tipo II**)
+
+___
+
+Estabelecer $\beta$ *a priori* depende de definirmos uma expectativa para a hipótese alternativa, isto é, para o tamanho do efeito que desejamos captar.
+
+
+]
+
+.pull-right[
+
+``` {r fig.width=8, fig.height=5.5, fig.align = "center"}
+qr_a = qnorm(p = c(0.05, 0.95))
+dqr_a = dnorm(x = qr_a)
+
+qrc1_a = c(seq(-5, qr_a[1], l = 100), seq(qr_a[1],-5, l = 100))
+dqrc1_a = c(rep(0,100), dnorm(x = seq(qr_a[1],-5, l = 100)))
+
+qrc2_a = c(seq(5, qr_a[2], l = 100), seq(qr_a[2],5, l = 100))
+dqrc2_a = c(rep(0,100), dnorm(x = seq(qr_a[2],5, l = 100)))
+
+pqr_a = pnorm(q = qr_a)
+perc_a= diff(pqr_a) * 100
+
+#_______________________
+ma = 2
+qr_b = qnorm(p = c(0.95, 0.99999999), mean = 0)
+dqr_b = dnorm(x = qr_b, mean = ma)
+
+qrc1_b = c(seq(-5, qr_b[1], l = 100), seq(qr_b[1],-5, l = 100))
+dqrc1_b = c(rep(0,100), dnorm(x = seq(qr_b[1],-5, l = 100), mean = ma))
+
+qrc2_b = c(seq(5, qr_b[2], l = 100), seq(qr_b[2],5, l = 100))
+dqrc2_b = c(rep(0,100), dnorm(x = seq(qr_b[2],5, l = 100), mean = ma))
+
+pqr_b = pnorm(q = qr_b, mean = ma)
+perc_b= diff(pqr_b) * 100
+
+layout(matrix(1:2, nr = 2))
+par(mai = c(0,1,0,0))
+curve(expr = dnorm(x, 0,1), from = -5, to = 5, 
+      ylab = bquote(mu[a] == mu),
+      xlab = "Valores de z", ylim = c(0, 0.5), xlim = c(-5,5), axes = F)
+axis(1, at = seq(-5,5,by = 1), cex.axis = 0.8)
+#axis(2, at = seq(-1, 0.5, by = 0.1), cex.axis = 0.8)
+polygon(x = qrc1_a, y = dqrc1_a, col = rgb(red = 0.9, 0,0, alpha = 0.3))  
+polygon(x = qrc2_a, y = dqrc2_a, col = rgb(red = 0.9, 0,0, alpha = 0.3))  
+segments(x0 = qr_a[1], x1 = qr_a[7], y0 = 0.65, y1 = 0.65, lwd = 2)
+text(y = c(0.1), x = c(-2.7), labels = bquote(alpha/2),font = 3)
+text(y = c(0.1), x = c(2.7), labels = bquote(alpha/2),font = 3)
+abline(v = qr_a[2], lty = 2)
+text(y = 0.45, x = -4.8, label = "A")
+
+curve(expr = dnorm(x, ma,1), from = -5, to = 5, 
+      ylab = bquote(mu[a] > mu),
+      xlab = "Valores de z", ylim = c(0, 0.5), xlim = c(-5,5), axes = F)
+axis(1, at = seq(-5,5,by = 1), cex.axis = 0.8)
+#axis(2, at = seq(-1, 0.5, by = 0.1), cex.axis = 0.8)
+polygon(x = qrc1_b, y = dqrc1_b, col = rgb(red = 0.9, 0,0, alpha = 0.3))  
+polygon(x = qrc2_b, y = dqrc2_b, col = rgb(red = 0.9, 0,0, alpha = 0.3))  
+segments(x0 = qr_b[1], x1 = qr_b[7], y0 = 0.65, y1 = 0.65, lwd = 2)
+text(y = c(0.1), x = c(1), labels = bquote(beta), font = 3)
 #text(y = c(0.1), x = c(2.7), labels = bquote(P(Z >= +z)))
 abline(v = qr_b[1], lty = 2)
 text(y = 0.35, x = -4.8, label = "B")
