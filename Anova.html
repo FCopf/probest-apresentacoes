@@ -15,6 +15,8 @@
     <script>document.addEventListener('DOMContentLoaded', function() { window.xeScribble = new Scribble({"pen_color":["#FF0000"],"pen_size":3,"eraser_size":30,"palette":[]}) })</script>
     <script src="libs/kePrint/kePrint.js"></script>
     <link href="libs/lightable/lightable.css" rel="stylesheet" />
+    <link href="libs/tabwid/tabwid.css" rel="stylesheet" />
+    <script src="libs/tabwid/tabwid.js"></script>
   </head>
   <body>
     <textarea id="source">
@@ -33,7 +35,7 @@ class: center, middle, inverse, title-slide
 ### Instituto do Mar - UNIFESP
 ]
 .date[
-### Última atualização em 09 de junho de 2022
+### Última atualização em 13 de junho de 2023
 ]
 
 ---
@@ -584,18 +586,25 @@ class: h1_small
 
 # 7. Testes a *posteriori* de comparação de médias
 
-___
-
-`$$DHS_{12} = q\sqrt{\left(\frac{1}{n_1} + \frac{1}{n_2}\right)QM_{Res}}$$`
+Quais pares são estatisticamente diferentes?
 
 ___
 
-`\(DHS_{12}\)`: *Diferença Honesta Significativa* entre s médias `\(1\)` e `\(2\)`. Computadopara cada par de médias.
+`$$q = \frac{\overline{Y}_1 - \overline{Y}_2}{SE}$$`
+em que:
 
+`$$SE = \sqrt{\frac{QM_{Res}}{2}(\frac{1}{n_1} + \frac{1}{n_2})}$$`
+___
 
-`\(q\)`: **tabela da distribuição de amplitude normalizada** (*studentized range q table*).
+`\(q\)`: é e estatística do teste
 
-`\(QM_{Res}\)`: é quadrado médio do resíduo obtido na ANOVA.
+`\(\overline{Y}_1\)`: é a maior das médias do par consideraddo;
+
+`\(\overline{Y}_2\)`: é a menor das médias do par consideraddo
+
+`\(QM_{Res}\)`: é quadrado médio do resíduo obtido na ANOVA, e;
+
+`\(n_1\)`, `\(n_2\)`: os tamanhos amostrais de cada grupo envolvido na comparação.
 
 ___
 
@@ -608,57 +617,36 @@ class: h1_small
 
 
 
+
+
+
 ___
 
-`$$DHS =  3.773\sqrt{\left(\frac{1}{5} + \frac{1}{5}\right)30.214} = 13.116$$`
+`$$SE = \sqrt{\frac{30.214}{2}(\frac{1}{5} + \frac{1}{5})} = 2.458$$`
 
 ___
 
 .pull-left[
 
 
-&lt;img src="Anova_files/figure-html/unnamed-chunk-21-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Anova_files/figure-html/unnamed-chunk-22-1.png" style="display: block; margin: auto;" /&gt;
 
 ]
 
 .pull-right[
 
-&lt;/br&gt;
+`$$q = \frac{\overline{Y}_1 - \overline{Y}_2}{SE}$$`
 
-&lt;table class=" lightable-classic" style="font-family: Cambria; margin-left: auto; margin-right: auto;"&gt;
- &lt;thead&gt;
-  &lt;tr&gt;
-   &lt;th style="text-align:left;"&gt;   &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; A &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; B &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; C &lt;/th&gt;
-  &lt;/tr&gt;
- &lt;/thead&gt;
-&lt;tbody&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; A &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; B &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 8.04 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; C &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 8.46 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 16.5 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
-  &lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
+&lt;div class="tabwid"&gt;&lt;style&gt;.cl-9f917186{}.cl-9f8c4c1a{font-family:'DejaVu Sans';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-9f8ec7ba{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-9f8ec7c4{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-9f8ed566{width:8in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-9f8ed570{width:8in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-9f8ed57a{width:8in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-9f8ed58e{width:8in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-9f8ed58f{width:8in;background-color:rgba(255, 165, 0, 1.00);vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-9f8ed598{width:8in;background-color:rgba(255, 165, 0, 1.00);vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}&lt;/style&gt;&lt;table data-quarto-disable-processing='true' class='cl-9f917186'&gt;&lt;thead&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;th class="cl-9f8ed566"&gt;&lt;p class="cl-9f8ec7ba"&gt;&lt;span class="cl-9f8c4c1a"&gt;combinacoes&lt;/span&gt;&lt;/p&gt;&lt;/th&gt;&lt;th class="cl-9f8ed570"&gt;&lt;p class="cl-9f8ec7c4"&gt;&lt;span class="cl-9f8c4c1a"&gt;diff&lt;/span&gt;&lt;/p&gt;&lt;/th&gt;&lt;th class="cl-9f8ed570"&gt;&lt;p class="cl-9f8ec7c4"&gt;&lt;span class="cl-9f8c4c1a"&gt;n1&lt;/span&gt;&lt;/p&gt;&lt;/th&gt;&lt;th class="cl-9f8ed570"&gt;&lt;p class="cl-9f8ec7c4"&gt;&lt;span class="cl-9f8c4c1a"&gt;n2&lt;/span&gt;&lt;/p&gt;&lt;/th&gt;&lt;th class="cl-9f8ed570"&gt;&lt;p class="cl-9f8ec7c4"&gt;&lt;span class="cl-9f8c4c1a"&gt;se&lt;/span&gt;&lt;/p&gt;&lt;/th&gt;&lt;th class="cl-9f8ed570"&gt;&lt;p class="cl-9f8ec7c4"&gt;&lt;span class="cl-9f8c4c1a"&gt;q&lt;/span&gt;&lt;/p&gt;&lt;/th&gt;&lt;th class="cl-9f8ed566"&gt;&lt;p class="cl-9f8ec7ba"&gt;&lt;span class="cl-9f8c4c1a"&gt;H0&lt;/span&gt;&lt;/p&gt;&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-9f8ed57a"&gt;&lt;p class="cl-9f8ec7ba"&gt;&lt;span class="cl-9f8c4c1a"&gt;B-A&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-9f8ed58e"&gt;&lt;p class="cl-9f8ec7c4"&gt;&lt;span class="cl-9f8c4c1a"&gt;8.04&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-9f8ed58e"&gt;&lt;p class="cl-9f8ec7c4"&gt;&lt;span class="cl-9f8c4c1a"&gt;5&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-9f8ed58e"&gt;&lt;p class="cl-9f8ec7c4"&gt;&lt;span class="cl-9f8c4c1a"&gt;5&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-9f8ed58e"&gt;&lt;p class="cl-9f8ec7c4"&gt;&lt;span class="cl-9f8c4c1a"&gt;2.458&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-9f8ed58e"&gt;&lt;p class="cl-9f8ec7c4"&gt;&lt;span class="cl-9f8c4c1a"&gt;3.271&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-9f8ed57a"&gt;&lt;p class="cl-9f8ec7ba"&gt;&lt;span class="cl-9f8c4c1a"&gt;Aceita H0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-9f8ed57a"&gt;&lt;p class="cl-9f8ec7ba"&gt;&lt;span class="cl-9f8c4c1a"&gt;C-A&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-9f8ed58e"&gt;&lt;p class="cl-9f8ec7c4"&gt;&lt;span class="cl-9f8c4c1a"&gt;8.46&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-9f8ed58e"&gt;&lt;p class="cl-9f8ec7c4"&gt;&lt;span class="cl-9f8c4c1a"&gt;5&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-9f8ed58e"&gt;&lt;p class="cl-9f8ec7c4"&gt;&lt;span class="cl-9f8c4c1a"&gt;5&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-9f8ed58e"&gt;&lt;p class="cl-9f8ec7c4"&gt;&lt;span class="cl-9f8c4c1a"&gt;2.458&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-9f8ed58e"&gt;&lt;p class="cl-9f8ec7c4"&gt;&lt;span class="cl-9f8c4c1a"&gt;3.442&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-9f8ed57a"&gt;&lt;p class="cl-9f8ec7ba"&gt;&lt;span class="cl-9f8c4c1a"&gt;Aceita H0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-9f8ed58f"&gt;&lt;p class="cl-9f8ec7ba"&gt;&lt;span class="cl-9f8c4c1a"&gt;C-B&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-9f8ed598"&gt;&lt;p class="cl-9f8ec7c4"&gt;&lt;span class="cl-9f8c4c1a"&gt;16.50&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-9f8ed598"&gt;&lt;p class="cl-9f8ec7c4"&gt;&lt;span class="cl-9f8c4c1a"&gt;5&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-9f8ed598"&gt;&lt;p class="cl-9f8ec7c4"&gt;&lt;span class="cl-9f8c4c1a"&gt;5&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-9f8ed598"&gt;&lt;p class="cl-9f8ec7c4"&gt;&lt;span class="cl-9f8c4c1a"&gt;2.458&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-9f8ed598"&gt;&lt;p class="cl-9f8ec7c4"&gt;&lt;span class="cl-9f8c4c1a"&gt;6.712&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-9f8ed58f"&gt;&lt;p class="cl-9f8ec7ba"&gt;&lt;span class="cl-9f8c4c1a"&gt;Rejeita H0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;
 
-&lt;/br&gt;
+O valor de **q** *crítico* pode ser procurado na tabela &lt;a href="https://www.real-statistics.com/statistics-tables/studentized-range-q-table/" target="_blank"&gt;Studentized Range q Table&lt;/a&gt;, em que:
+
+**k**: número de grupos envolvido na ANOVA
+
+**df**: graus de liberdade dos resíduos da ANOVA
 
 ]
+
 ___
 
 ---
@@ -666,6 +654,10 @@ ___
 class: h1_small, code70
 
 # 8. Ajustando a ANOVA no R
+
+&lt;/br&gt;
+
+Ao fazer no R, temos diretamente os valores de p (`p adj`) resultantes do teste de Tukey para cada par de médias.
 
 &lt;/br&gt;
 

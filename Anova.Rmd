@@ -30,6 +30,7 @@ suppressMessages(library(patchwork))
 suppressMessages(library(kableExtra))
 suppressMessages(library(DT))
 suppressMessages(library(gridExtra))
+suppressMessages(library(flextable))
 
 # Functions
 source('r_functions/anova_sim.r')
@@ -645,7 +646,8 @@ class: h1_small
 
 ```{r}
 Tab = data.frame(dfe[,1:2])
-anova_ex = anova(aov(Y ~ X, data = Tab))
+aov_ex = aov(Y ~ X, data = Tab)
+anova_ex = anova(aov_ex)
 ```
 
 .pull-left[
@@ -772,18 +774,25 @@ class: h1_small
 
 # 7. Testes a *posteriori* de comparação de médias
 
-___
-
-$$DHS_{12} = q\sqrt{\left(\frac{1}{n_1} + \frac{1}{n_2}\right)QM_{Res}}$$
+Quais pares são estatisticamente diferentes?
 
 ___
 
-$DHS_{12}$: *Diferença Honesta Significativa* entre s médias $1$ e $2$. Computadopara cada par de médias.
+$$q = \frac{\overline{Y}_1 - \overline{Y}_2}{SE}$$
+em que:
 
+$$SE = \sqrt{\frac{QM_{Res}}{2}(\frac{1}{n_1} + \frac{1}{n_2})}$$
+___
 
-$q$: **tabela da distribuição de amplitude normalizada** (*studentized range q table*).
+$q$: é e estatística do teste
 
-$QM_{Res}$: é quadrado médio do resíduo obtido na ANOVA.
+$\overline{Y}_1$: é a maior das médias do par consideraddo;
+
+$\overline{Y}_2$: é a menor das médias do par consideraddo
+
+$QM_{Res}$: é quadrado médio do resíduo obtido na ANOVA, e;
+
+$n_1$, $n_2$: os tamanhos amostrais de cada grupo envolvido na comparação.
 
 ___
 
@@ -796,12 +805,41 @@ class: h1_small
 
 
 ```{r}
-q =  qtukey(p = 0.95, nmeans = 3, df = anova_ex[[1]][2])
-DHS = q * sqrt((1/n + 1/n)*anova_ex[[3]][2])
+qc =  qtukey(p = 0.95, nmeans = 3, df = anova_ex[[1]][2])
+qmres <- anova_ex[2,3]
+se = sqrt((round(qmres,3)/2) * ((1/n) + (1/n)))
 ```
+
+```{r}
+medias <- Tab %>%
+  mutate(X = factor(X)) %>% 
+  group_by(X) %>% 
+  summarise(Medias = round(mean(Y),2))
+
+qmres <- anova_ex[2,3]
+nmeans = nlevels(Tab$X)
+dfres = anova_ex[2,1]
+qc = qtukey(p = 0.95, nmeans = 4, df = anova_ex[2,1])
+Tukey_tab <- TukeyHSD(aov_ex)$X %>% 
+  as.data.frame() %>% 
+  rownames_to_column(var = 'combinacoes') %>% 
+  select(combinacoes,diff) %>% 
+  mutate(diff = abs(diff),
+         n1 = c(n,n,n),
+         n2 = c(n,n,n)) %>% 
+  mutate(se = sqrt(qmres/2 * (1/n1 + 1/n2))) %>% 
+  mutate(q = diff/se) %>% 
+  mutate(diff = round(diff,3),
+         se = round(se,3),
+         q = round(q, 3)) %>% 
+  mutate(H0 = case_when(q >= qc ~ 'Rejeita H0',
+                        .default = 'Aceita H0'))
+
+```
+
 ___
 
-$$DHS =  `r round(q,3)`\sqrt{\left(\frac{1}{`r n`} + \frac{1}{`r n`}\right)`r anova_ex[[3]][2]`} = `r round(DHS, 3)`$$
+$$SE = \sqrt{\frac{`r qmres`}{2}(\frac{1}{`r n`} + \frac{1}{`r n`})} = `r round(se,3)`$$
 
 ___
 
@@ -837,19 +875,28 @@ plt_dfe +
 
 .pull-right[
 
-</br>
+$$q = \frac{\overline{Y}_1 - \overline{Y}_2}{SE}$$
 
 ```{r}
-Ymean = tapply(Tab$Y, Tab$X, mean)
-Ymean_D = as.matrix(dist(Ymean))
-Ymean_D[upper.tri(Ymean_D)] = NA
-kableExtra::kable(Ymean_D) %>% 
-  kable_classic(full_width = T, html_font = "Cambria")
+flextable(Tukey_tab) %>% 
+  width(width = 8) %>% 
+  bg(i = ~ q >= qc,
+     bg = "orange", part = "body")
+# Ymean = tapply(Tab$Y, Tab$X, mean)
+# Ymean_D = as.matrix(dist(Ymean))
+# Ymean_D[upper.tri(Ymean_D)] = NA
+# kableExtra::kable(Ymean_D) %>% 
+#   kable_classic(full_width = T, html_font = "Cambria")
 ```
 
-</br>
+O valor de **q** *crítico* pode ser procurado na tabela <a href="https://www.real-statistics.com/statistics-tables/studentized-range-q-table/" target="_blank">Studentized Range q Table</a>, em que:
+
+**k**: número de grupos envolvido na ANOVA
+
+**df**: graus de liberdade dos resíduos da ANOVA
 
 ]
+
 ___
 
 ---
@@ -857,6 +904,10 @@ ___
 class: h1_small, code70
 
 # 8. Ajustando a ANOVA no R
+
+</br>
+
+Ao fazer no R, temos diretamente os valores de p (`p adj`) resultantes do teste de Tukey para cada par de médias.
 
 </br>
 

@@ -103,7 +103,7 @@ class: h1_small, fundo_capa
 
 ___
 
-1. Medindo a intensidade de relações lineares
+1. Medindo a intensidade de relações lineares 
 
 1. Variâncias e covariâncias
 
@@ -128,7 +128,6 @@ ___
 ]
 
 ---
-
 class: h1_small
 
 # Um  pouco de história
@@ -155,6 +154,7 @@ image_read("img/gauss_name.jpg") %>%
 ---
 
 class: h1_small
+
 
 # Um  pouco de história
 
